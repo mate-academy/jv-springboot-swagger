@@ -13,6 +13,8 @@ public interface ProductService {
 
     void update(Product product);
 
+    void injection();
+
     List<Product> findAll(Integer page, Integer size, String sortBy);
 
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to,

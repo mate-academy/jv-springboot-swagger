@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.annotation.PostConstruct;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,8 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    @PostConstruct
-    public void init() {
+    @Override
+    public void injection() {
         Random random = new Random();
         List<Product> list = new ArrayList<>();
         for (int i = 0; i < 50; i++) {

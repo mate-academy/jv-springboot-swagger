@@ -31,6 +31,12 @@ public class ProductController {
         this.productMapper = productMapper;
     }
 
+    @GetMapping("/injection")
+    public String injection() {
+        productService.injection();
+        return "Injection completed";
+    }
+
     @PostMapping
     @ApiOperation(value = "Create a new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto requestDto) {
