@@ -9,6 +9,7 @@ import mate.academy.springboot.swagger.dto.ProductMapper;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
+import mate.academy.springboot.swagger.service.DataInjectionService;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,15 +26,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final DataInjectionService dataInjectionService;
 
-    public ProductController(ProductService productService, ProductMapper productMapper) {
+    public ProductController(ProductService productService,
+                             ProductMapper productMapper,
+                             DataInjectionService dataInjectionService) {
         this.productService = productService;
         this.productMapper = productMapper;
+        this.dataInjectionService = dataInjectionService;
     }
 
     @GetMapping("/injection")
     public String injection() {
-        productService.injection();
+        dataInjectionService.injection();
         return "Injection completed";
     }
 
