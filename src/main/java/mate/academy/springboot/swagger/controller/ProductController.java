@@ -68,7 +68,7 @@ public class ProductController {
         productService.delete(id);
     }
 
-    @GetMapping("/price")
+    @GetMapping("/by-price")
     @ApiOperation(value = "get products with price between")
     public List<ProductResponseDto> getAllByPriceBetween(
             @RequestParam BigDecimal from,
