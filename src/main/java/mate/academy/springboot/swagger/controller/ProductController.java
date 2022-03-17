@@ -9,7 +9,6 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
-import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.DataInjectService;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,16 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private final ProductRepository productRepository;
     private final ProductService productService;
     private final ProductMapper productMapper;
     private final DataInjectService dataInjectService;
 
-    public ProductController(ProductRepository productRepository,
-                             ProductService productService,
+    public ProductController(ProductService productService,
                              ProductMapper productMapper,
                              DataInjectService dataInjectService) {
-        this.productRepository = productRepository;
         this.productService = productService;
         this.productMapper = productMapper;
         this.dataInjectService = dataInjectService;
@@ -71,13 +67,13 @@ public class ProductController {
                                          @RequestBody ProductRequestDto productRequestDto) {
         Product product = productMapper.toModel(productRequestDto);
         product.setId(id);
-        productRepository.save(product);
+        productService.update(product);
         return productMapper.toResponseDto(product);
     }
 
     @GetMapping
     @ApiOperation(value = "Get all products")
-    List<ProductResponseDto> findAll(@RequestParam (defaultValue = "0")
+    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "0")
                                      @ApiParam(value = "default value is '0'") Integer page,
                                      @RequestParam (defaultValue = "20")
                                      @ApiParam(value = "default value is '20'") Integer count,
@@ -91,7 +87,7 @@ public class ProductController {
 
     @GetMapping("/by-price")
     @ApiOperation(value = "Get products between the specified price")
-    List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
+    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
              @RequestParam BigDecimal to,
              @RequestParam (defaultValue = "0")
              @ApiParam(value = "default value is '0'") Integer page,

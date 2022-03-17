@@ -30,6 +30,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void update(Product product) {
+        productRepository.save(product);
+    }
+
+    @Override
     public List<Product> findAll(Integer page, Integer count, String sortBy) {
         return productRepository.findAll(PageableUtil.sortBy(page, count, sortBy)).toList();
     }
