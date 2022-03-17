@@ -30,15 +30,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(Product product) {
-        Product newProduct = new Product();
-        newProduct.setId(product.getId());
-        newProduct.setTitle(product.getTitle());
-        newProduct.setPrice(product.getPrice());
-        productRepository.save(newProduct);
-    }
-
-    @Override
     public List<Product> findAll(Integer page, Integer count, String sortBy) {
         return productRepository.findAll(PageableUtil.sortBy(page, count, sortBy)).toList();
     }

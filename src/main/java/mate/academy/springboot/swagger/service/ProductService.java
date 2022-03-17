@@ -11,11 +11,8 @@ public interface ProductService {
 
     void deleteById(Long id);
 
-    void update(Product product);
-
     List<Product> findAll(Integer page, Integer count, String sortBy);
 
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to,
                                         Integer page, Integer count, String sortBy);
-
 }

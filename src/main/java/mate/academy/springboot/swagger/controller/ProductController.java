@@ -9,6 +9,7 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
+import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.DataInjectService;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,12 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+    private final ProductRepository productRepository;
     private final ProductService productService;
     private final ProductMapper productMapper;
     private final DataInjectService dataInjectService;
 
-    public ProductController(ProductService productService, ProductMapper productMapper,
+    public ProductController(ProductRepository productRepository,
+                             ProductService productService,
+                             ProductMapper productMapper,
                              DataInjectService dataInjectService) {
+        this.productRepository = productRepository;
         this.productService = productService;
         this.productMapper = productMapper;
         this.dataInjectService = dataInjectService;
@@ -66,7 +71,7 @@ public class ProductController {
                                          @RequestBody ProductRequestDto productRequestDto) {
         Product product = productMapper.toModel(productRequestDto);
         product.setId(id);
-        productService.update(product);
+        productRepository.save(product);
         return productMapper.toResponseDto(product);
     }
 
