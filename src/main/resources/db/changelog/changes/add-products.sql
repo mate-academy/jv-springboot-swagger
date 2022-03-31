@@ -1,0 +1,51 @@
+--liquibase formatted sql
+--changeset <yaroslavyarmoshyk>:<create-products-table>
+
+INSERT INTO products (title, price) VALUES ('iPhone X', 547);
+INSERT INTO products (title, price) VALUES ('iPhone X', 123);
+INSERT INTO products (title, price) VALUES ('iPhone X', 324);
+INSERT INTO products (title, price) VALUES ('iPhone X', 657);
+INSERT INTO products (title, price) VALUES ('iPhone X', 567);
+INSERT INTO products (title, price) VALUES ('iPhone X', 976);
+INSERT INTO products (title, price) VALUES ('iPhone X', 567);
+INSERT INTO products (title, price) VALUES ('iPhone X', 865);
+INSERT INTO products (title, price) VALUES ('iPhone X', 445);
+INSERT INTO products (title, price) VALUES ('iPhone X', 976);
+INSERT INTO products (title, price) VALUES ('iPhone X', 445);
+INSERT INTO products (title, price) VALUES ('iPhone X', 999);
+INSERT INTO products (title, price) VALUES ('iPhone X', 878);
+INSERT INTO products (title, price) VALUES ('iPhone X red', 778);
+INSERT INTO products (title, price) VALUES ('iPhone X blue', 567);
+INSERT INTO products (title, price) VALUES ('iPhone 8 white', 432);
+INSERT INTO products (title, price) VALUES ('iPhone 7', 222);
+INSERT INTO products (title, price) VALUES ('iPhone 11', 999);
+INSERT INTO products (title, price) VALUES ('iPhone 11 blue', 999);
+INSERT INTO products (title, price) VALUES ('iPhone 11 black', 999);
+INSERT INTO products (title, price) VALUES ('iPhone 11 gold 256 GB', 1100);
+INSERT INTO products (title, price) VALUES ('iPhone 11 gold 128 GB', 999);
+INSERT INTO products (title, price) VALUES ('iPhone 11 green', 999);
+INSERT INTO products (title, price) VALUES ('Samsung S21', 547);
+INSERT INTO products (title, price) VALUES ('Samsung S21', 123);
+INSERT INTO products (title, price) VALUES ('Samsung S21', 324);
+INSERT INTO products (title, price) VALUES ('Samsung S21', 657);
+INSERT INTO products (title, price) VALUES ('Samsung S21 green', 567);
+INSERT INTO products (title, price) VALUES ('Samsung S21 gold', 976);
+INSERT INTO products (title, price) VALUES ('Samsung S21 red', 567);
+INSERT INTO products (title, price) VALUES ('Samsung S21 blue', 865);
+INSERT INTO products (title, price) VALUES ('Samsung S21 green', 445);
+INSERT INTO products (title, price) VALUES ('Samsung S21 black', 976);
+INSERT INTO products (title, price) VALUES ('Samsung S21 white', 445);
+INSERT INTO products (title, price) VALUES ('Samsung S21 128 GB', 999);
+INSERT INTO products (title, price) VALUES ('Samsung S22', 878);
+INSERT INTO products (title, price) VALUES ('Huawei P9', 778);
+INSERT INTO products (title, price) VALUES ('Huawei P9', 567);
+INSERT INTO products (title, price) VALUES ('Huawei P9', 432);
+INSERT INTO products (title, price) VALUES ('Huawei P9', 222);
+INSERT INTO products (title, price) VALUES ('Huawei P9', 999);
+INSERT INTO products (title, price) VALUES ('Huawei P9', 999);
+INSERT INTO products (title, price) VALUES ('Huawei P9 black', 999);
+INSERT INTO products (title, price) VALUES ('Huawei P9 gold 256 GB', 1100);
+INSERT INTO products (title, price) VALUES ('Huawei P9 gold 128 GB', 999);
+INSERT INTO products (title, price) VALUES ('Huawei P9', 999);
+
+--rollback DELETE FROM products;
