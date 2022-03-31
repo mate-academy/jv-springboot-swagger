@@ -25,12 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    public static final String DEFAULT_VALUES = "default value is`10`";
-    public static final String DEFAULT_PAGE = "default page is `0`";
-    public static final String DEFAULT_SORT = "default sort by ID ASC";
-    public static final String MIN_PRICE = "default min price all products";
-    public static final String MAX_PRICE = "default max price all products";
-
+    private static final String DEFAULT_VALUES = "default value is`10`";
+    private static final String DEFAULT_PAGE = "default page is `0`";
+    private static final String DEFAULT_SORT = "default sort by ID ASC";
+    private static final String MIN_PRICE = "default min price all products";
+    private static final String MAX_PRICE = "default max price all products";
     private final ProductService productService;
     private final ModelMapper mapper;
     private final SortService sortService;
@@ -73,15 +72,14 @@ public class ProductController {
     @ApiOperation(value = "Get all products pageable")
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10")
                                                 @ApiParam(value = DEFAULT_VALUES)
-                                                        Integer count,
+                                                        Integer limit,
                                             @RequestParam (defaultValue = "0")
                                                 @ApiParam(value = DEFAULT_PAGE)
                                                     Integer page,
                                             @RequestParam (defaultValue = "id")
                                                 @ApiParam(value = DEFAULT_SORT)
                                                         String sortBy) {
-
-        return productService.getAll(PageRequest.of(page, count, sortService.getSort(sortBy)))
+        return productService.getAll(PageRequest.of(page, limit, sortService.getSort(sortBy)))
                 .stream()
                 .map(p -> mapper.map(p, ProductResponseDto.class))
                 .collect(Collectors.toList());
@@ -90,7 +88,7 @@ public class ProductController {
     @GetMapping("/by-price")
     public List<ProductResponseDto> findAllByPrice(@RequestParam (defaultValue = "10")
                                                        @ApiParam(value = DEFAULT_VALUES)
-                                                               Integer count,
+                                                               Integer limit,
                                                    @RequestParam (defaultValue = "0")
                                                        @ApiParam(value = DEFAULT_PAGE)
                                                            Integer page,
@@ -104,7 +102,7 @@ public class ProductController {
                                                        @ApiParam(value = MAX_PRICE)
                                                                BigDecimal to) {
         return productService.getAllByPrice(from, to,
-                        PageRequest.of(page, count, sortService.getSort(sortBy)))
+                        PageRequest.of(page, limit, sortService.getSort(sortBy)))
                 .stream()
                 .map(p -> mapper.map(p, ProductResponseDto.class))
                 .collect(Collectors.toList());
