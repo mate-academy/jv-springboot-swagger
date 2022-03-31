@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product create(Product product) {
+    public Product save(Product product) {
         return productRepository.save(product);
     }
 
@@ -31,12 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(Long id) {
-        try {
-            productRepository.deleteById(id);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Product with id" + id + " not found.");
-        }
-
+        productRepository.deleteById(id);
     }
 
     @Override

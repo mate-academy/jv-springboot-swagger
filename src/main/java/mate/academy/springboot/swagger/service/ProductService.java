@@ -7,8 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
-
-    Product create(Product product);
+    Product save(Product product);
 
     Product getById(Long id);
 

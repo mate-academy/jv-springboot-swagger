@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SortServiceImpl implements SortService {
+    private static final int DIRECTION_INDEX = 1;
+    private static final int SORT_FIELD_INDEX = 0;
 
     @Override
     public Sort getSort(String sortBy) {
@@ -18,8 +20,8 @@ public class SortServiceImpl implements SortService {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirections[1]),
-                            fieldAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirections[DIRECTION_INDEX]),
+                            fieldAndDirections[SORT_FIELD_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }

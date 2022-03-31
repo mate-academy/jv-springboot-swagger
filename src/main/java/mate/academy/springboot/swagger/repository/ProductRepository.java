@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
-
     @Query(value = "SELECT * FROM products AS p WHERE p.price BETWEEN ?1 AND ?2",
             countQuery = "SELECT count(*) FROM products AS p WHERE p.price BETWEEN ?1 AND ?2",
             nativeQuery = true)

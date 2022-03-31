@@ -45,7 +45,7 @@ public class ProductController {
     @PostMapping
     @ApiOperation(value = "Create a new product")
     public ProductResponseDto createProduct(@RequestBody ProductRequestDto dto) {
-        return mapper.map(productService.create(mapper.map(dto, Product.class)),
+        return mapper.map(productService.save(mapper.map(dto, Product.class)),
                 ProductResponseDto.class);
     }
 
@@ -64,7 +64,7 @@ public class ProductController {
     @PatchMapping
     @ApiOperation(value = "Update product")
     public ProductResponseDto updateProduct(@RequestBody ProductRequestDto dto) {
-        return mapper.map(productService.create(mapper.map(dto, Product.class)),
+        return mapper.map(productService.save(mapper.map(dto, Product.class)),
                 ProductResponseDto.class);
     }
 
