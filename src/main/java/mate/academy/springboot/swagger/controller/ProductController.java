@@ -1,5 +1,10 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
@@ -20,11 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.awt.print.Pageable;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -34,6 +34,7 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     @PostMapping
+    @ApiOperation(value = "Create a new product")
     public ProductResponseDto add(@RequestBody @Valid ProductRequestDto requestDto) {
         Product product = productMapper.mapToModel(requestDto);
         productService.save(product);
@@ -41,11 +42,13 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get product by id")
     public ProductResponseDto getProductById(@PathVariable Long id) {
         return productMapper.mapToDto(productService.getProductById(id));
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update product by id")
     public ProductResponseDto update(@PathVariable Long id,
                                       @RequestBody @Valid ProductRequestDto productRequestDto) {
         Product product = productMapper.mapToModel(productRequestDto);
@@ -54,14 +57,22 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete product by id")
     public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
     @GetMapping
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
-                                            @RequestParam (defaultValue = "0") Integer page,
-                                            @RequestParam (defaultValue = "id") String sortBy) {
+    @ApiOperation(value = "Get all product list")
+    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20")
+                                                @ApiParam(value = "Default value is `20`")
+                                                        Integer count,
+                                            @RequestParam (defaultValue = "0")
+                                                @ApiParam(value = "Default value is `0`")
+                                                        Integer page,
+                                            @RequestParam (defaultValue = "id")
+                                                @ApiParam(value = "Default value is `id`")
+                                                        String sortBy) {
         Sort sort = Sort.by(sortService.parseSortingCondition(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -69,13 +80,22 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-
     @GetMapping("/price/between")
+    @ApiOperation(value = "Get product list between price")
     public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
                                                           @RequestParam BigDecimal to,
-                                                          @RequestParam (defaultValue = "20") Integer count,
-                                                          @RequestParam (defaultValue = "0") Integer page,
-                                                          @RequestParam (defaultValue = "id") String sortBy) {
+                                                          @RequestParam (defaultValue = "20")
+                                                              @ApiParam(value = "Default value "
+                                                                      + "is `20`")
+                                                                      Integer count,
+                                                          @RequestParam (defaultValue = "0")
+                                                              @ApiParam(value = "Default value "
+                                                                      + "is `0`")
+                                                                      Integer page,
+                                                          @RequestParam (defaultValue = "id")
+                                                              @ApiParam(value = "Default value "
+                                                                      + "is `id`")
+                                                                      String sortBy) {
         Sort sort = Sort.by(sortService.parseSortingCondition(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
@@ -84,6 +104,7 @@ public class ProductController {
     }
 
     @GetMapping("/inject")
+    @ApiOperation("Inject products for testing API")
     public String injector() {
         Product cherry = new Product();
         cherry.setTitle("cherry");
