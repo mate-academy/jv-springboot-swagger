@@ -6,12 +6,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.service.SortService;
+import mate.academy.springboot.swagger.service.RequestStringHandler;
 import mate.academy.springboot.swagger.service.mapper.ProductMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,33 +27,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/products")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    private final SortService sortService;
+    private final RequestStringHandler sortService;
     private final ProductMapper productMapper;
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
     public ProductResponseDto add(@RequestBody @Valid ProductRequestDto requestDto) {
-        Product product = productMapper.mapToModel(requestDto);
+        Product product = productMapper.toModel(requestDto);
         productService.save(product);
-        return productMapper.mapToDto(product);
+        return productMapper.toDto(product);
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id")
     public ProductResponseDto getProductById(@PathVariable Long id) {
-        return productMapper.mapToDto(productService.getProductById(id));
+        return productMapper.toDto(productService.getProductById(id));
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Update product by id")
     public ProductResponseDto update(@PathVariable Long id,
                                       @RequestBody @Valid ProductRequestDto productRequestDto) {
-        Product product = productMapper.mapToModel(productRequestDto);
+        Product product = productMapper.toModel(productRequestDto);
         product.setId(id);
-        return productMapper.mapToDto(productService.save(product));
+        return productMapper.toDto(productService.save(product));
     }
 
     @DeleteMapping("/{id}")
@@ -76,7 +76,7 @@ public class ProductController {
         Sort sort = Sort.by(sortService.parseSortingCondition(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
-                .map(productMapper::mapToDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -99,7 +99,7 @@ public class ProductController {
         Sort sort = Sort.by(sortService.parseSortingCondition(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
-                .map(productMapper::mapToDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
