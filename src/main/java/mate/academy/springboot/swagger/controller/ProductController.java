@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,9 +67,15 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "find list products with pagination and sorting")
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
-                                          @RequestParam (defaultValue = "0") Integer page,
-                                          @RequestParam (defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20")
+                                          @ApiParam (value = "default value = 20")
+                                          Integer count,
+                                          @RequestParam (defaultValue = "0")
+                                          @ApiParam (value = "default value = 0")
+                                              Integer page,
+                                          @RequestParam (defaultValue = "id")
+                                          @ApiParam (value = "default sort by id, DESC")
+                                              String sortBy) {
         return productRepository.findAll(orderUtil.makeOrder(count, page, sortBy)).stream()
             .map(productMapper::toProductResponseDto)
             .collect(Collectors.toList());
@@ -76,8 +83,12 @@ public class ProductController {
 
     @GetMapping("/by_price")
     @ApiOperation(value = "find list product in the range between two values")
-    public List<ProductResponseDto> findAllByPriceBetweenAll(@RequestParam BigDecimal from,
-                                                           @RequestParam BigDecimal to) {
+    public List<ProductResponseDto> findAllByPriceBetweenAll(@RequestParam
+                                                           @ApiParam (value = "price from")
+                                                               BigDecimal from,
+                                                           @RequestParam
+                                                           @ApiParam (value = "price to")
+                                                               BigDecimal to) {
         return productRepository.findProductsByPriceBetween(from, to).stream()
         .map(productMapper::toProductResponseDto)
         .collect(Collectors.toList());
