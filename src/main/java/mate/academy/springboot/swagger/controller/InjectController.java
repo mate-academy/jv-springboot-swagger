@@ -1,8 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
-import java.math.BigDecimal;
-
 import io.swagger.annotations.ApiOperation;
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
