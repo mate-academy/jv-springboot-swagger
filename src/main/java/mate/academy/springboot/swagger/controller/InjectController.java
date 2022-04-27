@@ -1,6 +1,8 @@
 package mate.academy.springboot.swagger.controller;
 
 import java.math.BigDecimal;
+
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
@@ -16,6 +18,7 @@ public class InjectController {
     private final ProductRepository productRepository;
 
     @GetMapping
+    @ApiOperation(value = "Add fake Products to H2 DB for test purposes")
     public String injectProducts(@RequestParam int count) {
         for (int i = 1; i <= count; i++) {
             Product product = new Product();
