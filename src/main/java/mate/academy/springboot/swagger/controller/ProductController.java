@@ -99,12 +99,12 @@ public class ProductController {
         }
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
-        return priceFrom != null || priceTo != null ?
-                productService.findAll(priceFrom, priceTo,
+        return priceFrom != null || priceTo != null
+                ? productService.findAll(priceFrom, priceTo,
                                 pageRequest).stream()
                         .map(productMapper::mapToDto)
-                        .collect(Collectors.toList()) :
-                productService.findAll(pageRequest).stream()
+                        .collect(Collectors.toList())
+                : productService.findAll(pageRequest).stream()
                         .map(productMapper::mapToDto)
                         .collect(Collectors.toList());
     }
