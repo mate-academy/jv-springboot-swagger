@@ -1,0 +1,12 @@
+INSERT INTO products (title, price) VALUES ('Xiaomi Redmi Note 10', 11900);
+INSERT INTO products (title, price) VALUES ('Apple iPhone 13', 29400);
+INSERT INTO products (title, price) VALUES ('Xiaomi Redmi Note 11', 8500);
+INSERT INTO products (title, price) VALUES ('Samsung Galaxy A52', 14500);
+INSERT INTO products (title, price) VALUES ('Apple iPhone 13 Pro', 42800);
+INSERT INTO products (title, price) VALUES ('Xiaomi Poco X3 Pro', 11300);
+INSERT INTO products (title, price) VALUES ('Google Pixel 6', 24700);
+INSERT INTO products (title, price) VALUES ('Xiaomi Redmi 9A', 4400);
+INSERT INTO products (title, price) VALUES ('Apple iPhone 11', 19800);
+INSERT INTO products (title, price) VALUES ('Realme 8', 9100);
+INSERT INTO products (title, price) VALUES ('Motorolla G60', 9100);
+INSERT INTO products (title, price) VALUES ('Samsung Galaxy M12', 6600);
