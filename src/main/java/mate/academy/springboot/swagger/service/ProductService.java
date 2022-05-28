@@ -24,8 +24,8 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> getAllByPriceBetween(BigDecimal from, BigDecimal to) {
-        return productRepository.getAllByPriceBetween(from, to);
+    public List<Product> getAllByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest) {
+        return productRepository.getAllByPriceBetween(from, to, pageRequest);
     }
 
     public Page<Product> getAll(PageRequest pageRequest) {
