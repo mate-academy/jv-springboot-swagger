@@ -8,6 +8,7 @@ import mate.academy.springboot.swagger.model.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.service.ProductMapper;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.util.PaginationSortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductMapper mapper;
     private final ProductService productService;
+    private final PaginationSortUtil paginationSortUtil;
 
     @PostMapping
     public ProductResponseDto create(@RequestBody ProductRequestDto productRequestDto) {
@@ -56,8 +58,9 @@ public class ProductController {
 
     @GetMapping
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10") Integer count,
-                                            @RequestParam (defaultValue = "0") Integer page) {
-        PageRequest pageRequest = PageRequest.of(page, count);
+                                            @RequestParam (defaultValue = "0") Integer page,
+                                            @RequestParam (defaultValue = "id") String sortBy) {
+        PageRequest pageRequest = paginationSortUtil.getPageRequest(count, page, sortBy);
         return productService.findAll(pageRequest).stream()
                 .map(mapper::mapToDto)
                 .collect(Collectors.toList());
