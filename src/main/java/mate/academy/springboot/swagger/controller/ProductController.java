@@ -1,5 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,17 +34,20 @@ public class ProductController {
     private final PaginationSortUtil paginationSortUtil;
 
     @PostMapping
+    @ApiOperation(value = "Create a new product in DB")
     public ProductResponseDto create(@RequestBody ProductRequestDto productRequestDto) {
         Product product = productService.add(mapper.mapToProduct(productRequestDto));
         return mapper.mapToDto(product);
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get a product by id")
     public ProductResponseDto get(@PathVariable Long id) {
         return mapper.mapToDto(productService.get(id));
     }
 
     @PutMapping("{id}")
+    @ApiOperation(value = "Update info about product")
     public ProductResponseDto update(@RequestBody ProductRequestDto productRequestDto,
                                      @PathVariable Long id) {
         Product product = productService.get(id);
@@ -53,14 +58,22 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "Delete product from DB")
     void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
     @GetMapping
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10") Integer count,
-                                            @RequestParam (defaultValue = "0") Integer page,
-                                            @RequestParam (defaultValue = "id") String sortBy) {
+    @ApiOperation(value = "Find all products with pagination and sorting by fields")
+    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10")
+                                                    @ApiParam(value = "Default value is 10")
+                                                        Integer count,
+                                            @RequestParam (defaultValue = "0")
+                                                    @ApiParam(value = "Default value is 0")
+                                                        Integer page,
+                                            @RequestParam (defaultValue = "id")
+                                                    @ApiParam(value = "Default field is 'id'")
+                                                        String sortBy) {
         PageRequest pageRequest = paginationSortUtil.getPageRequest(count, page, sortBy);
         return productService.findAll(pageRequest).stream()
                 .map(mapper::mapToDto)
@@ -68,13 +81,17 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(value = "Find all products by price range with pagination and sorting by fields")
     public List<ProductResponseDto> getByPriceBetween(@RequestParam BigDecimal from,
                                                       @RequestParam BigDecimal to,
                                                       @RequestParam (defaultValue = "10")
+                                                          @ApiParam(value = "Default value is 10")
                                                                   Integer count,
                                                       @RequestParam (defaultValue = "0")
+                                                          @ApiParam(value = "Default value is 0")
                                                                   Integer page,
                                                       @RequestParam (defaultValue = "id")
+                                                          @ApiParam(value = "Default field is 'id'")
                                                                   String sortBy) {
         PageRequest pageRequest = paginationSortUtil.getPageRequest(count, page, sortBy);
         return productService.getByPriceBetween(from, to, pageRequest).stream()
