@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,21 @@ public class ProductController {
                                             @RequestParam (defaultValue = "id") String sortBy) {
         PageRequest pageRequest = paginationSortUtil.getPageRequest(count, page, sortBy);
         return productService.findAll(pageRequest).stream()
+                .map(mapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/by-price")
+    public List<ProductResponseDto> getByPriceBetween(@RequestParam BigDecimal from,
+                                                      @RequestParam BigDecimal to,
+                                                      @RequestParam (defaultValue = "10")
+                                                                  Integer count,
+                                                      @RequestParam (defaultValue = "0")
+                                                                  Integer page,
+                                                      @RequestParam (defaultValue = "id")
+                                                                  String sortBy) {
+        PageRequest pageRequest = paginationSortUtil.getPageRequest(count, page, sortBy);
+        return productService.getByPriceBetween(from, to, pageRequest).stream()
                 .map(mapper::mapToDto)
                 .collect(Collectors.toList());
     }

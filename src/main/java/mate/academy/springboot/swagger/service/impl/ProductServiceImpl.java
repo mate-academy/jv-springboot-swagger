@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
@@ -36,5 +37,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll(PageRequest pageRequest) {
         return productRepository.findAll(pageRequest).toList();
+    }
+
+    @Override
+    public List<Product> getByPriceBetween(BigDecimal from, BigDecimal to,
+                                           PageRequest pageRequest) {
+        return productRepository.getProductsByPriceBetween(from, to, pageRequest);
     }
 }
