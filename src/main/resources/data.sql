@@ -28,3 +28,4 @@ INSERT INTO products (title, price) VALUES ('Product1', 100),
                                            ('Product3', 110),
                                            ('Product4', 200),
                                            ('Product5', 250);
+                                           
