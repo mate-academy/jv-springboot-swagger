@@ -15,7 +15,7 @@ public class PaginationSortUtil {
 
     public PageRequest getPageRequest(Integer count, Integer page, String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(COLON)) {
+        if (sortBy.contains(SEMICOLON)) {
             String[] sortingFields = sortBy.split(SEMICOLON);
             for (String field: sortingFields) {
                 Sort.Order order;
