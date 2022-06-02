@@ -7,16 +7,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Sorter {
+    private static final String PARAMETER_SPLITTER = ";";
+    private static final String FIELD_AND_DIRECTION_SPLITTER = ":";
+    private static final Integer FIELD_INDEX = 0;
+    private static final Integer DIRECTION_INDEX = 1;
+
     public Sort getSortParams(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         // IDK why we need this part...        if (sortBy.contains(":")) {
-        String[] sortingFields = sortBy.split(";");
+        String[] sortingFields = sortBy.split(PARAMETER_SPLITTER);
         for (String field : sortingFields) {
             Sort.Order order;
             if (field.contains(":")) {
-                String[] fieldsAndDirections = field.split(":");
-                order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                        fieldsAndDirections[0]);
+                String[] fieldsAndDirections = field.split(FIELD_AND_DIRECTION_SPLITTER);
+                order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
+                        fieldsAndDirections[FIELD_INDEX]);
             } else {
                 order = new Sort.Order(Sort.Direction.ASC, field);
             }

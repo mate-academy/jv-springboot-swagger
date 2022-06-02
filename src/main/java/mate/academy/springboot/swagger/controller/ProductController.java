@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -30,26 +32,17 @@ public class ProductController {
     private final ProductMapper productMapper;
     private final Sorter sorter;
 
-    public ProductController(ProductService productService,
-                             ProductMapper productMapper,
-                             Sorter sorter) {
-        this.productService = productService;
-        this.productMapper = productMapper;
-        this.sorter = sorter;
-    }
-
     @PostMapping
     @ApiOperation(value = "create a new product")
     public ProductResponseDto add(@RequestBody ProductRequestDto requestDto) {
-        Product product = productMapper.mapToModel(requestDto);
-        return productMapper.mapToDto(productService.save(product));
+        Product product = productMapper.toModel(requestDto);
+        return productMapper.toDto(productService.save(product));
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "get a product by id")
-    public ProductResponseDto getById(@PathVariable Long id) {
-        Product product = productService.findById(id);
-        return productMapper.mapToDto(productService.findById(id));
+    @ApiOperation(value = "find a product by id")
+    public ProductResponseDto findById(@PathVariable Long id) {
+        return productMapper.toDto(productService.findById(id));
     }
 
     @DeleteMapping("/{id}")
@@ -62,13 +55,13 @@ public class ProductController {
     @ApiOperation(value = "update a product by id")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto requestDto) {
-        Product product = productMapper.mapToModel(requestDto);
+        Product product = productMapper.toModel(requestDto);
         product.setId(id);
-        return productMapper.mapToDto(productService.save(product));
+        return productMapper.toDto(productService.save(product));
     }
 
     @GetMapping
-    @ApiOperation(value = "get all products with pagination and sorting")
+    @ApiOperation(value = "find all products with pagination and sorting")
     public List<ProductResponseDto> findAll(
             @RequestParam(defaultValue = "0")
             @ApiParam(value = "default value is `0`") Integer page,
@@ -80,12 +73,12 @@ public class ProductController {
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
                 .stream()
-                .map(productMapper::mapToDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/by-price")
-    @ApiOperation(value = "get all products by price between two values"
+    @ApiOperation(value = "find all products by price between two values"
             + " with pagination and sorting")
     public List<ProductResponseDto> findAllByPriceBetween(
             @RequestParam BigDecimal from,
@@ -100,7 +93,7 @@ public class ProductController {
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)
                 .stream()
-                .map(productMapper::mapToDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 }
