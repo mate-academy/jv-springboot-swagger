@@ -18,22 +18,25 @@ public class PaginationSortUtil {
         if (sortBy.contains(SEMICOLON)) {
             String[] sortingFields = sortBy.split(SEMICOLON);
             for (String field: sortingFields) {
-                Sort.Order order;
-                if (field.contains(COLON)) {
-                    String[] fieldsAndDirections = field.split(COLON);
-                    order = new Sort
-                            .Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
-                            fieldsAndDirections[FIELD_INDEX]);
-                } else {
-                    order = new Sort.Order(Sort.Direction.ASC, field);
-                }
-                orders.add(order);
+                setOrderByField(orders, field);
             }
         } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.ASC, sortBy);
-            orders.add(order);
+            setOrderByField(orders, sortBy);
         }
         Sort sort = Sort.by(orders);
         return PageRequest.of(page, count, sort);
+    }
+
+    private void setOrderByField(List<Sort.Order> orders, String field) {
+        Sort.Order order;
+        if (field.contains(COLON)) {
+            String[] fieldsAndDirections = field.split(COLON);
+            order = new Sort
+                    .Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
+                    fieldsAndDirections[FIELD_INDEX]);
+        } else {
+            order = new Sort.Order(Sort.Direction.ASC, field);
+        }
+        orders.add(order);
     }
 }
