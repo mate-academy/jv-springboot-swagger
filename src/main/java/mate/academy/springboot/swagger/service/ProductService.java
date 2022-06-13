@@ -14,8 +14,6 @@ public interface ProductService {
 
     Product update(Product product);
 
-    PageRequest getPageRequest(Integer page, Integer count, String sortBy);
-
     List<Product> findAll(PageRequest pageRequest);
 
     List<Product> findAllWithPrice(BigDecimal priceFrom,

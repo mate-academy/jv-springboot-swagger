@@ -10,6 +10,7 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.util.PageRequestUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +76,7 @@ public class ProductController {
             @ApiParam(value = "field to sort by, default=id")
             @RequestParam(defaultValue = "id") String sortBy) {
 
-        PageRequest pageRequest = productService.getPageRequest(page, count, sortBy);
+        PageRequest pageRequest = PageRequestUtil.getPageRequest(page, count, sortBy);
         return productService.findAll(pageRequest)
                 .stream()
                 .map(productMapper::toResponseDto)
@@ -98,7 +99,7 @@ public class ProductController {
             @ApiParam(value = "field to sort by, default=id")
             @RequestParam(defaultValue = "id") String sortBy) {
 
-        PageRequest pageRequest = productService.getPageRequest(page, count, sortBy);
+        PageRequest pageRequest = PageRequestUtil.getPageRequest(page, count, sortBy);
         return productService.findAllWithPrice(from, to, pageRequest)
                 .stream()
                 .map(productMapper::toResponseDto)
