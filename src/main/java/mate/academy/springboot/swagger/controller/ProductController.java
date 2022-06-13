@@ -65,9 +65,16 @@ public class ProductController {
 
     @GetMapping // pagination + sorting
     @ApiOperation(value = "Get all products with pagination and sorting by price and by title.")
-    public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "2") Integer count,
-                                           @RequestParam (defaultValue = "0") Integer page,
-                                           @RequestParam (defaultValue = "id:ASC") String sortBy) {
+    public List<ProductResponseDto> getAll(
+            @ApiParam(value = "products on page, default=20")
+            @RequestParam(defaultValue = "20") Integer count,
+
+            @ApiParam(value = "page to show, default=0")
+            @RequestParam(defaultValue = "0") Integer page,
+
+            @ApiParam(value = "field to sort by, default=id")
+            @RequestParam(defaultValue = "id") String sortBy) {
+
         PageRequest pageRequest = productService.getPageRequest(page, count, sortBy);
         return productService.findAll(pageRequest)
                 .stream()
