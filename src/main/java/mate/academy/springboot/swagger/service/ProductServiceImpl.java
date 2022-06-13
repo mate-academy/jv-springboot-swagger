@@ -46,12 +46,6 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllWithPrice(BigDecimal priceFrom,
                                           BigDecimal priceTo,
                                           PageRequest pageRequest) {
-        if (priceFrom == null) {
-            priceFrom = BigDecimal.ZERO;
-        }
-        if (priceTo == null) {
-            priceTo = BigDecimal.valueOf(Double.MAX_VALUE);
-        }
         return productRepository.findAll(priceFrom, priceTo, pageRequest);
     }
 
