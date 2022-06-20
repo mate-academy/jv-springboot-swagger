@@ -47,13 +47,13 @@ public class ProductController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Get product by ID")
     public ProductResponseDto getById(@PathVariable Long id) {
-        return productMapper.toDto(productService.getById(id));
+        return productMapper.toDto(productService.get(id));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete product by ID")
     public String deleteById(@PathVariable Long id) {
-        productService.deleteById(id);
+        productService.delete(id);
         return "Successful";
     }
 
