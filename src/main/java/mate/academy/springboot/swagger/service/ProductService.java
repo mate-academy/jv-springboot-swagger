@@ -8,9 +8,9 @@ import org.springframework.data.domain.PageRequest;
 public interface ProductService {
     Product save(Product product);
 
-    Product getById(Long id);
+    Product get(Long id);
 
-    void deleteById(Long id);
+    void delete(Long id);
 
     List<Product> findAll(PageRequest pageRequest);
 

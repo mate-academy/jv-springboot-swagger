@@ -47,14 +47,14 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id")
-    public ProductResponseDto getById(@PathVariable Long id) {
-        return productMapper.mapToDto(productService.getById(id));
+    public ProductResponseDto get(@PathVariable Long id) {
+        return productMapper.mapToDto(productService.get(id));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete product by id")
     public void delete(@PathVariable Long id) {
-        productService.deleteById(id);
+        productService.delete(id);
     }
 
     @PutMapping("/{id}")
@@ -68,7 +68,7 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "Get all products")
-    public List<ProductResponseDto> getAllProducts(
+    public List<ProductResponseDto> getAll(
             @RequestParam(defaultValue = "20")
             @ApiParam(value = "default value is 20") Integer count,
             @RequestParam(defaultValue = "0")
@@ -84,7 +84,7 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
-    @ApiOperation(value = "Get all product in price range")
+    @ApiOperation(value = "Get all products in price range")
     public List<ProductResponseDto> getAllByPriceBetween(
             @RequestParam BigDecimal from,
             @RequestParam BigDecimal to,
