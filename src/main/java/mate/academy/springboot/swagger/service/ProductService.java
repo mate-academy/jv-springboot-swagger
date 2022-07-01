@@ -16,6 +16,8 @@ public interface ProductService {
 
     List<Product> getAllProducts(PageRequest pageRequest);
 
-    List<Product> getAllProductsWithPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest);
+    List<Product> getAllProductsWithPriceBetween(BigDecimal from,
+                                                 BigDecimal to,
+                                                 PageRequest pageRequest);
 
 }

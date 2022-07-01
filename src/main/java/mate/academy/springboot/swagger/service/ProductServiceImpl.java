@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     public ProductServiceImpl(ProductRepository productRepository) {
@@ -41,7 +41,9 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProductsWithPriceBetween(BigDecimal from, BigDecimal to,PageRequest pageRequest) {
-        return productRepository.getAllByPriceBetween(from,to,pageRequest);
+    public List<Product> getAllProductsWithPriceBetween(BigDecimal from,
+                                                        BigDecimal to,
+                                                        PageRequest pageRequest) {
+        return productRepository.getAllByPriceBetween(from, to, pageRequest);
     }
 }

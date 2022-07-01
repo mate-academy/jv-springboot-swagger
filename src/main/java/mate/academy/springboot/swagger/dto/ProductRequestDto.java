@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class ProductRequestDto {
-    String title;
-    BigDecimal price;
+    private String title;
+    private BigDecimal price;
 }

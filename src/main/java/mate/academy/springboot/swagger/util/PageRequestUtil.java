@@ -14,7 +14,8 @@ public class PageRequestUtil {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]), fieldsAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
+                            fieldsAndDirections[0]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }

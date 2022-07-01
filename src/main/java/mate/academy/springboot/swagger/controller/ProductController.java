@@ -62,19 +62,19 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "Get all product")
-    public List<ProductResponseDto> getAllProducts(@RequestParam(defaultValue = "0")
-                                                   @ApiParam(value = "Number of page. " +
-                                                           "Default value is `0`")
-                                                   int page,
-                                                   @RequestParam(defaultValue = "20")
-                                                   @ApiParam(value = "Amount of products per page. " +
-                                                           "Default value is `20`")
-                                                   int count,
-                                                   @RequestParam(defaultValue = "id")
-                                                   @ApiParam(value = "Sorting products byu parameter. " +
-                                                           "Default sorting by `id`. " +
-                                                           "Can be sorted by `title` and `price`")
-                                                   String sortBy) {
+    public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "0")
+                                           @ApiParam(value = "Number of page. "
+                                                   + "Default value is `0`")
+                                           int page,
+                                           @RequestParam(defaultValue = "20")
+                                           @ApiParam(value = "Amount of products per page. "
+                                                   + "Default value is `20`")
+                                           int count,
+                                           @RequestParam(defaultValue = "id")
+                                           @ApiParam(value = "Sorting products by parameter. "
+                                                   + "Default sorting by `id`. "
+                                                   + "Can be sorted by `title` and `price`")
+                                           String sortBy) {
         PageRequest pageRequest = PageRequestUtil.getPageRequest(page, count, sortBy);
         return productService.getAllProducts(pageRequest).stream()
                 .map(productMapper::toDto)
@@ -83,21 +83,21 @@ public class ProductController {
 
     @GetMapping("/by-price")
     @ApiOperation(value = "Get product by price from to")
-    public List<ProductResponseDto> getAllProductsWithPriceBetween(@RequestParam BigDecimal from,
-                                                                   @RequestParam BigDecimal to,
-                                                                   @RequestParam(defaultValue = "0")
-                                                                   @ApiParam(value = "Number of page. " +
-                                                                           "Default value is `0`")
-                                                                   int page,
-                                                                   @RequestParam(defaultValue = "20")
-                                                                   @ApiParam(value = "Amount of products per page. " +
-                                                                           "Default value is `20`")
-                                                                   int count,
-                                                                   @RequestParam(defaultValue = "id")
-                                                                   @ApiParam(value = "Sorting products byu parameter. " +
-                                                                           "Default sorting by `id`. " +
-                                                                           "Can be sorted by `title` and `price`")
-                                                                   String sortBy) {
+    public List<ProductResponseDto> getBetween(@RequestParam BigDecimal from,
+                                               @RequestParam BigDecimal to,
+                                               @RequestParam(defaultValue = "0")
+                                               @ApiParam(value = "Number of page. "
+                                                       + "Default value is `0`")
+                                               int page,
+                                               @RequestParam(defaultValue = "20")
+                                               @ApiParam(value = "Amount of products per page. "
+                                                       + "Default value is `20`")
+                                               int count,
+                                               @RequestParam(defaultValue = "id")
+                                               @ApiParam(value = "Sorting products by parameter. "
+                                                       + "Default sorting by `id`. "
+                                                       + "Can be sorted by `title` and `price`")
+                                               String sortBy) {
         PageRequest pageRequest = PageRequestUtil.getPageRequest(page, count, sortBy);
         return productService.getAllProductsWithPriceBetween(from, to, pageRequest).stream()
                 .map(productMapper::toDto)

@@ -12,7 +12,7 @@ import lombok.Data;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String title;
-    BigDecimal price;
+    private Long id;
+    private String title;
+    private BigDecimal price;
 }
