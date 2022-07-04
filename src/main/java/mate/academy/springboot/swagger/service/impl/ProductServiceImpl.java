@@ -1,10 +1,10 @@
-package mate.academy.springboot.service.impl;
+package mate.academy.springboot.swagger.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
-import mate.academy.springboot.model.Product;
-import mate.academy.springboot.repository.ProductRepository;
-import mate.academy.springboot.service.ProductService;
+import mate.academy.springboot.swagger.model.Product;
+import mate.academy.springboot.swagger.repository.ProductRepository;
+import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 

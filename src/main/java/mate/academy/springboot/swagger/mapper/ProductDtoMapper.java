@@ -1,9 +1,11 @@
-package mate.academy.springboot.mapper;
+package mate.academy.springboot.swagger.mapper;
 
-import mate.academy.springboot.dto.ProductRequestDto;
-import mate.academy.springboot.dto.ProductResponseDto;
-import mate.academy.springboot.model.Product;
+import mate.academy.springboot.swagger.dto.ProductRequestDto;
+import mate.academy.springboot.swagger.dto.ProductResponseDto;
+import mate.academy.springboot.swagger.model.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductDtoMapper implements RequestDtoMapper<ProductRequestDto, Product>,
         ResponseDtoMapper<ProductResponseDto, Product> {
 

@@ -1,10 +1,12 @@
-package mate.academy.springboot.dto;
+package mate.academy.springboot.swagger.dto;
 
 import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class ProductRequestDto {
+public class ProductResponseDto {
+    private Long id;
     private String title;
     private BigDecimal price;
+
 }
