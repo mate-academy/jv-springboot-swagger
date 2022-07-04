@@ -87,7 +87,7 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
-    @ApiOperation(value = "Get all product in price range")
+    @ApiOperation(value = "Get all products in price range")
     public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
                                                          @RequestParam BigDecimal to,
                                                          @RequestParam(defaultValue = "20")
