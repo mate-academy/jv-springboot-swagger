@@ -5,11 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 
 public class GettingSort {
-
-    private GettingSort() {
-        throw new IllegalStateException("This is Utility class!!");
-    }
-
     public static Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
