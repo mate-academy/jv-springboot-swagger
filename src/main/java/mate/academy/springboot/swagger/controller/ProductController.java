@@ -80,7 +80,8 @@ public class ProductController {
 
     @GetMapping("/by-price")
     @ApiOperation(value = "get all products by price diapason (5 unit per page by default)")
-    public List<ProductResponseDto> getAllByPriceBetween(@RequestParam(name = "from") BigDecimal from,
+    public List<ProductResponseDto> getAllByPriceBetween(
+            @RequestParam(name = "from") BigDecimal from,
             @RequestParam(name = "to") BigDecimal to,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             @RequestParam(name = "size", defaultValue = "5")
