@@ -65,6 +65,7 @@ public class ProductController extends CustomGlobalExceptionHandler {
     }
 
     @GetMapping()
+    @ApiOperation(value = "find all products. You can use Pagination and Sorting!")
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
                                            @RequestParam (defaultValue = "0") Integer page,
                                            @RequestParam (defaultValue = "id") String sortBy) {
