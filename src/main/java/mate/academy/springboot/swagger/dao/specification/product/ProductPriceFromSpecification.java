@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class ProductPriceFromSpecification implements SpecificationProvider<Product> {
     private static final String FILTER_KEY = "from";
     private static final String FIELD_NAME = "price";
+
     @Override
     public String getFilterKey() {
         return FILTER_KEY;
@@ -20,7 +21,8 @@ public class ProductPriceFromSpecification implements SpecificationProvider<Prod
     public Specification<Product> getSpecification(String[] params) {
         return ((root, query, criteriaBuilder) -> {
             Long[] paramsLong = Arrays.stream(params).map(Long::valueOf).toArray(Long[]::new);
-            Predicate predicate = criteriaBuilder.greaterThanOrEqualTo(root.get(FIELD_NAME), paramsLong[0]);
+            Predicate predicate = criteriaBuilder
+                    .greaterThanOrEqualTo(root.get(FIELD_NAME), paramsLong[0]);
             return criteriaBuilder.and(predicate);
         });
     }

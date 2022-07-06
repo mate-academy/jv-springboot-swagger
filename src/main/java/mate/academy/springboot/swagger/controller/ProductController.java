@@ -1,10 +1,10 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import io.swagger.annotations.ApiOperation;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
@@ -65,32 +65,47 @@ public class ProductController extends CustomGlobalExceptionHandler {
     }
 
     @GetMapping()
-    public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "20") Integer count,
-                                           @RequestParam (defaultValue = "1") Integer page,
+    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
+                                           @RequestParam (defaultValue = "0") Integer page,
+                                           @RequestParam (defaultValue = "id") String sortBy) {
+        Sort sort = getSort(sortBy);
+        PageRequest pageRequest = PageRequest.of(page, count, sort);
+        return productService.findAll(pageRequest).stream()
+                .map(productMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/by-price")
+    @ApiOperation(value = "Find all products between two prices. "
+            + "You can use Pagination and Sorting!")
+    public List<ProductResponseDto> getAllByPrice(@RequestParam (defaultValue = "20") Integer count,
+                                           @RequestParam (defaultValue = "0") Integer page,
                                            @RequestParam (defaultValue = "id") String sortBy,
                                            @RequestParam Map<String, String> params) {
+        Sort sort = getSort(sortBy);
+        Pageable pageable = PageRequest.of(page, count, sort);
+        return productService.findAllByPrice(params, pageable).stream()
+                .map(productMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    private Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
-            for (String field : sortingFields) {
+            for (String field : sortBy.split(",")) {
                 Sort.Order order;
                 if (field.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.fromString(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                    String[] fieldAndDirection = field.split(":");
+                    order = new Sort.Order(Sort.Direction
+                            .fromString(fieldAndDirection[1]), fieldAndDirection[0]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
                 orders.add(order);
             }
         } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
+            Sort.Order order = new Sort.Order(Sort.Direction.DESC, "id");
             orders.add(order);
         }
-        Sort sort = Sort.by(orders);
-        Pageable pageable = PageRequest.of(count, page, sort);
-        return productService.getAll(params, pageable).stream()
-                .map(productMapper::toDto)
-                .collect(Collectors.toList());
+        return Sort.by(orders);
     }
 }

@@ -2,10 +2,10 @@ package mate.academy.springboot.swagger.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import mate.academy.springboot.swagger.dao.ProductRepository;
 import mate.academy.springboot.swagger.dao.specification.SpecificationManager;
 import mate.academy.springboot.swagger.exception.DataProcessException;
 import mate.academy.springboot.swagger.model.Product;
-import mate.academy.springboot.swagger.dao.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +33,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product find(Long id) throws DataProcessException {
         return repository.findById(id)
-                .orElseThrow(() -> new DataProcessException("Can't find a product by id: " + id + " !"));
+                .orElseThrow(() -> new DataProcessException("Can't find a product by id: "
+                        + id + " !"));
     }
 
     @Override
@@ -47,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll(Map<String, String> params, Pageable pageable) {
+    public List<Product> findAllByPrice(Map<String, String> params, Pageable pageable) {
         Specification<Product> specification = null;
         for (Map.Entry<String,String> entry : params.entrySet()) {
             Specification<Product> productSpecification = Specification.where(specificationManager
@@ -55,6 +56,11 @@ public class ProductServiceImpl implements ProductService {
             specification = specification == null ? Specification.where(productSpecification)
                     : specification.and(productSpecification);
         }
-        return repository.findAll(specification, pageable).getContent();
+        return repository.findAll(specification, pageable).toList();
+    }
+
+    @Override
+    public List<Product> findAll(PageRequest pageRequest) {
+        return repository.findAll(pageRequest).toList();
     }
 }

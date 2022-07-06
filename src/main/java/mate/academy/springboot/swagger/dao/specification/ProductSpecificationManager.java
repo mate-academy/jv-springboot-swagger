@@ -21,7 +21,8 @@ public class ProductSpecificationManager implements SpecificationManager<Product
     @Override
     public Specification<Product> get(String filterKey, String[] params) {
         if (!providersMap.containsKey(filterKey)) {
-            throw new RuntimeException("Key " + filterKey + " is not supported for data filter  ing");
+            throw new RuntimeException("Key " + filterKey
+                    + " is not supported for data filter  ing");
         }
         return providersMap.get(filterKey).getSpecification(params);
     }
