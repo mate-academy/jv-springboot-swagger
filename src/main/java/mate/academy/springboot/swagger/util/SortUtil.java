@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 
 public class SortUtil {
+    private SortUtil() {
+    }
+
     public static Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
