@@ -1,7 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,9 +8,9 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.exception.CustomGlobalExceptionHandler;
-import mate.academy.springboot.swagger.exception.DataProcessException;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.util.GettingSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,8 +46,8 @@ public class ProductController extends CustomGlobalExceptionHandler {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get a product by id.")
-    public ProductResponseDto getById(@PathVariable Long id) throws DataProcessException {
-        return productMapper.toDto(productService.find(id));
+    public ProductResponseDto getById(@PathVariable Long id) {
+        return productMapper.toDto(productService.findById(id));
     }
 
     @DeleteMapping("/{id}")
@@ -69,7 +68,7 @@ public class ProductController extends CustomGlobalExceptionHandler {
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
                                            @RequestParam (defaultValue = "0") Integer page,
                                            @RequestParam (defaultValue = "id") String sortBy) {
-        Sort sort = getSort(sortBy);
+        Sort sort = GettingSort.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(productMapper::toDto).collect(Collectors.toList());
@@ -82,31 +81,10 @@ public class ProductController extends CustomGlobalExceptionHandler {
                                            @RequestParam (defaultValue = "0") Integer page,
                                            @RequestParam (defaultValue = "id") String sortBy,
                                            @RequestParam Map<String, String> params) {
-        Sort sort = getSort(sortBy);
+        Sort sort = GettingSort.getSort(sortBy);
         Pageable pageable = PageRequest.of(page, count, sort);
         return productService.findAllByPrice(params, pageable).stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-    private Sort getSort(String sortBy) {
-        List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            for (String field : sortBy.split(",")) {
-                Sort.Order order;
-                if (field.contains(":")) {
-                    String[] fieldAndDirection = field.split(":");
-                    order = new Sort.Order(Sort.Direction
-                            .fromString(fieldAndDirection[1]), fieldAndDirection[0]);
-                } else {
-                    order = new Sort.Order(Sort.Direction.DESC, field);
-                }
-                orders.add(order);
-            }
-        } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, "id");
-            orders.add(order);
-        }
-        return Sort.by(orders);
     }
 }

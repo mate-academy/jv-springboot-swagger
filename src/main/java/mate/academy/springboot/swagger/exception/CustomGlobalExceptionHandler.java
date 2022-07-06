@@ -1,12 +1,11 @@
 package mate.academy.springboot.swagger.exception;
 
-import mate.academy.springboot.swagger.dto.ExceptionDto;
+import java.util.NoSuchElementException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 public class CustomGlobalExceptionHandler {
-
-    @ExceptionHandler(DataProcessException.class)
-    public ExceptionDto exceptionHandler(DataProcessException e) {
-        return new ExceptionDto(e.getMessage());
+    @ExceptionHandler(NoSuchElementException.class)
+    public String exceptionHandler(NoSuchElementException e) {
+        return e.getMessage();
     }
 }

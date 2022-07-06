@@ -2,9 +2,9 @@ package mate.academy.springboot.swagger.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import mate.academy.springboot.swagger.dao.ProductRepository;
 import mate.academy.springboot.swagger.dao.specification.SpecificationManager;
-import mate.academy.springboot.swagger.exception.DataProcessException;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product find(Long id) throws DataProcessException {
+    public Product findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new DataProcessException("Can't find a product by id: "
+                .orElseThrow(() -> new NoSuchElementException("Can't find a product by id: "
                         + id + " !"));
     }
 
