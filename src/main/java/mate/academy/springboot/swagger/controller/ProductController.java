@@ -68,11 +68,12 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
-    public List<ProductResponseDto> findAllBetween(@RequestParam(defaultValue = "20") Integer count,
-                                                   @RequestParam(defaultValue = "1") Integer page,
-                                                   @RequestParam(defaultValue = "id") String sortBy,
-                                                   @RequestParam BigDecimal from,
-                                                   @RequestParam BigDecimal to) {
+    public List<ProductResponseDto> findAllBetween(
+            @RequestParam(defaultValue = "20") Integer count,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam BigDecimal from,
+            @RequestParam BigDecimal to) {
         return productService.findAllBetweenPrice(count, page, sortBy, from, to)
                 .stream()
                 .map(productMapper::toResponseDto)
