@@ -40,7 +40,7 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create new product")
-    public ProductResponseDto createProduct(@RequestBody ProductRequestDto requestDto) {
+    public ProductResponseDto create(@RequestBody ProductRequestDto requestDto) {
         return productMapper.mapToDto(productService.save(productMapper.mapToModel(requestDto)));
     }
 

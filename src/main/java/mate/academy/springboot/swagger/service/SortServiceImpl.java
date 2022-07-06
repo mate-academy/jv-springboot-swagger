@@ -25,7 +25,7 @@ public class SortServiceImpl implements SortService {
     private Sort.Order getSortOrder(String field) {
         Sort.Order order;
         if (field.contains(":")) {
-            String[] fieldsAndDirections = field.split(";");
+            String[] fieldsAndDirections = field.split(":");
             order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
                     fieldsAndDirections[0]);
         } else {
