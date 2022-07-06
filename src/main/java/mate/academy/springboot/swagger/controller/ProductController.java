@@ -10,7 +10,7 @@ import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.exception.CustomGlobalExceptionHandler;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.util.GettingSort;
+import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -68,7 +68,7 @@ public class ProductController extends CustomGlobalExceptionHandler {
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
                                            @RequestParam (defaultValue = "0") Integer page,
                                            @RequestParam (defaultValue = "id") String sortBy) {
-        Sort sort = GettingSort.getSort(sortBy);
+        Sort sort = SortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(productMapper::toDto).collect(Collectors.toList());
@@ -81,7 +81,7 @@ public class ProductController extends CustomGlobalExceptionHandler {
                                            @RequestParam (defaultValue = "0") Integer page,
                                            @RequestParam (defaultValue = "id") String sortBy,
                                            @RequestParam Map<String, String> params) {
-        Sort sort = GettingSort.getSort(sortBy);
+        Sort sort = SortUtil.getSort(sortBy);
         Pageable pageable = PageRequest.of(page, count, sort);
         return productService.findAllByPrice(params, pageable).stream()
                 .map(productMapper::toDto)

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Sort;
 
-public class GettingSort {
+public class SortUtil {
     public static Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
