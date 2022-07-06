@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
-import mate.academy.springboot.swagger.mapper.ProductDtoMapper;
+import mate.academy.springboot.swagger.mapper.RequestDtoMapper;
+import mate.academy.springboot.swagger.mapper.ResponseDtoMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.SortingService;
@@ -27,27 +28,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
-    private final ProductDtoMapper productDtoMapper;
+    private final RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper;
+    private final ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper;
     private final SortingService sortingService;
 
-    public ProductController(ProductService productService, ProductDtoMapper productDtoMapper,
+    public ProductController(ProductService productService,
+                             RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper,
+                             ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper,
                              SortingService sortingService) {
         this.productService = productService;
-        this.productDtoMapper = productDtoMapper;
+        this.requestDtoMapper = requestDtoMapper;
+        this.responseDtoMapper = responseDtoMapper;
         this.sortingService = sortingService;
     }
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
     public ProductResponseDto save(@RequestBody ProductRequestDto requestDto) {
-        Product product = productDtoMapper.mapToModel(requestDto);
-        return productDtoMapper.mapToDto(productService.save(product));
+        Product product = requestDtoMapper.mapToModel(requestDto);
+        return responseDtoMapper.mapToDto(productService.save(product));
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Find a product by id")
     public ProductResponseDto getById(@PathVariable Long id) {
-        return productDtoMapper.mapToDto(productService.get(id));
+        return responseDtoMapper.mapToDto(productService.get(id));
     }
 
     @DeleteMapping("/{id}")
@@ -60,9 +65,9 @@ public class ProductController {
     @ApiOperation(value = "Update product by id")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto requestDto) {
-        Product product = productDtoMapper.mapToModel(requestDto);
+        Product product = requestDtoMapper.mapToModel(requestDto);
         product.setId(id);
-        return productDtoMapper.mapToDto(productService.save(product));
+        return responseDtoMapper.mapToDto(productService.save(product));
     }
 
     @GetMapping
@@ -82,7 +87,7 @@ public class ProductController {
         Sort sort = Sort.by(sortingService.parseSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
-                .map(productDtoMapper::mapToDto)
+                .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -106,7 +111,7 @@ public class ProductController {
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)
                 .stream()
-                .map(productDtoMapper::mapToDto)
+                .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 }
