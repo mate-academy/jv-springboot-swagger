@@ -43,7 +43,8 @@ public class ProductServiceImpl implements ProductService {
         return repository.findAll(pageRequest).toList();
     }
 
-    public List<Product> getAll(BigDecimal from, BigDecimal to, PageRequest pageRequest) {
+    @Override
+    public List<Product> getAllByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest) {
         return repository.findAllByPriceBetween(from, to, pageRequest);
     }
 }
