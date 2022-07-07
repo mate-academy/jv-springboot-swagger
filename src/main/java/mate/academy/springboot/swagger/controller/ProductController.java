@@ -68,10 +68,12 @@ public class ProductController {
     @GetMapping
     @ApiOperation(value = "get all products (5 unit per page by default)")
     public List<ProductResponseDto> getAll(
-            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "page", defaultValue = "0")
+            @ApiParam(value = "default value is 0 (first page)") Integer page,
             @RequestParam(name = "size", defaultValue = "5")
             @ApiParam(value = "default value is 5") Integer size,
-            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
+            @RequestParam(name = "sortBy", defaultValue = "id")
+            @ApiParam(value = "default sorting by ID (ASC)") String sortBy) {
         return productService.getAll(pageRequestService.getPageRequest(page, size, sortBy))
                 .stream()
                 .map(productMapper::toDto)
@@ -81,12 +83,16 @@ public class ProductController {
     @GetMapping("/by-price")
     @ApiOperation(value = "get all products by price diapason (5 unit per page by default)")
     public List<ProductResponseDto> getAllByPriceBetween(
-            @RequestParam(name = "from") BigDecimal from,
-            @RequestParam(name = "to") BigDecimal to,
-            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "from")
+            @ApiParam(value = "input min price") BigDecimal from,
+            @RequestParam(name = "to")
+            @ApiParam(value = "input max price") BigDecimal to,
+            @RequestParam(name = "page", defaultValue = "0")
+            @ApiParam(value = "default value is 0 (first page)") Integer page,
             @RequestParam(name = "size", defaultValue = "5")
             @ApiParam(value = "default value is 5") Integer size,
-            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy) {
+            @RequestParam(name = "sortBy", defaultValue = "id")
+            @ApiParam(value = "default sorting by ID (ASC)") String sortBy) {
         return productService.getAllByPriceBetween(from, to,
                         pageRequestService.getPageRequest(page, size, sortBy)).stream()
                 .map(productMapper::toDto)
