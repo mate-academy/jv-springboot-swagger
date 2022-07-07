@@ -41,7 +41,7 @@ public class ProductController {
     @PostMapping
     @ApiOperation(value = "Create new product")
     public ProductResponseDto createNewProduct(@RequestBody ProductRequestDto dto) {
-        return productMapper.mapToDto(productService.add(productMapper.mapToProduct(dto)));
+        return productMapper.mapToDto(productService.save(productMapper.mapToProduct(dto)));
     }
 
     @GetMapping("/{id}")
@@ -56,7 +56,7 @@ public class ProductController {
                                      @RequestBody ProductRequestDto requestDto) {
         Product product = productMapper.mapToProduct(requestDto);
         product.setId(id);
-        return productMapper.mapToDto(productService.add(product));
+        return productMapper.mapToDto(productService.save(product));
     }
 
     @DeleteMapping("/{id}")

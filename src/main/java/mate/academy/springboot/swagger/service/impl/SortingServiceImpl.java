@@ -5,8 +5,9 @@ import java.util.List;
 import mate.academy.springboot.swagger.service.SortingService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class SortingServiceImpl implements SortingService {
     private static final String DELIMITER = ":";
     private static final String SEPARATOR = ";";
