@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import mate.academy.springboot.swagger.service.SortingService;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
