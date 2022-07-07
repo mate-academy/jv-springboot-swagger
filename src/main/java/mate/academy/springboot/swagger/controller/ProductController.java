@@ -40,28 +40,28 @@ public class ProductController {
                 .toProduct(productRequestDto)));
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "get product by id")
-    public ProductResponseDto get(@PathVariable(name = "product id") Long productId) {
+    public ProductResponseDto get(@PathVariable(name = "id") Long id) {
         return productMapper
                 .toResponseDto(productService
-                        .get(productId));
+                        .get(id));
     }
 
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "delete product by id")
-    public void delete(@PathVariable(name = "product id") Long productId) {
-        productService.delete(productId);
+    public void delete(@PathVariable(name = "id") Long id) {
+        productService.delete(id);
     }
 
     @PostMapping
     @ApiOperation(value = "update product")
     public ProductResponseDto update(@RequestBody ProductRequestDto productRequestDto,
-                                     @RequestParam(name = "product id") Long productId) {
+                                     @RequestParam(name = "id") Long id) {
         return productMapper
                 .toResponseDto(productService
                 .update(productMapper
-                .toProduct(productRequestDto), productId));
+                .toProduct(productRequestDto), id));
     }
 
     @GetMapping

@@ -10,25 +10,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SortServiceImpl implements SortService {
-    private static final String SEMICOLON = ";";
-    private static final String COLON = ":";
-
     @Override
     public PageRequest getPageRequest(Integer count, Integer page, String sortBy) {
-        if (!sortBy.contains(COLON) & sortBy.contains(SEMICOLON)) {
-            List<Sort.Order> orders = Arrays.stream(sortBy.split(SEMICOLON))
+        if (!sortBy.contains(":") & sortBy.contains(";")) {
+            List<Sort.Order> orders = Arrays.stream(sortBy.split(";"))
                     .map(field -> new Sort.Order(Sort.Direction.DESC, field))
                     .collect(Collectors.toList());
             return PageRequest.of(page,count, Sort.by(orders));
         }
-        if (!sortBy.contains(COLON)) {
+        if (!sortBy.contains(":")) {
             return PageRequest.of(page, count,
                     Sort.by(new Sort.Order(Sort.Direction.DESC, sortBy)));
         }
-        List<Sort.Order> orders = Arrays.stream(sortBy.split(SEMICOLON))
-                    .map(fieldsAndOrder -> fieldsAndOrder.contains(COLON)
-                            ? new Sort.Order(Sort.Direction.valueOf(fieldsAndOrder.split(COLON)[1]),
-                            fieldsAndOrder.split(COLON)[0])
+        List<Sort.Order> orders = Arrays.stream(sortBy.split(";"))
+                    .map(fieldsAndOrder -> fieldsAndOrder.contains(":")
+                            ? new Sort.Order(Sort.Direction.valueOf(fieldsAndOrder.split(":")[1]),
+                            fieldsAndOrder.split(":")[0])
                             : new Sort.Order(Sort.Direction.DESC, fieldsAndOrder))
                     .collect(Collectors.toList());
         return PageRequest.of(page, count, Sort.by(orders));

@@ -9,4 +9,3 @@ public class ProductResponseDto {
     private String title;
     private BigDecimal price;
 }
-
