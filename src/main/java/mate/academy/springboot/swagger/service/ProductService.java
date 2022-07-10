@@ -6,7 +6,6 @@ import mate.academy.springboot.swagger.model.Product;
 import org.springframework.data.domain.PageRequest;
 
 public interface ProductService {
-
     Product save(Product product);
 
     List<Product> findAll(PageRequest pageRequest);
