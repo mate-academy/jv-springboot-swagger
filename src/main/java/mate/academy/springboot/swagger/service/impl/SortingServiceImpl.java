@@ -13,7 +13,7 @@ public class SortingServiceImpl implements SortingService {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
-            for (var field : sortingFields) {
+            for (String field : sortingFields) {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
