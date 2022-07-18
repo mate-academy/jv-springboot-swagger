@@ -1,9 +1,9 @@
 package mate.academy.springboot.swagger.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
+import java.math.BigDecimal;
+import java.util.List;
 import mate.academy.springboot.swagger.dto.ProductMapper;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.Product;
@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -105,6 +102,4 @@ public class ProductController {
         Pageable pageable = pageableProvider.get(count, page, sortBy);
         return service.findAll(from, to, pageable);
     }
-
-
 }
