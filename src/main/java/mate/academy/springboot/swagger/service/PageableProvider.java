@@ -2,6 +2,6 @@ package mate.academy.springboot.swagger.service;
 
 import org.springframework.data.domain.Pageable;
 
-public interface PageableSupplier {
+public interface PageableProvider {
     Pageable get(Integer count, Integer page, String sortBy);
 }

@@ -2,14 +2,14 @@ package mate.academy.springboot.swagger.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import mate.academy.springboot.swagger.service.PageableSupplier;
+import mate.academy.springboot.swagger.service.PageableProvider;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PageableSupplierImpl implements PageableSupplier {
+public class PageableProviderImpl implements PageableProvider {
     @Override
     public Pageable get(Integer count, Integer page, String sortBy) {
         PageRequest pageRequest;

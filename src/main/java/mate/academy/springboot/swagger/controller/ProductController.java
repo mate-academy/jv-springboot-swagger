@@ -1,11 +1,9 @@
 package mate.academy.springboot.swagger.controller;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import mate.academy.springboot.swagger.dto.ProductMapper;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.Product;
-import mate.academy.springboot.swagger.service.PageableSupplier;
+import mate.academy.springboot.swagger.service.PageableProvider;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,13 +24,13 @@ import java.util.List;
 public class ProductController {
     private final ProductMapper mapper;
     private final ProductService service;
-    private final PageableSupplier pageableSupplier;
+    private final PageableProvider pageableProvider;
 
     public ProductController(ProductMapper mapper, ProductService service,
-                             PageableSupplier pageableSupplier) {
+                             PageableProvider pageableProvider) {
         this.mapper = mapper;
         this.service = service;
-        this.pageableSupplier = pageableSupplier;
+        this.pageableProvider = pageableProvider;
     }
 
     @GetMapping("/{id}")
@@ -62,7 +60,7 @@ public class ProductController {
     public List<Product> findAll(@RequestParam(defaultValue = "10") Integer count,
                                  @RequestParam(defaultValue = "0") Integer page,
                                  @RequestParam(defaultValue = "id") String sortBy) {
-        Pageable pageable = pageableSupplier.get(count, page, sortBy);
+        Pageable pageable = pageableProvider.get(count, page, sortBy);
         return service.findAll(pageable);
     }
 
@@ -72,7 +70,7 @@ public class ProductController {
                                         @RequestParam(defaultValue = "10") Integer count,
                                         @RequestParam(defaultValue = "0") Integer page,
                                         @RequestParam(defaultValue = "id") String sortBy) {
-        Pageable pageable = pageableSupplier.get(count, page, sortBy);
+        Pageable pageable = pageableProvider.get(count, page, sortBy);
         return service.findAll(from, to, pageable);
     }
 
