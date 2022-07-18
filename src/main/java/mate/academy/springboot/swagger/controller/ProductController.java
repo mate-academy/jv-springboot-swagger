@@ -1,5 +1,9 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import mate.academy.springboot.swagger.dto.ProductMapper;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.Product;
@@ -34,42 +38,70 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
+    @ApiOperation(value = "Gets product by id")
+    public Product getById(@PathVariable @ApiParam(name = "id",
+            value = "id of requesting product", required = true) Long id) {
         return service.get(id);
     }
 
     @PostMapping
+    @ApiOperation(value = "Creates new Product")
     public Product create(@RequestBody ProductRequestDto productRequestDto) {
         Product product = mapper.toModel(productRequestDto);
         return service.save(product);
     }
 
     @PutMapping("/{id}")
-    public Product update(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) {
+    @ApiOperation(value = "Updates existing Product by id")
+    public Product update(@PathVariable @ApiParam(name = "id",
+            value = "id of updating product", required = true) Long id,
+                          @RequestBody ProductRequestDto productRequestDto) {
         Product product = mapper.toModel(productRequestDto);
         product.setId(id);
         return service.update(product);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    @ApiOperation(value = "Deletes existing Product by id")
+    public void delete(@PathVariable @ApiParam(name = "id",
+            value = "id of deleting product", required = true) Long id) {
         service.remove(id);
     }
 
     @GetMapping
-    public List<Product> findAll(@RequestParam(defaultValue = "10") Integer count,
-                                 @RequestParam(defaultValue = "0") Integer page,
-                                 @RequestParam(defaultValue = "id") String sortBy) {
+    @ApiOperation(value = "Gets all products")
+    public List<Product> findAll(@RequestParam(defaultValue = "10") @ApiParam(name = "count",
+            value = "count of items on page") Integer count,
+                                 @RequestParam(defaultValue = "0") @ApiParam(name = "page",
+                                         value = "number of page") Integer page,
+                                 @RequestParam(defaultValue = "id") @ApiParam(name = "sortBy",
+                                         value = "sortBy string") String sortBy) {
         Pageable pageable = pageableProvider.get(count, page, sortBy);
         return service.findAll(pageable);
     }
 
     @GetMapping("/by-price")
-    public List<Product> findAllByPrice(@RequestParam BigDecimal from,
-                                        @RequestParam BigDecimal to,
-                                        @RequestParam(defaultValue = "10") Integer count,
-                                        @RequestParam(defaultValue = "0") Integer page,
-                                        @RequestParam(defaultValue = "id") String sortBy) {
+    @ApiOperation(value = "Gets all products filtered by price")
+    public List<Product> findAllByPrice(@RequestParam
+                                            @ApiParam(name = "count",
+                                                    value = "count of items on page",
+                                                    required = true)
+                                                    BigDecimal from,
+                                        @RequestParam
+                                        @ApiParam(name = "count",
+                                                value = "count of items on page",
+                                                required = true)
+                                                BigDecimal to,
+                                        @RequestParam(defaultValue = "10")
+                                            @ApiParam(name = "count",
+                                                    value = "count of items on page")
+                                                    Integer count,
+                                        @RequestParam(defaultValue = "0")
+                                            @ApiParam(name = "page", value = "number of page")
+                                                    Integer page,
+                                        @RequestParam(defaultValue = "id")
+                                            @ApiParam(name = "sortBy", value = "sortBy string")
+                                                    String sortBy) {
         Pageable pageable = pageableProvider.get(count, page, sortBy);
         return service.findAll(from, to, pageable);
     }
