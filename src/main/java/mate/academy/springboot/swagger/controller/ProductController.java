@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,35 +39,41 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "create new product")
-    ProductResponseDto create(@RequestBody ProductRequestDto req) {
+    public ProductResponseDto create(@RequestBody ProductRequestDto req) {
         return mapper.toProductResponseDto(service.create(mapper.toModel(req)));
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "get product by id")
-    ProductResponseDto getById(@PathVariable Long id) {
+    public ProductResponseDto getById(@PathVariable Long id) {
         return mapper.toProductResponseDto(service.getById(id));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "delete product by id")
-    void deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         service.deleteById(id);
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "update product by id")
-    ProductResponseDto update(@PathVariable Long id, @RequestBody ProductRequestDto req) {
+    public ProductResponseDto update(@PathVariable Long id, @RequestBody ProductRequestDto req) {
         return mapper.toProductResponseDto(service.update(mapper.toModel(req), id));
     }
 
     @GetMapping("/price")
     @ApiOperation(value = "find all products by price range")
-    List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
-                                                   @RequestParam BigDecimal to,
-                                                   @RequestParam(defaultValue = "id") String sortBy,
-                                                   @RequestParam(defaultValue = "20") Integer size,
-                                                   @RequestParam(defaultValue = "0") Integer page) {
+    public List<ProductResponseDto> findAllByPriceBetween(
+            @RequestParam
+            @ApiParam(value = "min price") BigDecimal from,
+            @RequestParam
+            @ApiParam(value = "max price") BigDecimal to,
+            @RequestParam(defaultValue = "id")
+            @ApiParam(value = "default value is id") String sortBy,
+            @RequestParam(defaultValue = "20")
+            @ApiParam(value = "default value is 20") Integer size,
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "default value is 0") Integer page) {
         PageRequest pageRequest = PageRequest.of(page, size,
                 Sort.by(sortUtil.getSortOrders(sortBy)));
         return service.findAllByPriceBetween(from, to, pageRequest).stream()
@@ -76,9 +83,13 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "find all products by sorted list")
-    List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer size,
-                                     @RequestParam(defaultValue = "0") Integer page,
-                                     @RequestParam(defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> findAll(
+            @RequestParam(defaultValue = "20")
+            @ApiParam(value = "default value is 20") Integer size,
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "default value is 0") Integer page,
+            @RequestParam(defaultValue = "id")
+            @ApiParam(value = "default value is id") String sortBy) {
         PageRequest pageRequest = PageRequest.of(page, size,
                 Sort.by(sortUtil.getSortOrders(sortBy)));
         return service.findAll(pageRequest).stream()
