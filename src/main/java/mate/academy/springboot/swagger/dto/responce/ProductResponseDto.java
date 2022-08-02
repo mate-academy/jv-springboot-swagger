@@ -11,10 +11,6 @@ public class ProductResponseDto {
     private String title;
     private BigDecimal price;
 
-    public ProductResponseDto() {
-
-    }
-
     public ProductResponseDto(Long id, String title, BigDecimal price) {
         this.id = id;
         this.title = title;

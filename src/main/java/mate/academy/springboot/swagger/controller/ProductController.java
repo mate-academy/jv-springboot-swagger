@@ -76,7 +76,7 @@ public class ProductController {
                                                     Integer page,
                                             @RequestParam(defaultValue = "id")
                                                         String sortBy) {
-        Sort sort = Sort.by(sortProductUtil.getSortedProduct(sortBy)); //orders
+        Sort sort = Sort.by(sortProductUtil.getSortingProduct(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(productMapper::toResponseDto)
@@ -99,9 +99,9 @@ public class ProductController {
                                                            Integer page,
                                                    @RequestParam(defaultValue = "id")
                                                            String sortBy) {
-        Sort sort = Sort.by(sortProductUtil.getSortedProduct(sortBy));
+        Sort sort = Sort.by(sortProductUtil.getSortingProduct(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
-        return productService.findAllByPriceBetween(from, to).stream()
+        return productService.findAllByPriceBetween(from, to,pageRequest).stream()
                 .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
