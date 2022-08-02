@@ -6,7 +6,9 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
