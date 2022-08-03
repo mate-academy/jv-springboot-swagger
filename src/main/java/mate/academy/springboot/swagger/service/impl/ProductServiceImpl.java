@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllWithPagination(PageRequest pageRequest) {
+    public List<Product> findAll(PageRequest pageRequest) {
         return productRepository.findAll(pageRequest).toList();
     }
 
