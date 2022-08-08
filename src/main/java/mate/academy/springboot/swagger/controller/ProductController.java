@@ -1,6 +1,9 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
@@ -16,9 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -26,7 +26,10 @@ public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
     private final ProductUrlParser productUrlParser;
-    public ProductController(ProductService productService, ProductMapper productMapper, ProductUrlParser productUrlParser) {
+
+    public ProductController(ProductService productService,
+                             ProductMapper productMapper,
+                             ProductUrlParser productUrlParser) {
         this.productService = productService;
         this.productMapper = productMapper;
         this.productUrlParser = productUrlParser;
@@ -35,7 +38,9 @@ public class ProductController {
     @PostMapping
     @ApiOperation(value = "create a new product")
     public ProductResponseDto create(ProductRequestDto dto) {
-        return productMapper.toResponseDto(productService.save(productMapper.requestDtotoModel(dto)));
+        return productMapper.toResponseDto(productService
+                .save(productMapper
+                        .requestDtotoModel(dto)));
     }
 
     @GetMapping("/{id}")
@@ -67,13 +72,19 @@ public class ProductController {
                 .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
+
     @GetMapping("/by-price")
     @ApiOperation(value = "get products lists as pages where price lies between range")
-    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam (defaultValue = "0") BigDecimal from,
-                                                          @RequestParam (defaultValue = "1000") BigDecimal to,
-                                                          @RequestParam (defaultValue = "20") Integer count,
-                                                          @RequestParam (defaultValue = "0") Integer page,
-                                                          @RequestParam (defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> findAllByPriceBetween(
+            @RequestParam (defaultValue = "0") BigDecimal from,
+
+            @RequestParam (defaultValue = "1000") BigDecimal to,
+
+            @RequestParam (defaultValue = "20") Integer count,
+
+            @RequestParam (defaultValue = "0") Integer page,
+
+            @RequestParam (defaultValue = "id") String sortBy) {
         Sort sort = Sort.by(productUrlParser.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getProductsByPriceBetween(from, to, pageRequest).stream()
