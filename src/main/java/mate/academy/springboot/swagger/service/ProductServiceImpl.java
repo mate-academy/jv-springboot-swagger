@@ -2,8 +2,10 @@ package mate.academy.springboot.swagger.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +23,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getById(Long id) {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Can`t find product by id: " + id));
     }
 
     @Override
@@ -30,12 +33,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllWherePaginationSort() {
-        return null;
+    public List<Product> findAll(PageRequest pageRequest) {
+        return productRepository.findAll(pageRequest).toList();
     }
 
     @Override
-    public List<Product> getAllWhereBetweenPriceSort(BigDecimal min, BigDecimal max) {
-        return productRepository.findAllByPriceBetweenOrderByPriceAsc(min, max);
+    public List<Product> getAllWhereBetweenPriceSortDirection(BigDecimal min,
+                                                              BigDecimal max,
+                                                              PageRequest pageRequest) {
+        return productRepository.findAllByPriceBetween(min, max, pageRequest);
     }
 }

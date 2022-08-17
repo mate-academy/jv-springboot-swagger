@@ -3,6 +3,7 @@ package mate.academy.springboot.swagger.service;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.model.Product;
+import org.springframework.data.domain.PageRequest;
 
 public interface ProductService {
     Product create(Product product);
@@ -11,7 +12,9 @@ public interface ProductService {
 
     void deleteById(Long id);
 
-    List<Product> getAllWherePaginationSort();
+    List<Product> findAll(PageRequest pageRequest);
 
-    List<Product> getAllWhereBetweenPriceSort(BigDecimal min, BigDecimal max);
+    List<Product> getAllWhereBetweenPriceSortDirection(BigDecimal min,
+                                                       BigDecimal max,
+                                                       PageRequest pageRequest);
 }

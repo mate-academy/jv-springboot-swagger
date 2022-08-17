@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +22,7 @@ public class InjectController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Inject test data in database")
     public String injectData() {
 
         Product asus = new Product();
@@ -48,8 +50,8 @@ public class InjectController {
         iphone12Max.setPrice(BigDecimal.valueOf(1250));
         productService.create(iphone12Max);
 
-        System.out.println("End: " + LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm:ss")));
-        return "Success inject is done";
+        String time = ", end: " + LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm:ss"));
+        return "Success inject is done" + time;
     }
 }
