@@ -24,34 +24,21 @@ public class InjectController {
     @GetMapping
     @ApiOperation(value = "Inject test data in database")
     public String injectData() {
-
-        Product asus = new Product();
-        asus.setTitle("Asus Expert Book");
-        asus.setPrice(BigDecimal.valueOf(1755));
-        productService.create(asus);
-
-        Product mac = new Product();
-        mac.setTitle("Mac Pro M1");
-        mac.setPrice(BigDecimal.valueOf(1755));
-        productService.create(mac);
-
-        Product iphone13 = new Product();
-        iphone13.setTitle("iPhone 13Pro");
-        iphone13.setPrice(BigDecimal.valueOf(1499));
-        productService.create(iphone13);
-
-        Product iphone11 = new Product();
-        iphone11.setTitle("iPhone 11");
-        iphone11.setPrice(BigDecimal.valueOf(759));
-        productService.create(iphone11);
-
-        Product iphone12Max = new Product();
-        iphone12Max.setTitle("iPhone 12Max");
-        iphone12Max.setPrice(BigDecimal.valueOf(1250));
-        productService.create(iphone12Max);
+        productService.create(getProduct("Asus Expert Book", BigDecimal.valueOf(1755)));
+        productService.create(getProduct("Mac Pro M1", BigDecimal.valueOf(1245)));
+        productService.create(getProduct("iPhone 13Pro", BigDecimal.valueOf(1499)));
+        productService.create(getProduct("iPhone 11", BigDecimal.valueOf(755)));
+        productService.create(getProduct("iPhone 12Max", BigDecimal.valueOf(895)));
 
         String time = ", end: " + LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm:ss"));
-        return "Success inject is done" + time;
+        return "Successful inject is done" + time;
+    }
+
+    private Product getProduct(String title, BigDecimal price) {
+        Product product = new Product();
+        product.setTitle(title);
+        product.setPrice(price);
+        return product;
     }
 }

@@ -14,7 +14,7 @@ public interface ProductService {
 
     List<Product> findAll(PageRequest pageRequest);
 
-    List<Product> getAllWhereBetweenPriceSortDirection(BigDecimal min,
-                                                       BigDecimal max,
-                                                       PageRequest pageRequest);
+    List<Product> getAllSortedWherePriceBetween(BigDecimal min,
+                                                BigDecimal max,
+                                                PageRequest pageRequest);
 }

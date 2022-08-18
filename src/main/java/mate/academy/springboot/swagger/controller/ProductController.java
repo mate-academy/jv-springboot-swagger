@@ -77,7 +77,7 @@ public class ProductController {
                      @ApiParam(value = "default value is `" + PAGE_DEFAULT + "`") Integer page,
                      @RequestParam(defaultValue = "id")
                      @ApiParam(value = "default sort field is `id`") String sortBy) {
-        Sort sort = sortUtil.sortFieldsByDirections(sortBy);
+        Sort sort = sortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
                 .stream()
@@ -97,9 +97,9 @@ public class ProductController {
             @ApiParam(value = "default value is `" + PAGE_DEFAULT + "`") Integer page,
             @RequestParam(defaultValue = "id")
             @ApiParam(value = "default sort field is `id`") String sortBy) {
-        Sort sort = sortUtil.sortFieldsByDirections(sortBy);
+        Sort sort = sortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
-        return productService.getAllWhereBetweenPriceSortDirection(min, max, pageRequest)
+        return productService.getAllSortedWherePriceBetween(min, max, pageRequest)
                 .stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
