@@ -12,11 +12,11 @@ public class ParserUtil {
 
     public List<Sort.Order> getOrders(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(SEPARATOR1)) {
+        if (sortBy.contains(SEPARATOR1) || sortBy.contains(SEPARATOR2)) {
             String[] sortingFields = sortBy.split(SEPARATOR2);
             for (String field : sortingFields) {
                 Sort.Order order;
-                if (field.contains(SEPARATOR2)) {
+                if (field.contains(SEPARATOR1)) {
                     String[] fieldsAndDirections = field.split(SEPARATOR1);
                     order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
                             fieldsAndDirections[0]);
