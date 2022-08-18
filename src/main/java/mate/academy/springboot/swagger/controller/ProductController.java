@@ -44,7 +44,7 @@ public class ProductController {
     @PostMapping
     @ApiOperation(value = "Create new product")
     public ProductResponseDto save(@RequestBody ProductRequestDto dto) {
-        return dtoResponseMapper.toDto(productService.save(dtoRequestMapper.fromDto(dto)));
+        return dtoResponseMapper.toDto(productService.save(dtoRequestMapper.toModel(dto)));
     }
 
     @DeleteMapping("/{id}")
@@ -56,7 +56,7 @@ public class ProductController {
     @PutMapping("/{id}")
     @ApiOperation(value = "Update or insert (if not exist) product by id")
     public ProductResponseDto update(@RequestBody ProductRequestDto dto, @PathVariable Long id) {
-        Product product = dtoRequestMapper.fromDto(dto);
+        Product product = dtoRequestMapper.toModel(dto);
         product.setId(id);
         return dtoResponseMapper.toDto(productService.save(product));
     }
