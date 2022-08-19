@@ -2,9 +2,9 @@ package mate.academy.springboot.swagger.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAll(PageRequest pageRequest) {
-        return productRepository.findAll();
+        return productRepository.findAll(pageRequest).toList();
     }
 
     @Override

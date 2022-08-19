@@ -12,7 +12,7 @@ public class SortProductUtil {
     private static final String SPLITTER_ONE = ";";
     private static final String SPLITTER_TWO = ":";
 
-    public List<Sort.Order> getSortingProducts(String sortParameter) {
+    public static List<Sort.Order> getSortingProducts(String sortParameter) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortParameter.contains(SPLITTER_TWO)) {
             String[] splitFields = sortParameter.split(SPLITTER_ONE);

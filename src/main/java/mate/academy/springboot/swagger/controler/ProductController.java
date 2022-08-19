@@ -1,11 +1,8 @@
 package mate.academy.springboot.swagger.controler;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.mapper.RequestMapperDto;
 import mate.academy.springboot.swagger.dto.mapper.ResponseMapperDto;
 import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
@@ -13,6 +10,9 @@ import mate.academy.springboot.swagger.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.util.SortProductUtil;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
