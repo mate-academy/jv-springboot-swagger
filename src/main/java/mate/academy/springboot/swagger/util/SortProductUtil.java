@@ -1,8 +1,8 @@
 package mate.academy.springboot.swagger.util;
 
-import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 public class SortProductUtil {
     private static final String PARAMETER_SPLITERATOR = ";";
