@@ -3,9 +3,9 @@ package mate.academy.springboot.swagger.service;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.model.Product;
+import mate.academy.springboot.swagger.repository.ProductRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import mate.academy.springboot.swagger.repository.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {

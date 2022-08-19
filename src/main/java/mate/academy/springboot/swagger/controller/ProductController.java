@@ -1,13 +1,16 @@
 package mate.academy.springboot.swagger.controller;
 
-import mate.academy.springboot.swagger.dto.ProductRequestDto;
-import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import mate.academy.springboot.swagger.dto.ProductRequestDto;
+import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
+import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.service.mapper.ProductDtoMapper;
+import mate.academy.springboot.swagger.util.SortingPageUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.service.mapper.ProductDtoMapper;
-import mate.academy.springboot.swagger.util.SortingPageUtil;
 
 @RequiredArgsConstructor
 @RestController
