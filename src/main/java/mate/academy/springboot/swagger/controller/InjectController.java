@@ -34,10 +34,10 @@ public class InjectController {
         return "Successful inject is done" + time;
     }
 
-    private Product createProduct(String title, BigDecimal price) {
+    private void createProduct(String title, BigDecimal price) {
         Product product = new Product();
         product.setTitle(title);
         product.setPrice(price);
-        return productService.create(product);
+        productService.create(product);
     }
 }
