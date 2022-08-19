@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductDtoMapper dtoMapper;
-    private final SortingPageUtil sortingPageUtil;
 
     @PostMapping
     @ApiOperation(value = "Save new product")
@@ -69,7 +68,7 @@ public class ProductController {
                                                          Integer page,
                                                          @RequestParam(defaultValue = "id")
                                                          String sortBy) {
-        Sort sort = sortingPageUtil.getSort(sortBy);
+        Sort sort = SortingPageUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(dtoMapper::mapToDto)
@@ -81,7 +80,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer count,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "id") String sortBy) {
-        Sort sort = sortingPageUtil.getSort(sortBy);
+        Sort sort = SortingPageUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(dtoMapper::mapToDto)
