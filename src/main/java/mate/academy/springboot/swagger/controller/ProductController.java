@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,14 +34,14 @@ public class ProductController {
     @PostMapping
     @ApiOperation(value = "Save new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto requestDto) {
-        Product product = dtoMapper.mapToModel(requestDto);
-        return dtoMapper.mapToDto(productService.save(product));
+        Product product = dtoMapper.toModel(requestDto);
+        return dtoMapper.toDto(productService.save(product));
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id")
     public ProductResponseDto getById(@PathVariable Long id) {
-        return dtoMapper.mapToDto(productService.getById(id));
+        return dtoMapper.toDto(productService.getById(id));
     }
 
     @DeleteMapping("/{id}")
@@ -53,40 +54,55 @@ public class ProductController {
     @ApiOperation(value = "Update product")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto requestDto) {
-        Product product = dtoMapper.mapToModel(requestDto);
+        Product product = dtoMapper.toModel(requestDto);
         product.setId(id);
-        return dtoMapper.mapToDto(productService.save(product));
+        return dtoMapper.toDto(productService.save(product));
     }
 
     @GetMapping("/by-price")
     @ApiOperation(value = "Get products with prices from - to")
-    public List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
-                                                         @RequestParam BigDecimal to,
+    public List<ProductResponseDto> getAllByPriceBetween(@RequestParam
+                                                             @ApiParam(value = "Smaller price")
+                                                             BigDecimal from,
+                                                         @RequestParam
+                                                         @ApiParam(value = "Bigger price")
+                                                             BigDecimal to,
                                                          @RequestParam(defaultValue = "20")
-                                                         Integer count,
+                                                             @ApiParam(value = "Elements quantity"
+                                                                     + " on page. Default 20")
+                                                             Integer count,
                                                          @RequestParam(defaultValue = "0")
-                                                         Integer page,
+                                                             @ApiParam(value = "Page number."
+                                                                     + " Default 0")
+                                                             Integer page,
                                                          @RequestParam(defaultValue = "id")
-                                                         String sortBy) {
+                                                             @ApiParam(value = "Sorting by field."
+                                                                     + " Default field ID")
+                                                             String sortBy) {
         Sort sort = SortingPageUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
-                .map(dtoMapper::mapToDto)
+                .map(dtoMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping
     @ApiOperation(value = "Find all products")
-    public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer count,
-                                            @RequestParam(defaultValue = "0") Integer page,
-                                            @RequestParam(defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20")
+                                                @ApiParam(value = "Elements quantity on page."
+                                                        + " Default 20")
+                                                Integer count,
+                                            @RequestParam(defaultValue = "0")
+                                            @ApiParam(value = "Page number. Default 0")
+                                                Integer page,
+                                            @RequestParam(defaultValue = "id")
+                                                @ApiParam(value = "Sorting by field."
+                                                        + " Default field ID")
+                                                String sortBy) {
         Sort sort = SortingPageUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
-                .map(dtoMapper::mapToDto)
+                .map(dtoMapper::toDto)
                 .collect(Collectors.toList());
     }
 }
-
-
-
