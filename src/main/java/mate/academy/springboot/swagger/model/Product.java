@@ -1,4 +1,4 @@
-package model;
+package mate.academy.springboot.swagger.model;
 
 import java.math.BigDecimal;
 import javax.persistence.Entity;

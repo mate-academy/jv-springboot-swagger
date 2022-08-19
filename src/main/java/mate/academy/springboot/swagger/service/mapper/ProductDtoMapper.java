@@ -1,8 +1,8 @@
-package service.mapper;
+package mate.academy.springboot.swagger.service.mapper;
 
-import dto.ProductRequestDto;
-import dto.ProductResponseDto;
-import model.Product;
+import mate.academy.springboot.swagger.dto.ProductRequestDto;
+import mate.academy.springboot.swagger.dto.ProductResponseDto;
+import mate.academy.springboot.swagger.model.Product;
 import org.springframework.stereotype.Component;
 
 @Component
