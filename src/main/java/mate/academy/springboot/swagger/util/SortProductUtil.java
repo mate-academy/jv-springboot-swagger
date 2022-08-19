@@ -10,11 +10,11 @@ public class SortProductUtil {
 
     public static Sort getSortingProduct(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
+        if (sortBy.contains(ORDER_SPLITERATOR)) {
             String[] sortingFields = sortBy.split(PARAMETER_SPLITERATOR);
             for (String field : sortingFields) {
                 Sort.Order order;
-                if (field.contains(":")) {
+                if (field.contains(ORDER_SPLITERATOR)) {
                     String[] fieldAndDirections = field.split(ORDER_SPLITERATOR);
                     order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirections[1]), fieldAndDirections[0]);
                 } else {
