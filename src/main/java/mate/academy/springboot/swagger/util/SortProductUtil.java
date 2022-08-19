@@ -1,15 +1,14 @@
 package mate.academy.springboot.swagger.util;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageRequestBuilder {
+public class SortProductUtil {
     private static final String PARAMETER_SPLITERATOR = ";";
     private static final String ORDER_SPLITERATOR = ":";
 
-    public static PageRequest getPageRequest(Integer count, Integer page, String sortBy) {
+    public static Sort getSortingProduct(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(PARAMETER_SPLITERATOR);
@@ -27,7 +26,6 @@ public class PageRequestBuilder {
             Sort.Order order = new Sort.Order(Sort.Direction.ASC, sortBy);
             orders.add(order);
         }
-        Sort sort = Sort.by(orders);
-        return PageRequest.of(page, count, sort);
+        return Sort.by(orders);
     }
 }

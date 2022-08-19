@@ -14,9 +14,7 @@ public interface ProductService {
 
     void update(Long id, Product product);
 
-    List<Product> getAll();
-
     List<Product> getAll(PageRequest pageRequest);
 
-    List<Product> getProductsBetween(BigDecimal from, BigDecimal to);
+    List<Product> getProductsBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest);
 }
