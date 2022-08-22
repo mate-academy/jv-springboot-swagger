@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product findById(Long id) {
         return productRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Can't find product with id: " + id);
+                () -> new NoSuchElementException("Can't find product with id: " + id));
     }
 
     @Override
