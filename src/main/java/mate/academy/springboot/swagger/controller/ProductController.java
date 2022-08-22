@@ -57,15 +57,11 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "Find all products")
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20")
-                                            @ApiParam(value = "default value is 20")
-                                            Integer size,
-                                            @RequestParam (defaultValue = "0")
-                                            @ApiParam(value = "default value is 0")
-                                            Integer page,
-                                            @RequestParam (defaultValue = "id")
-                                            @ApiParam(value = "default value is 'id'")
-                                            String sortBy) {
+    public List<ProductResponseDto> findAll(
+            @RequestParam (defaultValue = "20") @ApiParam(value = "20 by default") Integer size,
+            @RequestParam (defaultValue = "0") @ApiParam(value = "0 by default") Integer page,
+            @RequestParam (defaultValue = "id") @ApiParam(value = "id by default") String sortBy
+    ) {
         PageRequest pageRequest = PageRequest.of(page, size, sortParser.toSort(sortBy));
         return productService.findAll(pageRequest).stream()
                 .map(productMapper::toDto)
@@ -74,17 +70,13 @@ public class ProductController {
 
     @GetMapping("/price")
     @ApiOperation(value = "Filter products by price between 'from' and 'to'")
-    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam String from,
-                                                          @RequestParam String to,
-                                                          @RequestParam (defaultValue = "20")
-                                                          @ApiParam(value = "default value is 20")
-                                                          Integer size,
-                                                          @RequestParam (defaultValue = "0")
-                                                          @ApiParam(value = "default value is 0")
-                                                          Integer page,
-                                                          @RequestParam (defaultValue = "id")
-                                                          @ApiParam(value = "default value is 'id'")
-                                                          String sortBy) {
+    public List<ProductResponseDto> findAllByPriceBetween(
+            @RequestParam String from,
+            @RequestParam String to,
+            @RequestParam (defaultValue = "20") @ApiParam(value = "20 by default") Integer size,
+            @RequestParam (defaultValue = "0") @ApiParam(value = "0 by default") Integer page,
+            @RequestParam (defaultValue = "id") @ApiParam(value = "id by default") String sortBy
+    ) {
         PageRequest pageRequest = PageRequest.of(page, size, sortParser.toSort(sortBy));
         return productService
                 .findAllByPriceBetween(new BigDecimal(from), new BigDecimal(to), pageRequest)
