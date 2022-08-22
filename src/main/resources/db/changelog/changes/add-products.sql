@@ -65,3 +65,5 @@ INSERT INTO products (title, price) VALUES ('FREEWIND 650', 3700);
 INSERT INTO products (title, price) VALUES ('CAPONORD 1000', 5950);
 INSERT INTO products (title, price) VALUES ('CAPONORD 1000', 5950);
 INSERT INTO products (title, price) VALUES ('CAPONORD 1000', 5950);
+
+--rollback DELETE FROM products;

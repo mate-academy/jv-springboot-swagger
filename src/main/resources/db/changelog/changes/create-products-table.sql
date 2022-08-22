@@ -4,3 +4,6 @@ CREATE TABLE IF NOT EXISTS products (
     price decimal NOT NULL,
     CONSTRAINT products_pk PRIMARY KEY (id)
 );
+
+--rollback DROP TABLE products;
+

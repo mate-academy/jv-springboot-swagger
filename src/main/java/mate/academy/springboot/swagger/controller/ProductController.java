@@ -42,28 +42,24 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "get product by ID")
     public ProductResponseDto get(@PathVariable Long id) {
         return productMapper.toDto(productService.get(id));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "delete product by ID")
     public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "update product")
     public void update(@PathVariable Long id, @RequestBody ProductRequestDto requestDto) {
         productService.update(id, productMapper.toModel(requestDto));
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "get product's list")
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "20")
                                            @ApiParam(value = "default value is 20")
@@ -81,7 +77,6 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "get product's list between price limits (including)")
     public List<ProductResponseDto> getProductsBetween(@RequestParam
                                                        @ApiParam(value = "the lowest price")
