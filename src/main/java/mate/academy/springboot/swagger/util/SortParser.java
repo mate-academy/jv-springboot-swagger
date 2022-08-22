@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortParser {
-
     private static final int DIRECTION_OF_SORTING = 1;
     private static final int FIELD_OF_SORTING = 0;
     private static final String COLON = ":";

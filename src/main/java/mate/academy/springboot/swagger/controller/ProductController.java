@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
@@ -25,18 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
     private final SortParser sortParser;
-
-    public ProductController(ProductService productService,
-                             ProductMapper productMapper,
-                             SortParser sortParser) {
-        this.productService = productService;
-        this.productMapper = productMapper;
-        this.sortParser = sortParser;
-    }
 
     @GetMapping
     @ApiOperation(value = "Get all products and sort them")
@@ -96,8 +91,10 @@ public class ProductController {
             @ApiParam (value = "Default value 0") Integer page,
             @RequestParam (defaultValue = "id")
             @ApiParam (value = "Default value of sorting: by id") String sortBy,
-            @RequestParam @ApiParam(value = "Lower border") BigDecimal from,
-            @RequestParam @ApiParam(value = "Upper border") BigDecimal to) {
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "Lower border, default value 0") BigDecimal from,
+            @RequestParam (defaultValue = "" + Integer.MAX_VALUE)
+            @ApiParam(value = "Upper border, default value " + Integer.MAX_VALUE) BigDecimal to) {
         Sort sort = Sort.by(sortParser.getSortParams(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
