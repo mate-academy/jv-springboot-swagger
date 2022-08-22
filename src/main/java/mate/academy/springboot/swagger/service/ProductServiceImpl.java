@@ -2,7 +2,6 @@ package mate.academy.springboot.swagger.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
