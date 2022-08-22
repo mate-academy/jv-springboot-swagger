@@ -11,6 +11,7 @@ import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final SortUtil sortUtil;
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
@@ -44,7 +46,7 @@ public class ProductController {
                                             @ApiParam(value = "0 by default") Integer page,
                                             @RequestParam(defaultValue = "id")
                                                 @ApiParam(value = "ID by default") String sortBy) {
-        PageRequest pageRequest = PageRequest.of(page, count, productService.sortData(sortBy));
+        PageRequest pageRequest = PageRequest.of(page, count, sortUtil.sortData(sortBy));
         return productService.findAll(pageRequest)
                 .stream()
                 .map(productMapper::toDto)
@@ -88,7 +90,7 @@ public class ProductController {
                                                    @RequestParam(defaultValue = "id")
                                                    @ApiParam(value = "ID by default") String sortBy
     ) {
-        PageRequest pageRequest = PageRequest.of(page, count, productService.sortData(sortBy));
+        PageRequest pageRequest = PageRequest.of(page, count, sortUtil.sortData(sortBy));
         return productService
                 .findAllByPriceBetween(from, to, pageRequest)
                 .stream()
