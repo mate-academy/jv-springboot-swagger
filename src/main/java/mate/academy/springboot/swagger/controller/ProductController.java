@@ -53,9 +53,9 @@ public class ProductController {
     @ApiOperation("Get all products where price is between specified bounds, "
             + "with pagination and sorting")
     public List<ProductResponseDto> findAllByPriceBetween(
-            @RequestParam(defaultValue = "0", required = false)
+            @RequestParam(defaultValue = "0")
             @ApiParam("Default value is 0") BigDecimal priceFrom,
-            @RequestParam(defaultValue = "1000000000000000", required = false)
+            @RequestParam(defaultValue = "1000000000000000")
             @ApiParam("Default value is 1000000000000000") BigDecimal priceTo,
             @RequestParam(defaultValue = "20") @ApiParam("Default value is 20") Integer size,
             @RequestParam(defaultValue = "0") @ApiParam("Default value is 0") Integer page,

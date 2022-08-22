@@ -7,17 +7,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortUtilImpl implements SortUtil {
+    private static final String FIELD_SEPARATOR = ";";
+    private static final String DIRECTION_SEPARATOR = ":";
+    private static final int FIELD_INDEX = 0;
+    private static final int DIRECTION_INDEX = 1;
+
     @Override
     public Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
+        if (sortBy.contains(DIRECTION_SEPARATOR)) {
+            String[] sortingFields = sortBy.split(FIELD_SEPARATOR);
             for (String field : sortingFields) {
                 Sort.Order order;
-                if (field.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                if (field.contains(DIRECTION_SEPARATOR)) {
+                    String[] fieldsAndDirections = field.split(DIRECTION_SEPARATOR);
+                    order = new Sort.Order(Sort.Direction
+                            .valueOf(fieldsAndDirections[DIRECTION_INDEX]),
+                            fieldsAndDirections[FIELD_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
