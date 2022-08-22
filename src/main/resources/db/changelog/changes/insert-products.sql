@@ -41,3 +41,5 @@ INSERT INTO products (title, price) VALUES ('XIAOMI 10PRO', 875);
 INSERT INTO products (title, price) VALUES ('XIAOMI 10PRO', 423);
 INSERT INTO products (title, price) VALUES ('XIAOMI 10PRO', 234);
 INSERT INTO products (title, price) VALUES ('XIAOMI 10PRO', 765);
+
+--rollback DELETE FROM products;

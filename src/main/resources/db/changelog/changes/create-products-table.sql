@@ -4,4 +4,6 @@ CREATE TABLE  IF NOT EXISTS products
     title varchar(255) not null,
     price decimal not null,
     CONSTRAINT products_pk PRIMARY KEY (id)
-    );
+);
+
+-- rollback DROP TABLE products;

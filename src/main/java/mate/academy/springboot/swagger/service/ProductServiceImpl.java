@@ -20,9 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        return productRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Can't find product with id: " + id)
-        );
+        return productRepository.getById(id);
     }
 
     @Override
@@ -42,7 +40,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllByPriceBetween(BigDecimal from,
-                                              BigDecimal to, PageRequest pageRequest) {
+                                              BigDecimal to,
+                                              PageRequest pageRequest) {
         return productRepository.findAllByPriceBetween(from, to, pageRequest);
     }
 }
