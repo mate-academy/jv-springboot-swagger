@@ -71,15 +71,15 @@ public class ProductController {
     @GetMapping("/price")
     @ApiOperation(value = "Filter products by price between 'from' and 'to'")
     public List<ProductResponseDto> findAllByPriceBetween(
-            @RequestParam String from,
-            @RequestParam String to,
+            @RequestParam BigDecimal from,
+            @RequestParam BigDecimal to,
             @RequestParam (defaultValue = "20") @ApiParam(value = "20 by default") Integer size,
             @RequestParam (defaultValue = "0") @ApiParam(value = "0 by default") Integer page,
             @RequestParam (defaultValue = "id") @ApiParam(value = "id by default") String sortBy
     ) {
         PageRequest pageRequest = PageRequest.of(page, size, sortParser.toSort(sortBy));
         return productService
-                .findAllByPriceBetween(new BigDecimal(from), new BigDecimal(to), pageRequest)
+                .findAllByPriceBetween(from, to, pageRequest)
                 .stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
