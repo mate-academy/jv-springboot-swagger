@@ -2,6 +2,7 @@ package mate.academy.springboot.swagger.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
@@ -20,7 +21,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        return productRepository.getById(id);
+        return productRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Can't find product with id: " + id);
     }
 
     @Override
