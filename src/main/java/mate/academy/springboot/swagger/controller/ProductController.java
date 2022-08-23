@@ -41,11 +41,11 @@ public class ProductController {
     @GetMapping
     @ApiOperation(value = "Get all products as pages")
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20")
-                                                @ApiParam(value = "20 by default") Integer count,
+                                            @ApiParam(value = "20 by default") Integer count,
                                             @RequestParam(defaultValue = "0")
                                             @ApiParam(value = "0 by default") Integer page,
                                             @RequestParam(defaultValue = "id")
-                                                @ApiParam(value = "ID by default") String sortBy) {
+                                            @ApiParam(value = "ID by default") String sortBy) {
         PageRequest pageRequest = PageRequest.of(page, count, sortUtil.sortData(sortBy));
         return productService.findAll(pageRequest)
                 .stream()
@@ -76,19 +76,14 @@ public class ProductController {
 
     @GetMapping("/by-price")
     @ApiOperation(value = "Get all product as pages by price")
-    public List<ProductResponseDto> findAllInRange(@RequestParam(defaultValue = "20")
-                                                       @ApiParam(value = "20 by default")
-                                                       Integer count,
-                                                   @RequestParam(defaultValue = "0")
-                                                   @ApiParam(value = "0 by default") Integer page,
-                                                   @RequestParam(defaultValue = "0")
-                                                       @ApiParam(value = "0 by default")
-                                                       BigDecimal from,
-                                                   @RequestParam(defaultValue = "Integer.MAX_VALUE")
-                                                       @ApiParam(value = "Integer.MAX by default")
-                                                       BigDecimal to,
-                                                   @RequestParam(defaultValue = "id")
-                                                   @ApiParam(value = "ID by default") String sortBy
+    public List<ProductResponseDto> findAllInRange(
+            @RequestParam(defaultValue = "20") @ApiParam(value = "20 by default") Integer count,
+            @RequestParam(defaultValue = "0") @ApiParam(value = "0 by default") Integer page,
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "Lower border, default value 0") BigDecimal from,
+            @RequestParam(defaultValue = "" + Integer.MAX_VALUE)
+            @ApiParam(value = "Upper border, default value " + Integer.MAX_VALUE) BigDecimal to,
+            @RequestParam(defaultValue = "id") @ApiParam(value = "ID by default") String sortBy
     ) {
         PageRequest pageRequest = PageRequest.of(page, count, sortUtil.sortData(sortBy));
         return productService
