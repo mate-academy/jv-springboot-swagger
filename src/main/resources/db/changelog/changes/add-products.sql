@@ -1,5 +1,6 @@
 --liquibase formatted sql
 --changeset <bevz>:<create-products-table>
+
 INSERT INTO products (title, price) VALUES ('iPhone X', 599);
 INSERT INTO products (title, price) VALUES ('iPhone X1', 550);
 INSERT INTO products (title, price) VALUES ('iPhone aX', 345);

@@ -14,11 +14,11 @@ public class SortParser {
 
     public List<Sort.Order> getSortParams(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
+        if (sortBy.contains(COLON)) {
             String[] sortingFields = sortBy.split(SEMICOLON);
             for (String field : sortingFields) {
                 Sort.Order order;
-                if (field.contains(":")) {
+                if (field.contains(COLON)) {
                     String[] fieldsAndDirections = field.split(COLON);
                     order =
                             new Sort.Order(Sort.Direction

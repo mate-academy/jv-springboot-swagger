@@ -1,5 +1,6 @@
 --liquibase formatted sql
 --changeset <bevz>:<create-products-table>
+
 CREATE TABLE IF NOT EXISTS products
     (
     id bigint auto_increment,
