@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 public class ParserUtil {
     private static final String TWO_DOTS = ":";
     private static final String SEPARATOR = ";";
+    private static final int FIELD = 0;    
+    private static final int DIRECTION = 1;
     
     public List<Sort.Order> getOrders(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
@@ -18,8 +20,8 @@ public class ParserUtil {
                 Sort.Order order;
                 if (field.contains(TWO_DOTS)) {
                     String[] fieldsAndDirections = field.split(TWO_DOTS);
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION]),
+                            fieldsAndDirections[FIELD]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
