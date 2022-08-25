@@ -51,7 +51,6 @@ public class ProductController {
             @RequestParam (defaultValue = "10") @ApiParam(value = "10 by default") Integer count,
             @RequestParam (defaultValue = "1") @ApiParam(value = "1 by default") Integer page,
             @RequestParam (defaultValue = "id") @ApiParam(value = "id by default") String sortBy) {
-
         PageRequest pageRequest = PageRequest.of((page - 1), count, SortParse.parse(sortBy));
         return productService.getAll(pageRequest)
                 .stream()
