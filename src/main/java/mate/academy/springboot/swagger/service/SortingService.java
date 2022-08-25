@@ -18,7 +18,8 @@ public class SortingService {
                 Sort.Order order;
                 if (field.contains(COLON)) {
                     String[] fieldsAndDirections = field.split(COLON);
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
+                    order = new Sort.Order(Sort.Direction.valueOf(
+                            fieldsAndDirections[DIRECTION_INDEX]),
                             fieldsAndDirections[FIELD_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
