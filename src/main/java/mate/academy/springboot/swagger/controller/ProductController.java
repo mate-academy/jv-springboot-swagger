@@ -102,29 +102,4 @@ public class ProductController {
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
-
-    @GetMapping("/inject")
-    public String inject() {
-        Product product1 = new Product();
-        product1.setTitle("Bread");
-        product1.setPrice(new BigDecimal("12"));
-        productService.save(product1);
-        Product product2 = new Product();
-        product2.setTitle("Wine");
-        product2.setPrice(new BigDecimal("15"));
-        productService.save(product2);
-        Product product3 = new Product();
-        product3.setTitle("Milk");
-        product3.setPrice(new BigDecimal("9"));
-        productService.save(product3);
-        Product product4 = new Product();
-        product4.setTitle("Prawns");
-        product4.setPrice(new BigDecimal("30"));
-        productService.save(product4);
-        Product product5 = new Product();
-        product5.setTitle("Meat");
-        product5.setPrice(new BigDecimal("25"));
-        productService.save(product5);
-        return "Products was created";
-    }
 }
