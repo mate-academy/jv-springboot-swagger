@@ -12,10 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Transactional
-    @Modifying
-    @Query("update Product p set p.title = ?1, p.price = ?2 where p.id = ?3")
-    void update(String title, BigDecimal price, Long id);
 
     @Query("from Product p where p.price between ?1 and ?2")
     List<Product> getProductByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest);
