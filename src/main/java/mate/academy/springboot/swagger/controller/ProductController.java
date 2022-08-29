@@ -53,7 +53,8 @@ public class ProductController {
     @PutMapping
     @ApiOperation(value = "update product")
     public ProductResponseDto update(ProductResponseDto dto) {
-        return productResponseDtoMapper.toDto(productService.update(productResponseDtoMapper.toModel(dto)));
+        return productResponseDtoMapper.toDto(productService
+                .update(productResponseDtoMapper.toModel(dto)));
     }
 
     @GetMapping
