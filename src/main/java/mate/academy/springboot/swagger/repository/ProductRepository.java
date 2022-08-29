@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-
     @Transactional
     @Modifying
     @Query("update Product p set p.title = ?1, p.price = ?2 where p.id = ?3")

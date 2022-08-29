@@ -19,5 +19,4 @@ public interface ProductService {
                                             PageRequest pageRequest);
 
     List<Product> findAll(PageRequest pageRequest);
-
 }

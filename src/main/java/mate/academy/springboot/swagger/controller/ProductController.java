@@ -40,7 +40,7 @@ public class ProductController {
     public ProductResponseDto create(ProductRequestDto dto) {
         return productMapper.toResponseDto(productService
                 .save(productMapper
-                        .requestDtotoModel(dto)));
+                        .toModel(dto)));
     }
 
     @GetMapping("/{id}")
@@ -58,7 +58,7 @@ public class ProductController {
     @PutMapping
     @ApiOperation(value = "update product")
     public void update(ProductResponseDto dto) {
-        productService.update(productMapper.responseDtoToModel(dto));
+        productService.update(productMapper.toModel(dto));
     }
 
     @GetMapping
@@ -77,13 +77,9 @@ public class ProductController {
     @ApiOperation(value = "get products lists as pages where price lies between range")
     public List<ProductResponseDto> findAllByPriceBetween(
             @RequestParam (defaultValue = "0") BigDecimal from,
-
             @RequestParam (defaultValue = "1000") BigDecimal to,
-
             @RequestParam (defaultValue = "20") Integer count,
-
             @RequestParam (defaultValue = "0") Integer page,
-
             @RequestParam (defaultValue = "id") String sortBy) {
         Sort sort = Sort.by(productUrlParser.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
