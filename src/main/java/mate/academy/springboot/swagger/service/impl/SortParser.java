@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class SortParser {
     private static final int ORDER_FIELD = 0;
     private static final int ORDER_TYPE = 1;
-    private static final String SEPARATOR = ":'";
+    private static final String SEPARATOR = ":";
 
     public Sort.Order parseSortCondition(String sort) {
         Sort.Order order;
