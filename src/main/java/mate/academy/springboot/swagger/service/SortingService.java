@@ -7,8 +7,8 @@ import org.springframework.data.domain.Sort;
 public class SortingService {
     public static final String DELIMITER = ":";
     public static final String SEPARATOR = ";";
-    private static final int FIELD = 0;
-    private static final int DIRECTION = 1;
+    private static final int FIELD_ID = 0;
+    private static final int DIRECTION_ID = 1;
 
     public static Sort sort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
@@ -19,8 +19,8 @@ public class SortingService {
                 if (field.contains(DELIMITER)) {
                     String[] fieldsAndDirections = field.split(DELIMITER);
                     order = new Sort.Order(Sort.Direction.valueOf(
-                            fieldsAndDirections[DIRECTION]),
-                            fieldsAndDirections[FIELD]);
+                            fieldsAndDirections[DIRECTION_ID]),
+                            fieldsAndDirections[FIELD_ID]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
