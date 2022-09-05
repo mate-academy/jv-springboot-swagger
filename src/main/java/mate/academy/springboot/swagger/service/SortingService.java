@@ -10,7 +10,6 @@ public class SortingService {
     private static final int FIELD = 0;
     private static final int DIRECTION = 1;
 
-
     public static Sort sort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(DELIMITER)) {
