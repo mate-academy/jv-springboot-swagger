@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.mapper.ProductMapper;
@@ -24,17 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
     private final SortUtil sortUtil;
-
-    public ProductController(ProductService productService, ProductMapper productMapper,
-                             SortUtil sortUtil) {
-        this.productService = productService;
-        this.productMapper = productMapper;
-        this.sortUtil = sortUtil;
-    }
 
     @PostMapping
     @ApiOperation(value = "create a new product")
