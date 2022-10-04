@@ -1,5 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +36,7 @@ public class ProductController {
     private PageRequestProvider pageRequestProvider;
 
     @PostMapping
+    @ApiOperation(value = "Create new product")
     public ResponseEntity<ProductResponseDto> create(
             @RequestBody @Valid ProductRequestDto requestDto) {
         Product product = productService.save(productMapper.mapToModel(requestDto));
@@ -41,12 +44,14 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get product by id")
     public ResponseEntity<ProductResponseDto> getById(@PathVariable Long id) {
         Product product = productService.getById(id);
         return ResponseEntity.ok(productMapper.mapToDto(product));
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update all product properties")
     public ResponseEntity<ProductResponseDto> update(
             @PathVariable Long id, @RequestBody @Valid ProductRequestDto requestDto) {
         Product product = productService.update(id, productMapper.mapToModel(requestDto));
@@ -54,10 +59,14 @@ public class ProductController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get products list")
     public ResponseEntity<List<ProductResponseDto>> getAll(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "20") Integer count,
-            @RequestParam(defaultValue = "id") String sortBy) {
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "default value is 0") Integer page,
+            @RequestParam(defaultValue = "20")
+            @ApiParam(value = "default value is 20") Integer count,
+            @RequestParam(defaultValue = "id")
+            @ApiParam(value = "default criteria is id") String sortBy) {
         PageRequest pageRequest = pageRequestProvider.getPageRequest(page, count, sortBy);
         return ResponseEntity.ok(productService.getAll(pageRequest).stream()
                 .map(productMapper::mapToDto)
@@ -65,11 +74,18 @@ public class ProductController {
     }
 
     @GetMapping("/price")
+    @ApiOperation(value = "Get products lists by price range")
     public ResponseEntity<List<ProductResponseDto>> getAll(
-            @RequestParam BigDecimal from, @RequestParam BigDecimal to,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "20") Integer count,
-            @RequestParam(defaultValue = "id") String sortBy) {
+            @RequestParam
+            @ApiParam(value = "min price") BigDecimal from,
+            @RequestParam
+            @ApiParam(value = "max from") BigDecimal to,
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "default value is 0") Integer page,
+            @RequestParam(defaultValue = "20")
+            @ApiParam(value = "default value is 20") Integer count,
+            @RequestParam(defaultValue = "id")
+            @ApiParam(value = "default criteria is id") String sortBy) {
         PageRequest pageRequest = pageRequestProvider.getPageRequest(page, count, sortBy);
         return ResponseEntity.ok(
                 productService.getAllByPriceBetween(from, to, pageRequest).stream()
