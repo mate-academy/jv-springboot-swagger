@@ -1,6 +1,8 @@
 package mate.academy.springboot.swagger.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
@@ -33,5 +35,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll(PageRequest pageRequest) {
         return productRepository.findAll(pageRequest).toList();
+    }
+
+    @Override
+    public List<Product> filterByPriceBetween(List<Product> listToFilter,
+                                              BigDecimal fromPrice, BigDecimal toPrice) {
+        return listToFilter.stream()
+                .filter(product -> product.getPrice().doubleValue() >= fromPrice.doubleValue())
+                .filter(product -> product.getPrice().doubleValue() <= toPrice.doubleValue())
+                .collect(Collectors.toList());
     }
 }

@@ -88,11 +88,10 @@ public class ProductController {
                                             @RequestParam(defaultValue = "id") String sortBy) {
         Sort sort = SortUtil.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
-        return productService.findAll(pageRequest)
-                .stream()
-                .filter(product -> product.getPrice().doubleValue() >= fromPrice.doubleValue())
-                .filter(product -> product.getPrice().doubleValue() <= toPrice.doubleValue())
-                // Please, don't punch me for this realization ^^
+        List<Product> productList = productService.findAll(pageRequest);
+        List<Product> filteredList = productService
+                .filterByPriceBetween(productList, fromPrice, toPrice);
+        return filteredList.stream()
                 .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
