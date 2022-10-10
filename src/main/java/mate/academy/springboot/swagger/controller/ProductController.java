@@ -88,10 +88,9 @@ public class ProductController {
                                             @RequestParam(defaultValue = "id") String sortBy) {
         Sort sort = SortUtil.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
-        List<Product> productList = productService.findAll(pageRequest);
-        List<Product> filteredList = productService
-                .filterByPriceBetween(productList, fromPrice, toPrice);
-        return filteredList.stream()
+        List<Product> productList = productService
+                .findAllByPriceBetween(fromPrice, toPrice, pageRequest);
+        return productList.stream()
                 .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }

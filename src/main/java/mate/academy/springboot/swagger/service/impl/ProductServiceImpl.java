@@ -2,11 +2,11 @@ package mate.academy.springboot.swagger.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,11 +38,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> filterByPriceBetween(List<Product> listToFilter,
-                                              BigDecimal fromPrice, BigDecimal toPrice) {
-        return listToFilter.stream()
-                .filter(product -> product.getPrice().doubleValue() >= fromPrice.doubleValue())
-                .filter(product -> product.getPrice().doubleValue() <= toPrice.doubleValue())
-                .collect(Collectors.toList());
+    public List<Product> findAllByPriceBetween(BigDecimal fromPrice, BigDecimal toPrice,
+                                               Pageable pageable) {
+        return productRepository.findAllByPriceBetween(fromPrice, toPrice, pageable);
     }
 }
