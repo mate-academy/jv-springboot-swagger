@@ -1,11 +1,16 @@
 package mate.academy.springboot.swagger.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.service.mapper.ResponseDtoMapper;
+import mate.academy.springboot.swagger.util.Parser;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -56,6 +62,16 @@ public class ProductController {
     }
 
     //get all products with pagination and ability to sort by price or by title in ASC or DESC order
+    @GetMapping
+    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10") Integer count,
+                                            @RequestParam (defaultValue = "0") Integer page,
+                                            @RequestParam (defaultValue = "title") String sortBy) {
+        Sort sort = Sort.by(Parser.getSortOrders(sortBy));
+        PageRequest pageRequest = PageRequest.of(page, count, sort);
+        return productService.findAll(pageRequest).stream()
+                .map(productResponseDtoMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
 
     //get all products where price is between two values received as a RequestParam inputs.
     // Add pagination and ability to sort by price or by title in ASC or DESC order.
