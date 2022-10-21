@@ -1,5 +1,8 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
@@ -37,23 +40,27 @@ public class ProductController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Create a new product")
     public ProductResponseDto add(@RequestBody ProductRequestDto dto) {
         return productResponseDtoMapper.mapToDto(productService
                 .save(productRequestDtoMapper.mapToModel(dto)));
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get a product with id")
     public ProductResponseDto get(@PathVariable Long id) {
         return productResponseDtoMapper.mapToDto(productService.get(id));
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete a product with id")
     public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
     //update Product
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update a product by id")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto dto) {
         Product product = productRequestDtoMapper.mapToModel(dto);
@@ -61,11 +68,15 @@ public class ProductController {
         return productResponseDtoMapper.mapToDto(productService.save(product));
     }
 
-    //get all products with pagination and ability to sort by price or by title in ASC or DESC order
     @GetMapping
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10") Integer count,
-                                            @RequestParam (defaultValue = "0") Integer page,
-                                            @RequestParam (defaultValue = "title") String sortBy) {
+    @ApiOperation(value = "Get all the products and sort them by some parameters")
+    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10")
+                                                @ApiParam("default value is 10") Integer count,
+                                            @RequestParam (defaultValue = "0")
+                                                @ApiParam("default page number 1 (0)") Integer page,
+                                            @RequestParam (defaultValue = "title")
+                                                @ApiParam("title/price - default value is title")
+                                                String sortBy) {
         Sort sort = Sort.by(Parser.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -73,12 +84,23 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    //get all products where price is between two values received as a RequestParam inputs.
-    // Add pagination and ability to sort by price or by title in ASC or DESC order.
+    @GetMapping("/price")
+    @ApiOperation(value = "Get all the products those price between some values"
+            + " and sort them by some parameters")
+    public List<ProductResponseDto>
+            findAllWherePriceBetween(@RequestParam BigDecimal priceFrom,
+                             @RequestParam BigDecimal priceTo,
+                             @RequestParam (defaultValue = "10")
+                                     @ApiParam("default value is 10") Integer count,
+                             @RequestParam (defaultValue = "0")
+                                     @ApiParam("default page number 1 (0)") Integer page,
+                             @RequestParam (defaultValue = "title")
+                                     @ApiParam("title/price - default value is title")
+                                     String sortBy) {
+        Sort sort = Sort.by(Parser.getSortOrders(sortBy));
+        PageRequest pageRequest = PageRequest.of(page, count, sort);
+        return productService.findAllWherePriceBetween(priceFrom, priceTo, pageRequest).stream()
+                .map(productResponseDtoMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
 }
-
-
-
-
-
-
