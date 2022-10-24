@@ -58,7 +58,6 @@ public class ProductController {
         productService.delete(id);
     }
 
-    //update Product
     @PutMapping("/{id}")
     @ApiOperation(value = "Update a product by id")
     public ProductResponseDto update(@PathVariable Long id,
