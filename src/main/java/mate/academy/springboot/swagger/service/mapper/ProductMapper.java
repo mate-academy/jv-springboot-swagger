@@ -15,10 +15,10 @@ public class ProductMapper {
         return productResponseDto;
     }
 
-    public Product fromDto(ProductRequestDto productRequest) {
+    public Product fromDto(ProductRequestDto productRequestDto) {
         Product product = new Product();
-        product.setName(productRequest.getName());
-        product.setPrice(productRequest.getPrice());
+        product.setName(productRequestDto.getName());
+        product.setPrice(productRequestDto.getPrice());
         return product;
     }
 }
