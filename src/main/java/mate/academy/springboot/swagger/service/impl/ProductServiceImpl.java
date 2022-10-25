@@ -2,10 +2,10 @@ package mate.academy.springboot.swagger.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +28,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findAll(PageRequest pageRequest) {
-        return productRepository.findAll(pageRequest);
+    public List<Product> findAll(PageRequest pageRequest) {
+        return productRepository.findAll(pageRequest).stream().collect(Collectors.toList());
     }
 
     @Override
