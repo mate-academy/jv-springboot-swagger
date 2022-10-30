@@ -2,8 +2,6 @@ package mate.academy.springboot.swagger.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
-
 import mate.academy.springboot.swagger.model.Product;
 import org.springframework.data.domain.PageRequest;
 
