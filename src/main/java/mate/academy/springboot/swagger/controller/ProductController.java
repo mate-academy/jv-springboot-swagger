@@ -1,5 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,19 +32,22 @@ public class ProductController {
     private final ProductMapper productMapper;
     private final ProductSorter productSorter;
 
-    public ProductController(ProductService productService, ProductMapper productMapper, ProductSorter productSorter) {
+    public ProductController(ProductService productService, ProductMapper productMapper,
+                             ProductSorter productSorter) {
         this.productService = productService;
         this.productMapper = productMapper;
         this.productSorter = productSorter;
     }
 
     @PostMapping
+    @ApiOperation(value = "Create a new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto productRequestDto) {
         Product product = productMapper.dtoToModel(productRequestDto);
         return productMapper.modelToDto(productService.save(product));
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get product by id")
     public ProductResponseDto get(@PathVariable Long id) {
         Product product = productService.get(id);
         return productMapper.modelToDto(product);
@@ -50,11 +55,13 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @ApiOperation(value = "Delete product by id")
     public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update product by id")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto productRequestDto) {
         Product product = productMapper.dtoToModel(productRequestDto);
@@ -63,10 +70,14 @@ public class ProductController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Find all products with pagination and sort parameters")
     public List<ProductResponseDto> findAllPaginationSort(
-            @RequestParam (defaultValue = "10") Integer count,
-            @RequestParam (defaultValue = "0") Integer page,
-            @RequestParam (defaultValue = "price") String sortBy) {
+            @RequestParam (defaultValue = "5")
+            @ApiParam(value = "defaultValue is `5`") Integer count,
+            @RequestParam (defaultValue = "0")
+            @ApiParam(value = "defaultValue is `0`") Integer page,
+            @RequestParam (defaultValue = "price")
+            @ApiParam(value = "defaultValue is `price`") String sortBy) {
         List<Sort.Order> orders = productSorter.createSortOrders(sortBy);
         Sort sort = productSorter.createSort(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
@@ -76,12 +87,17 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(
+            value = "Find all products between price values with pagination and sort parameters")
     public List<ProductResponseDto> findAllPriceBetween(
-            @RequestParam BigDecimal from,
-            @RequestParam BigDecimal to,
-            @RequestParam (defaultValue = "2") Integer count,
-            @RequestParam (defaultValue = "0") Integer page,
-            @RequestParam (defaultValue = "price") String sortBy) {
+            @RequestParam @ApiParam(value = "Price from") BigDecimal from,
+            @RequestParam @ApiParam(value = "Price from") BigDecimal to,
+            @RequestParam (defaultValue = "2")
+            @ApiParam(value = "defaultValue is `5`") Integer count,
+            @RequestParam (defaultValue = "0")
+            @ApiParam(value = "defaultValue is `0`") Integer page,
+            @RequestParam (defaultValue = "price")
+            @ApiParam(value = "defaultValue is `price`") String sortBy) {
         List<Sort.Order> orders = productSorter.createSortOrders(sortBy);
         Sort sort = productSorter.createSort(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
