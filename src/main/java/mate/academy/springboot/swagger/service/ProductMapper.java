@@ -5,7 +5,7 @@ import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 
 public interface ProductMapper {
-    Product dtoToModel(ProductRequestDto productRequestDto);
+    Product toModel(ProductRequestDto productRequestDto);
 
-    ProductResponseDto modelToDto(Product product);
+    ProductResponseDto toDto(Product product);
 }

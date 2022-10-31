@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductMapperImpl implements ProductMapper {
     @Override
-    public Product dtoToModel(ProductRequestDto productRequestDto) {
+    public Product toModel(ProductRequestDto productRequestDto) {
         Product product = new Product();
         product.setTitle(productRequestDto.getTitle());
         product.setPrice(productRequestDto.getPrice());
@@ -16,7 +16,7 @@ public class ProductMapperImpl implements ProductMapper {
     }
 
     @Override
-    public ProductResponseDto modelToDto(Product product) {
+    public ProductResponseDto toDto(Product product) {
         ProductResponseDto productResponseDto = new ProductResponseDto();
         productResponseDto.setId(product.getId());
         productResponseDto.setTitle(product.getTitle());

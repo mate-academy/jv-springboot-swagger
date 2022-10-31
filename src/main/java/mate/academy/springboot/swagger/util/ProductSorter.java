@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductSorter {
+    private static final int DIRECTION_INDEX = 1;
+    private static final int PARAMETER_INDEX = 0;
+
     public List<Sort.Order> createSortOrders(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
@@ -16,8 +19,9 @@ public class ProductSorter {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(
+                            fieldsAndDirections[DIRECTION_INDEX]),
+                            fieldsAndDirections[PARAMETER_INDEX]);
                 } else {
                     order = new Sort.Order(Direction.ASC, field);
                 }
