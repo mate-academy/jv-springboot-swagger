@@ -10,6 +10,7 @@ public class PageRequestUtil {
     private static final String SEPARATOR_PARAMS = ";";
     private static final int INDEX_FIELD_NAME = 0;
     private static final int INDEX_DIRECTION_VALUE = 1;
+
     public static PageRequest getPageRequest(Integer page, Integer count, String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(SEPARATOR_ATTRIBUTES)) {
@@ -18,7 +19,8 @@ public class PageRequestUtil {
                 Sort.Order order;
                 if (field.contains(SEPARATOR_ATTRIBUTES)) {
                     String[] fieldsAndDirection = field.split(SEPARATOR_ATTRIBUTES);
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirection[INDEX_DIRECTION_VALUE]),
+                    order = new Sort.Order(Sort.Direction
+                            .valueOf(fieldsAndDirection[INDEX_DIRECTION_VALUE]),
                             fieldsAndDirection[INDEX_FIELD_NAME]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
