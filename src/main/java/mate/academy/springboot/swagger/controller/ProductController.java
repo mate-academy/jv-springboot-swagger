@@ -1,11 +1,10 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
@@ -62,7 +61,7 @@ public class ProductController {
         return productMapper.toResponseDto(product);
     }
 
-    @GetMapping
+    @GetMapping("/products-sorting")
     @ApiOperation(value = "Find all products with sorting")
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer count,
                                             @ApiParam(value = "defaultValue is 20")
@@ -78,7 +77,7 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping
+    @GetMapping("/products-by-price-limit")
     @ApiOperation("Find all products with sorting and price limit")
     public List<ProductResponseDto> findAllWithPrice(
             @RequestParam(defaultValue = "20") Integer count,
