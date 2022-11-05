@@ -1,4 +1,4 @@
-package mate.academy.springboot.swagger.service;
+package mate.academy.springboot.swagger.service.util;
 
 import java.util.ArrayList;
 import java.util.List;

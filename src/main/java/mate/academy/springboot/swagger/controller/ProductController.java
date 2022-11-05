@@ -9,7 +9,7 @@ import mate.academy.springboot.swagger.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
-import mate.academy.springboot.swagger.service.ParserStringToSort;
+import mate.academy.springboot.swagger.service.util.ParserStringToSort;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
