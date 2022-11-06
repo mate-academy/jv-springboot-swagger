@@ -1,8 +1,8 @@
 package mate.academy.springboot.swagger.model.dto.response;
 
+import java.math.BigDecimal;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import java.math.BigDecimal;
 
 @Data
 @Accessors(chain = true)
