@@ -9,7 +9,9 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.service.SortService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,15 +28,18 @@ public class ProductController {
     private final ProductService productService;
     private final ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper;
     private final RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper;
+    private final SortService sortService;
 
     @Autowired
     public ProductController(
             ProductService productService,
             ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper,
-            RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper) {
+            RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper,
+            SortService sortService) {
         this.productService = productService;
         this.responseDtoMapper = responseDtoMapper;
         this.requestDtoMapper = requestDtoMapper;
+        this.sortService = sortService;
     }
 
     @PostMapping
@@ -62,16 +67,22 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponseDto> findAll() {
-        return productService.findAll().stream()
+    public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer count,
+                                            @RequestParam(defaultValue = "0") Integer page,
+                                            @RequestParam(defaultValue = "id") String sortBy) {
+        PageRequest pageRequest = PageRequest.of(count, page, sortService.getSort(sortBy));
+        return productService.findAll(pageRequest).stream()
                 .map(responseDtoMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/price")
     public List<ProductResponseDto> findAllByPrice(@RequestParam BigDecimal from,
-                                                   @RequestParam BigDecimal to) {
-        return productService.findAllByPriceBetween(from, to).stream()
+            @RequestParam BigDecimal to, @RequestParam(defaultValue = "20") Integer count,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "id") String sortBy) {
+        PageRequest pageRequest = PageRequest.of(count, page, sortService.getSort(sortBy));
+        return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(responseDtoMapper::toDto)
                 .collect(Collectors.toList());
     }
