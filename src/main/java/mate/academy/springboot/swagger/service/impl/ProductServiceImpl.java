@@ -1,9 +1,11 @@
 package mate.academy.springboot.swagger.service.impl;
 
+import java.util.List;
+import java.math.BigDecimal;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
-import java.util.List;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,12 +39,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllWithSortByPriceOrByTitle() {
-        return null;
+    public List<Product> findAll(PageRequest pageRequest) {
+        return productRepository.findAll(pageRequest).toList();
     }
 
     @Override
-    public List<Product> findAllByPriceBetween() {
-        return null;
+    public List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to,
+                                               PageRequest pageRequest ) {
+        return productRepository.findAllByPriceBetween(from, to, pageRequest);
     }
 }

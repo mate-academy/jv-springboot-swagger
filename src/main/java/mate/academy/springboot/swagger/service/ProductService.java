@@ -1,7 +1,9 @@
 package mate.academy.springboot.swagger.service;
 
-import mate.academy.springboot.swagger.model.Product;
 import java.util.List;
+import java.math.BigDecimal;
+import mate.academy.springboot.swagger.model.Product;
+import org.springframework.data.domain.PageRequest;
 
 public interface ProductService {
     Product save(Product product);
@@ -12,8 +14,8 @@ public interface ProductService {
 
     void deleteById(Long id);
 
-    //Try to rename
-    List<Product> findAllWithSortByPriceOrByTitle();
+    List<Product> findAll(PageRequest pageRequest);
 
-    List<Product> findAllByPriceBetween();
+    List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to,
+                                        PageRequest pageRequest );
 }
