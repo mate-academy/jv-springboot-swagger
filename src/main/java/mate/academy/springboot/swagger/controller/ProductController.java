@@ -12,6 +12,7 @@ import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.SortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,7 +71,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer count,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "id") String sortBy) {
-        PageRequest pageRequest = PageRequest.of(count, page, sortService.getSort(sortBy));
+        PageRequest pageRequest = PageRequest.of(page, count, sortService.getSort(sortBy));
         return productService.findAll(pageRequest).stream()
                 .map(responseDtoMapper::toDto)
                 .collect(Collectors.toList());
@@ -81,8 +82,8 @@ public class ProductController {
             @RequestParam BigDecimal to, @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "id") String sortBy) {
-        PageRequest pageRequest = PageRequest.of(count, page, sortService.getSort(sortBy));
-        return productService.findAllByPriceBetween(from, to, pageRequest).stream()
+        Pageable pageable = PageRequest.of(page, count, sortService.getSort(sortBy));
+        return productService.findAllByPriceBetween(from, to, pageable).stream()
                 .map(responseDtoMapper::toDto)
                 .collect(Collectors.toList());
     }
