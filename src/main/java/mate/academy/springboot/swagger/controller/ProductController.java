@@ -3,6 +3,9 @@ package mate.academy.springboot.swagger.controller;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import mate.academy.springboot.swagger.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.mapper.ResponseDtoMapper;
 import mate.academy.springboot.swagger.model.Product;
@@ -44,22 +47,26 @@ public class ProductController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Create new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto requestProductDto) {
         return responseDtoMapper.toDto(
                 productService.save(requestDtoMapper.toModel(requestProductDto)));
     }
 
     @GetMapping("/{product_id}")
+    @ApiOperation(value = "Get product by id")
     public ProductResponseDto getById(@PathVariable(name = "product_id") Long productId) {
         return responseDtoMapper.toDto(productService.getById(productId));
     }
 
     @DeleteMapping
+    @ApiOperation(value = "Delete product by id")
     public void deleteById(@RequestParam(name = "product_id") Long productId) {
         productService.delete(productService.getById(productId));
     }
 
     @PutMapping
+    @ApiOperation(value = "Update info about product")
     public ProductResponseDto update(@RequestParam(name = "product_id") Long productId,
                                      @RequestBody ProductRequestDto requestProductDto) {
         Product product = requestDtoMapper.toModel(requestProductDto);
@@ -68,6 +75,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get all products")
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer count,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "id") String sortBy) {
@@ -78,8 +86,11 @@ public class ProductController {
     }
 
     @GetMapping("/price")
-    public List<ProductResponseDto> findAllByPrice(@RequestParam BigDecimal from,
-            @RequestParam BigDecimal to, @RequestParam(defaultValue = "20") Integer count,
+    @ApiOperation(value = "Get all products with price between two values")
+    public List<ProductResponseDto> findAllByPrice(
+            @ApiParam(value = "Upper limit") @RequestParam BigDecimal from,
+            @ApiParam(value = "Lower limit") @RequestParam BigDecimal to,
+            @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "id") String sortBy) {
         Pageable pageable = PageRequest.of(page, count, sortService.getSort(sortBy));
