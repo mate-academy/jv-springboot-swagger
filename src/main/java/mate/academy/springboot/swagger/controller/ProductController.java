@@ -12,6 +12,7 @@ import mate.academy.springboot.swagger.service.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.service.mapper.ResponseDtoMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,8 +46,8 @@ public class ProductController {
         this.requestDtoMapper = requestDtoMapper;
     }
 
-    @PostMapping//Add validation for the requestDto
-    public ProductResponseDto save(@RequestBody ProductRequestDto requestDto) {
+    @PostMapping
+    public ProductResponseDto save(@RequestBody @Valid ProductRequestDto requestDto) {
         Product product = productService.save(requestDtoMapper.mapToModel(requestDto));
         return responseDtoMapper.mapToDto(product);
     }
@@ -59,7 +60,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody ProductRequestDto requestDto) {
+                                     @RequestBody @Valid ProductRequestDto requestDto) {
         Product product = requestDtoMapper.mapToModel(requestDto);
         product.setId(id);
         return responseDtoMapper.mapToDto(productService.update(product));
