@@ -1,5 +1,8 @@
 package mate.academy.springboot.swagger.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.mapper.ResponseDtoMapper;
 import mate.academy.springboot.swagger.model.Product;
@@ -9,6 +12,7 @@ import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,8 +43,8 @@ public class ProductController {
                 productService.save(requestDtoMapper.toModel(requestProductDto)));
     }
 
-    @GetMapping
-    public ProductResponseDto getById(@RequestParam(name = "product_id") Long productId) {
+    @GetMapping("/{product_id}")
+    public ProductResponseDto getById(@PathVariable(name = "product_id") Long productId) {
         return responseDtoMapper.toDto(productService.getById(productId));
     }
 
@@ -55,5 +59,20 @@ public class ProductController {
         Product product = requestDtoMapper.toModel(requestProductDto);
         product.setId(productId);
         return responseDtoMapper.toDto(productService.save(product));
+    }
+
+    @GetMapping
+    public List<ProductResponseDto> findAll() {
+        return productService.findAll().stream()
+                .map(responseDtoMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/price")
+    public List<ProductResponseDto> findAllByPrice(@RequestParam BigDecimal from,
+                                                   @RequestParam BigDecimal to) {
+        return productService.findAllByPriceBetween(from, to).stream()
+                .map(responseDtoMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
