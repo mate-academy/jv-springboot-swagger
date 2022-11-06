@@ -1,11 +1,10 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import mate.academy.springboot.swagger.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.mapper.ResponseDtoMapper;
 import mate.academy.springboot.swagger.model.Product;
