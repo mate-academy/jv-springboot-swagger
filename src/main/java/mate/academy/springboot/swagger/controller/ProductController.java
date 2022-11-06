@@ -1,8 +1,9 @@
 package mate.academy.springboot.swagger.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.math.BigDecimal;
+import javax.validation.Valid;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
@@ -12,7 +13,6 @@ import mate.academy.springboot.swagger.service.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.service.mapper.ResponseDtoMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import javax.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -91,9 +91,11 @@ public class ProductController {
     public List<ProductResponseDto> findAllByPriceBetween(@RequestParam(defaultValue
             = DEFAULT_VALUE_COUNT) Integer count,
                                                           @RequestParam(defaultValue
-                                                                  = DEFAULT_VALUE_PAGE) Integer page,
+                                                                  = DEFAULT_VALUE_PAGE)
+                                                          Integer page,
                                                           @RequestParam(defaultValue
-                                                                  = DEFAULT_SORTING_VALUE) String sort,
+                                                                  = DEFAULT_SORTING_VALUE)
+                                                              String sort,
                                                           @RequestParam BigDecimal from,
                                                           @RequestParam BigDecimal to) {
         List<Sort.Order> orders = productSortService.sortBy(sort);

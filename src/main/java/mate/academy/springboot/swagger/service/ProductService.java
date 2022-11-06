@@ -1,7 +1,7 @@
 package mate.academy.springboot.swagger.service;
 
-import java.util.List;
 import java.math.BigDecimal;
+import java.util.List;
 import mate.academy.springboot.swagger.model.Product;
 import org.springframework.data.domain.PageRequest;
 
@@ -17,5 +17,5 @@ public interface ProductService {
     List<Product> findAll(PageRequest pageRequest);
 
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to,
-                                        PageRequest pageRequest );
+                                        PageRequest pageRequest);
 }

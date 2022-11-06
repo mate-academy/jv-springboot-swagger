@@ -1,7 +1,7 @@
 package mate.academy.springboot.swagger.service;
 
-import org.springframework.data.domain.Sort;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 public interface ProductSortService {
 

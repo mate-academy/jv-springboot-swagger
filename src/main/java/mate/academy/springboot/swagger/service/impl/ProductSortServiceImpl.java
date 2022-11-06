@@ -1,9 +1,9 @@
 package mate.academy.springboot.swagger.service.impl;
 
-import mate.academy.springboot.swagger.service.ProductSortService;
-import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.List;
+import mate.academy.springboot.swagger.service.ProductSortService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
