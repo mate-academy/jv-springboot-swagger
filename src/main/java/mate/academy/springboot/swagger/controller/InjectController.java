@@ -18,25 +18,25 @@ public class InjectController {
 
     @GetMapping
     public String inject() {
-        Product product = new Product();
-        product.setTitle("Iphone 7");
-        product.setPrice(BigDecimal.valueOf(250));
-        productService.save(product);
+        Product firstProduct = new Product();
+        firstProduct.setTitle("Iphone 7");
+        firstProduct.setPrice(BigDecimal.valueOf(250));
+        productService.save(firstProduct);
 
-        Product product1 = new Product();
-        product1.setTitle("Iphone 8");
-        product1.setPrice(BigDecimal.valueOf(300));
-        productService.save(product1);
+        Product secondProduct = new Product();
+        secondProduct.setTitle("Iphone 8");
+        secondProduct.setPrice(BigDecimal.valueOf(300));
+        productService.save(secondProduct);
 
-        Product product2 = new Product();
-        product2.setTitle("Iphone x");
-        product2.setPrice(BigDecimal.valueOf(400));
-        productService.save(product2);
+        Product thirdProduct = new Product();
+        thirdProduct.setTitle("Iphone x");
+        thirdProduct.setPrice(BigDecimal.valueOf(400));
+        productService.save(thirdProduct);
 
-        Product product3 = new Product();
-        product3.setTitle("Iphone 11");
-        product3.setPrice(BigDecimal.valueOf(600));
-        productService.save(product3);
+        Product fourthProduct = new Product();
+        fourthProduct.setTitle("Iphone 11");
+        fourthProduct.setPrice(BigDecimal.valueOf(600));
+        productService.save(fourthProduct);
 
         return "Done!";
     }
