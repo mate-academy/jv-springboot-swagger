@@ -76,7 +76,7 @@ public class ProductController {
         Sort sort = ParserStringToSort.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest).stream()
-                .map(p -> productMapper.toDto(p))
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -97,7 +97,7 @@ public class ProductController {
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         List<Product> collect = productService.getAllByPriceBetween(from, to, pageRequest);
         return collect.stream()
-                .map(p -> productMapper.toDto(p))
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

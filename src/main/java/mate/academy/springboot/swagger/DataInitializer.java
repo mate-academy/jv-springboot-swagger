@@ -8,10 +8,10 @@ import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BeanInjection {
+public class DataInitializer {
     private final ProductService productService;
 
-    public BeanInjection(ProductService productService) {
+    public DataInitializer(ProductService productService) {
         this.productService = productService;
     }
 
