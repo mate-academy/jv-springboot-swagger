@@ -12,8 +12,6 @@ public interface ProductService {
 
     void deleteById(Long id);
 
-    Product update(Long id, Product product);
-
     List<Product> findAll(PageRequest pageRequest);
 
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest);

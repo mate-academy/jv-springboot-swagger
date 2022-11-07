@@ -31,12 +31,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Long id, Product product) {
-        product.setId(id);
-        return productRepository.save(product);
-    }
-
-    @Override
     public List<Product> findAll(PageRequest pageRequest) {
         return productRepository.findAll(pageRequest).toList();
     }

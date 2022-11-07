@@ -8,8 +8,9 @@ import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductMapper;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
+import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.util.SortEntity;
+import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,8 +53,9 @@ public class ProductController {
     @ApiOperation(value = "Update product by id")
     public ProductResponseDto getById(@PathVariable Long id,
                                       @RequestBody ProductRequestDto requestDto) {
-        return productMapper.toResponseDto(
-                productService.update(id, productMapper.toProductModel(requestDto)));
+        Product product = productMapper.toProductModel(requestDto);
+        product.setId(id);
+        return productMapper.toResponseDto(productService.create(product));
     }
 
     @DeleteMapping("/{id}")
@@ -67,9 +69,10 @@ public class ProductController {
     public List<ProductResponseDto> findAll(
             @RequestParam (defaultValue = "20")
                 @ApiParam(value = "Default value is '20'") Integer count,
-            @RequestParam (defaultValue = "0") Integer page,
+            @RequestParam (defaultValue = "0")
+                @ApiParam(value = "Default number of page") Integer page,
             @RequestParam (defaultValue = "id") String sortBy) {
-        List<Sort.Order> orders = SortEntity.sort(sortBy);
+        List<Sort.Order> orders = SortUtil.sort(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
@@ -87,7 +90,7 @@ public class ProductController {
                 @ApiParam(value = "Default value is '20'") Integer count,
             @RequestParam (defaultValue = "0") Integer page,
             @RequestParam (defaultValue = "id") String sortBy) {
-        List<Sort.Order> orders = SortEntity.sort(sortBy);
+        List<Sort.Order> orders = SortUtil.sort(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)
