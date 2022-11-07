@@ -6,19 +6,22 @@ import mate.academy.springboot.swagger.model.Product;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductMapper {
-    public Product toModel(ProductRequestDto requestDto) {
-        Product product = new Product();
-        product.setTitle(requestDto.getTitle());
-        product.setPrice(requestDto.getPrice());
-        return product;
+public class ProductMapper implements RequestDtoMapper<ProductRequestDto, Product>,
+        ResponseDtoMapper<ProductResponseDto, Product> {
+    @Override
+    public Product mapToModel(ProductRequestDto dto) {
+        Product model = new Product();
+        model.setTitle(dto.getTitle());
+        model.setPrice(dto.getPrice());
+        return model;
     }
 
-    public ProductResponseDto toDto(Product product) {
-        ProductResponseDto responseDto = new ProductResponseDto();
-        responseDto.setId(product.getId());
-        responseDto.setTitle(product.getTitle());
-        responseDto.setPrice(product.getPrice());
-        return responseDto;
+    @Override
+    public ProductResponseDto mapToDto(Product model) {
+        ProductResponseDto dto = new ProductResponseDto();
+        dto.setId(model.getId());
+        dto.setTitle(model.getTitle());
+        dto.setPrice(model.getPrice());
+        return dto;
     }
 }
