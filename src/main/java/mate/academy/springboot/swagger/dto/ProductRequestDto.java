@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 public class ProductRequestDto {
     @NotNull
-    @Size(max = 50)
+    @Size(max = 60)
     private String title;
     @Positive
     private BigDecimal price;

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/products")
 public class ProductController {
     private static final String DEFAULT_SORTING_VALUE = "title:DESC";
-    private static final String DEFAULT_VALUE_PAGE = "1";
+    private static final String DEFAULT_VALUE_PAGE = "0";
     private static final String DEFAULT_VALUE_COUNT = "5";
     private final ProductService productService;
     private final ProductSortService productSortService;
