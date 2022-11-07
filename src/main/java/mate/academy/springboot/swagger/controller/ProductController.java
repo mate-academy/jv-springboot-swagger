@@ -9,7 +9,7 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.util.SortByParser;
+import mate.academy.springboot.swagger.util.SortingOptionsParser;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,13 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private ProductService productService;
     private ProductMapper productMapper;
-    private SortByParser sortByParser;
+    private SortingOptionsParser sortingOptionsParser;
 
     public ProductController(ProductService productService, ProductMapper productMapper,
-                             SortByParser sortByParser) {
+                             SortingOptionsParser sortingOptionsParser) {
         this.productService = productService;
         this.productMapper = productMapper;
-        this.sortByParser = sortByParser;
+        this.sortingOptionsParser = sortingOptionsParser;
     }
 
     @PostMapping
@@ -51,8 +51,8 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "delete a product by id")
-    public ProductResponseDto deleteById(@PathVariable Long id) {
-        return productMapper.toResponseDto(productService.deleteById(id));
+    public void deleteById(@PathVariable Long id) {
+        productService.deleteById(id);
     }
 
     @PutMapping("/{id}")
@@ -69,7 +69,7 @@ public class ProductController {
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "0") Integer page,
                                            @RequestParam(defaultValue = "20") Integer count,
                                            @RequestParam(defaultValue = "title") String sortBy) {
-        Sort sort = sortByParser.parse(sortBy);
+        Sort sort = sortingOptionsParser.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest).stream()
                 .map(productMapper::toResponseDto)
@@ -83,7 +83,7 @@ public class ProductController {
             @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam BigDecimal from, @RequestParam BigDecimal to) {
-        Sort sort = sortByParser.parse(sortBy);
+        Sort sort = sortingOptionsParser.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetweenWithPageable(from, to, pageRequest).stream()
                 .map(productMapper::toResponseDto)

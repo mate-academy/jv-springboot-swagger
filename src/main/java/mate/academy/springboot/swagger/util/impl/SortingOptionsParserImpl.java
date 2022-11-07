@@ -2,12 +2,12 @@ package mate.academy.springboot.swagger.util.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import mate.academy.springboot.swagger.util.SortByParser;
+import mate.academy.springboot.swagger.util.SortingOptionsParser;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SortByParserImpl implements SortByParser {
+public class SortingOptionsParserImpl implements SortingOptionsParser {
     private static final int DIRECTION_INDEX = 1;
     private static final int FIELD_NAME_INDEX = 0;
     private static final Sort.Direction DEFAULT_DIRECTION = Sort.Direction.ASC;

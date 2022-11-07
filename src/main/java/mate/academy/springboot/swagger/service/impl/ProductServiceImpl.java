@@ -2,11 +2,9 @@ package mate.academy.springboot.swagger.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +27,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product deleteById(Long id) {
-        Product deletedProduct = productRepository.getById(id);
+    public void deleteById(Long id) {
         productRepository.deleteById(id);
-        return deletedProduct;
     }
 
     @Override
@@ -42,8 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAll(PageRequest pageRequest) {
-        Page<Product> all = productRepository.findAll(pageRequest);
-        return all.get().collect(Collectors.toList());
+        return productRepository.findAll(pageRequest).toList();
     }
 
     @Override
