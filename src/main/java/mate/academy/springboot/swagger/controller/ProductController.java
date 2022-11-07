@@ -59,7 +59,8 @@ public class ProductController {
     public ProductResponseDto update(@PathVariable Long id,
                                       @RequestBody ProductRequestDto productRequestDto) {
         Product product = productMapper.toModel(productRequestDto);
-        productService.update(id, product);
+        product.setId(id);
+        productService.update(product);
         return productMapper.toDto(product);
     }
 
@@ -72,7 +73,7 @@ public class ProductController {
                 @ApiParam(value = "default value is 0") Integer page,
             @RequestParam (defaultValue = "id")
                 @ApiParam(value = "default value is id") String sortBy) {
-        Sort sort = Sort.by(SortUtil.sort(sortBy));
+        Sort sort = Sort.by(SortUtil.parseSortingOptions(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest).stream()
                 .map(productMapper::toDto)
@@ -89,7 +90,7 @@ public class ProductController {
                 @ApiParam(value = "default value is 0") Integer page,
             @RequestParam (defaultValue = "id")
                 @ApiParam(value = "default value is id") String sortBy) {
-        Sort sort = Sort.by(SortUtil.sort(sortBy));
+        Sort sort = Sort.by(SortUtil.parseSortingOptions(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productMapper::toDto)

@@ -12,7 +12,7 @@ public interface ProductService {
 
     void deleteById(Long id);
 
-    void update(Long id, Product product);
+    Product update(Product product);
 
     List<Product> getAll(PageRequest pageRequest);
 

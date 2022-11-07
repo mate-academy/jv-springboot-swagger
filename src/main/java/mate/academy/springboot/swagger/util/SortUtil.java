@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortUtil {
-    public static List<Sort.Order> sort(String sortBy) {
+    public static List<Sort.Order> parseSortingOptions(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
