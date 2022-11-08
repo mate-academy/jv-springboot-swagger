@@ -52,21 +52,21 @@ public class ProductController {
                 productService.save(requestDtoMapper.toModel(requestProductDto)));
     }
 
-    @GetMapping("/{product_id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id")
-    public ProductResponseDto getById(@PathVariable(name = "product_id") Long productId) {
+    public ProductResponseDto getById(@PathVariable(name = "id") Long productId) {
         return responseDtoMapper.toDto(productService.getById(productId));
     }
 
     @DeleteMapping
     @ApiOperation(value = "Delete product by id")
-    public void deleteById(@RequestParam(name = "product_id") Long productId) {
+    public void deleteById(@RequestParam(name = "id") Long productId) {
         productService.delete(productService.getById(productId));
     }
 
     @PutMapping
     @ApiOperation(value = "Update info about product")
-    public ProductResponseDto update(@RequestParam(name = "product_id") Long productId,
+    public ProductResponseDto update(@RequestParam(name = "id") Long productId,
                                      @RequestBody ProductRequestDto requestProductDto) {
         Product product = requestDtoMapper.toModel(requestProductDto);
         product.setId(productId);

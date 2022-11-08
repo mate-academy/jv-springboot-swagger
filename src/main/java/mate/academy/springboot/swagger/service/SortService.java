@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 public class SortService {
     private static final String SEPARATOR_FIELDS = ";";
     private static final String SEPARATOR_ORDER = ":";
+    private static final int INDEX_FIELD = 0;
+    private static final int INDEX_DIRECTION = 1;
 
     public Sort getSort(String orderBy) {
         List<Sort.Order> orders = new ArrayList<>();
@@ -19,8 +21,8 @@ public class SortService {
                 if (field.contains(":")) {
                     String[] fieldAndDirection = field.split(SEPARATOR_ORDER);
                     order = new Sort.Order(
-                            Sort.Direction.valueOf(fieldAndDirection[1]),
-                            fieldAndDirection[0]);
+                            Sort.Direction.valueOf(fieldAndDirection[INDEX_DIRECTION]),
+                            fieldAndDirection[INDEX_FIELD]);
                 } else {
                     order = new Sort.Order(Sort.Direction.ASC, field);
                 }

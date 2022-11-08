@@ -2,6 +2,7 @@ package mate.academy.springboot.swagger.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import mate.academy.springboot.swagger.exception.DataProcessingException;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,9 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product getById(Long productId) {
-        return productRepository.getById(productId);
+    public Product getById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new DataProcessingException("Product not found by id: " + id));
     }
 
     public void delete(Product product) {

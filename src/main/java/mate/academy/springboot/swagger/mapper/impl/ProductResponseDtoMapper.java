@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductResponseDtoMapper implements ResponseDtoMapper<ProductResponseDto, Product> {
     @Override
-    public ProductResponseDto toDto(Product entity) {
+    public ProductResponseDto toDto(Product product) {
         ProductResponseDto dto = new ProductResponseDto();
-        dto.setId(entity.getId());
-        dto.setPrice(entity.getPrice());
-        dto.setTitle(entity.getTitle());
+        dto.setId(product.getId());
+        dto.setPrice(product.getPrice());
+        dto.setTitle(product.getTitle());
         return dto;
     }
 }
