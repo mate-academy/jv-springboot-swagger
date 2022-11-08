@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
@@ -59,5 +60,18 @@ public class ProductController {
         return productService.findAll(pageRequest).stream()
                 .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/by-price")
+    public List<ProductResponseDto> findByPriceSorted(@RequestParam BigDecimal from,
+            @RequestParam BigDecimal to,
+            @RequestParam(defaultValue = "3") Integer count,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "price") String sortBy) {
+        PageRequest pageRequest = PageRequest.of(page, count, productSort.productSort(sortBy));
+        return productService.findAllByPrice(from, to, pageRequest).stream()
+                .map(responseDtoMapper::mapToDto)
+                .collect(Collectors.toList());
+
     }
 }

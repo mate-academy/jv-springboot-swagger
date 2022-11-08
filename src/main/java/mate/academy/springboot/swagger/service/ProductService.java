@@ -16,5 +16,5 @@ public interface ProductService {
 
     List<Product> findAll(PageRequest pageRequest);
 
-    List<Product> findAllByPrice(BigDecimal from, BigDecimal to);
+    List<Product> findAllByPrice(BigDecimal from, BigDecimal to, PageRequest pageRequest);
 }
