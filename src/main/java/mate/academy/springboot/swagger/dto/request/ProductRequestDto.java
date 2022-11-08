@@ -3,8 +3,8 @@ package mate.academy.springboot.swagger.dto.request;
 import java.math.BigDecimal;
 
 public class ProductRequestDto {
-    String title;
-    BigDecimal price;
+    private String title;
+    private BigDecimal price;
 
     public String getTitle() {
         return title;

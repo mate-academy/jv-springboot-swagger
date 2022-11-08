@@ -12,9 +12,17 @@ import javax.persistence.Table;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String title;
-    BigDecimal price;
+    private Long id;
+    private String title;
+    private BigDecimal price;
+
+    public Product() {
+    }
+
+    public Product(String title, BigDecimal price) {
+        this.title = title;
+        this.price = price;
+    }
 
     public Long getId() {
         return id;

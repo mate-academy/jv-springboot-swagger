@@ -3,9 +3,9 @@ package mate.academy.springboot.swagger.dto.response;
 import java.math.BigDecimal;
 
 public class ProductResponseDto {
-    Long id;
-    String title;
-    BigDecimal price;
+    private Long id;
+    private String title;
+    private BigDecimal price;
 
     public Long getId() {
         return id;
