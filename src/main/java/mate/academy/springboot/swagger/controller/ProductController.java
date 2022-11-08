@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private SortUtil sortUtil;
 
     public ProductController(ProductService productService, ProductMapper productMapper) {
         this.productService = productService;
@@ -57,8 +58,9 @@ public class ProductController {
     @ApiOperation(value = "Update product by id")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto requestDto) {
-        Product product = productService.update(id, productMapper.toModel(requestDto));
-        return productMapper.toResponseDto(product);
+        Product product = productMapper.toModel(requestDto);
+        product.setId(id);
+        return productMapper.toResponseDto(productService.save(product));
     }
 
     @GetMapping("/products-sorting")
@@ -87,7 +89,6 @@ public class ProductController {
             @RequestParam BigDecimal from,
             @RequestParam BigDecimal to,
             @RequestParam(defaultValue = "id") String sortBy) {
-        SortUtil sortUtil = new SortUtil();
         Sort sort = sortUtil.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)

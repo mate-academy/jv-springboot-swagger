@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 
 public class SortUtil {
+    private static final short SORT_FIELD = 0;
+    private static final short SORT_DIRECTION = 1;
+
     public Sort sort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
@@ -13,8 +16,10 @@ public class SortUtil {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                    order = new Sort.Order(Sort
+                            .Direction
+                            .valueOf(fieldsAndDirections[SORT_DIRECTION]),
+                            fieldsAndDirections[SORT_FIELD]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
