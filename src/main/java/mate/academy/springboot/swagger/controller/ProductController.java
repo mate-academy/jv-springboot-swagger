@@ -60,13 +60,13 @@ public class ProductController {
 
     @DeleteMapping
     @ApiOperation(value = "Delete product by id")
-    public void deleteById(@RequestParam(name = "id") Long productId) {
+    public void deleteById(@PathVariable(name = "id") Long productId) {
         productService.delete(productService.getById(productId));
     }
 
     @PutMapping
     @ApiOperation(value = "Update info about product")
-    public ProductResponseDto update(@RequestParam(name = "id") Long productId,
+    public ProductResponseDto update(@PathVariable(name = "id") Long productId,
                                      @RequestBody ProductRequestDto requestProductDto) {
         Product product = requestDtoMapper.toModel(requestProductDto);
         product.setId(productId);
