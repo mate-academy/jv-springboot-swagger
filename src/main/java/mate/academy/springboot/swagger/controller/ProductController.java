@@ -45,7 +45,7 @@ public class ProductController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id")
     public ProductResponseDto getById(@PathVariable Long id) {
-        return productMapper.toResponseDto(productService.getById(id));
+        return productMapper.toResponseDto(productService.findById(id));
     }
 
     @DeleteMapping("/{id}")

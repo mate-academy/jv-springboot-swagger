@@ -22,8 +22,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getById(Long id) {
-        return productRepository.getById(id);
+    public Product findById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Can't find product bt id " + id));
     }
 
     @Override
