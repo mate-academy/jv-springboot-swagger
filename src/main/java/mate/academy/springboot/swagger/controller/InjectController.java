@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
@@ -17,6 +18,7 @@ public class InjectController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Inject 9 products to db for tests")
     String inject() {
         Product productOne = new Product("Product-One", BigDecimal.valueOf(100));
         productService.create(productOne);
