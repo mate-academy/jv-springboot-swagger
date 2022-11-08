@@ -3,7 +3,9 @@ package mate.academy.springboot.swagger.util;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SortUtil {
     private static final short INDEX_OF_SORT_FIELD = 0;
     private static final short INDEX_OF_SORT_DIRECTION = 1;

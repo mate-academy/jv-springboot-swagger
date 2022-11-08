@@ -28,11 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
-    private SortUtil sortUtil;
+    private final SortUtil sortUtil;
 
-    public ProductController(ProductService productService, ProductMapper productMapper) {
+    public ProductController(ProductService productService, ProductMapper productMapper,
+                             SortUtil sortUtil) {
         this.productService = productService;
         this.productMapper = productMapper;
+        this.sortUtil = sortUtil;
     }
 
     @PostMapping
@@ -70,7 +72,6 @@ public class ProductController {
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @ApiParam(value = "defaultValue is 0")
                                             @RequestParam(defaultValue = "id") String sortBy) {
-        SortUtil sortUtil = new SortUtil();
         Sort sort = sortUtil.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
