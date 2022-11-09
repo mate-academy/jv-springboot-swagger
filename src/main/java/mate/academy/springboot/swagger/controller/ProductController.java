@@ -28,11 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final SortUtil sortUtil;
 
     public ProductController(ProductService productService,
-                             ProductMapper productMapper) {
+                             ProductMapper productMapper,
+                             SortUtil sortUtil) {
         this.productService = productService;
         this.productMapper = productMapper;
+        this.sortUtil = sortUtil;
     }
 
     @PostMapping
@@ -68,7 +71,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "0") Integer pageNumber,
                                             @RequestParam(defaultValue = "10") Integer count,
                                             @RequestParam (defaultValue = "id") String sortBy) {
-        Sort sort = SortUtil.sort(sortBy);
+        Sort sort = sortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(pageNumber, count, sort);
         return productService.findAll(pageRequest)
                 .stream()
@@ -85,7 +88,7 @@ public class ProductController {
             @ApiParam(value = "Default value is '20'") Integer count,
             @RequestParam (defaultValue = "0") Integer page,
             @RequestParam (defaultValue = "id") String sortBy) {
-        Sort sort = SortUtil.sort(sortBy);
+        Sort sort = sortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)
                 .stream()
