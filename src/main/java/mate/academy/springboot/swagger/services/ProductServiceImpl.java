@@ -14,18 +14,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Product crete(Product product) {
+    public Product create(Product product) {
         return productRepository.save(product);
     }
 
     @Override
     public Product getById(Long id) {
-        try {
-            return productRepository.getById(id);
-        } catch (Exception e) {
-            throw new RuntimeException("Can`t get product by id: " + id);
-        }
-
+        return productRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Can`t get by id: " + id));
     }
 
     @Override

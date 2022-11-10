@@ -6,7 +6,7 @@ import mate.academy.springboot.swagger.model.Product;
 import org.springframework.data.domain.PageRequest;
 
 public interface ProductService {
-    Product crete(Product product);
+    Product create(Product product);
 
     Product getById(Long id);
 

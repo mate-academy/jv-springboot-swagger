@@ -35,7 +35,7 @@ public class ProductController {
     public ProductResponseDto create(@RequestBody
                                      ProductRequestDto productRequestDto) {
         return productMapper.toDto(
-                productService.crete(
+                productService.create(
                         productMapper.toModel(productRequestDto)));
     }
 
@@ -57,7 +57,7 @@ public class ProductController {
                                      @RequestBody ProductRequestDto productRequestDto) {
         Product product = productMapper.toModel(productRequestDto);
         product.setId(id);
-        return productMapper.toDto(productService.crete(product));
+        return productMapper.toDto(productService.create(product));
     }
 
     @GetMapping

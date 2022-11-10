@@ -20,7 +20,7 @@ public class InjectController {
             Product product = new Product();
             product.setPrice(BigDecimal.valueOf(i));
             product.setTitle(i + "title");
-            productService.crete(product);
+            productService.create(product);
         }
         return "created products";
     }
