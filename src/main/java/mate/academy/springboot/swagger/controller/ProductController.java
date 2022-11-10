@@ -67,7 +67,7 @@ public class ProductController {
         return productDtoMapper.mapToDto(product);
     }
 
-    @GetMapping()
+    @GetMapping
     @ApiOperation(value = "get products list")
     public List<ProductResponseDto> getAllProducts(
             @RequestParam(defaultValue = "10")
@@ -75,7 +75,6 @@ public class ProductController {
             @RequestParam(defaultValue = "0")
             @ApiParam(value = "default value is 0") Integer page,
             @RequestParam(defaultValue = "id") String sortBy) {
-
         return productService.findAll(sortUtil.getSortedPage(count, page, sortBy))
                 .stream()
                 .map(productDtoMapper::mapToDto)
