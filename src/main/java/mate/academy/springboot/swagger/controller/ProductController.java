@@ -9,7 +9,7 @@ import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.util.SortingProducts;
+import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,13 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private ProductService productService;
     private ProductMapper productMapper;
-    private SortingProducts sortingProducts;
+    private SortUtil sortUtil;
 
     public ProductController(ProductService productService, ProductMapper productMapper,
-                             SortingProducts sortingProducts) {
+                             SortUtil sortUtil) {
         this.productService = productService;
         this.productMapper = productMapper;
-        this.sortingProducts = sortingProducts;
+        this.sortUtil = sortUtil;
     }
 
     @PostMapping
@@ -69,7 +69,7 @@ public class ProductController {
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "0") Integer page,
                                            @RequestParam(defaultValue = "20") Integer count,
                                            @RequestParam(defaultValue = "title") String sortBy) {
-        Sort sort = sortingProducts.parse(sortBy);
+        Sort sort = sortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest).stream()
                 .map(productMapper::toDto)
@@ -83,7 +83,7 @@ public class ProductController {
             @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam BigDecimal from, @RequestParam BigDecimal to) {
-        Sort sort = sortingProducts.parse(sortBy);
+        Sort sort = sortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetweenWithPageable(from, to, pageRequest).stream()
                 .map(productMapper::toDto)

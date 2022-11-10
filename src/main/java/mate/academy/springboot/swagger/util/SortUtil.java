@@ -6,11 +6,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SortingProducts {
+public class SortUtil {
     private static final int DIRECTION_INDEX = 1;
     private static final int PARAMETER_INDEX = 0;
 
-    public Sort parse(String sortBy) {
+    public Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(";")) {
             String[] fields = sortBy.split(";");
