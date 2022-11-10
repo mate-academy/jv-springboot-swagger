@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
-import mate.academy.springboot.swagger.model.mapper.ProductMapper;
+import mate.academy.springboot.swagger.model.mapper.Mapper;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.util.PageParserUtil;
+import mate.academy.springboot.swagger.util.PaginationUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService service;
-    private final ProductMapper mapper;
+    private final Mapper mapper;
 
-    public ProductController(ProductService service, ProductMapper mapper) {
+    public ProductController(ProductService service, Mapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
@@ -64,7 +64,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "10") Integer count,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "id") String sortBy) {
-        PageRequest pageRequest = PageParserUtil.parse(count, page, sortBy);
+        PageRequest pageRequest = PaginationUtils.parse(count, page, sortBy);
         return service.findAll(pageRequest)
                 .stream()
                 .map(mapper::toDto)
@@ -82,7 +82,7 @@ public class ProductController {
                                                           Integer page,
                                                           @RequestParam(defaultValue = "id")
                                                           String sortBy) {
-        PageRequest pageRequest = PageParserUtil.parse(count, page, sortBy);
+        PageRequest pageRequest = PaginationUtils.parse(count, page, sortBy);
         return service.findAllByPriceBetween(pageRequest, from, to)
                 .stream()
                 .map(mapper::toDto)

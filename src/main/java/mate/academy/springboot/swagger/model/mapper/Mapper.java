@@ -6,7 +6,7 @@ import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductMapper {
+public class Mapper {
     public ProductResponseDto toDto(Product product) {
         ProductResponseDto responseDto = new ProductResponseDto();
         responseDto.setId(product.getId());

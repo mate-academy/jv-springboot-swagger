@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-public class PageParserUtil {
+public class PaginationUtils {
     private static final String SEPARATOR_ATTRIBUTES = ":";
     private static final String SEPARATOR_PARAMS = ";";
     private static final int INDEX_OF_FIELD_NAME = 0;
