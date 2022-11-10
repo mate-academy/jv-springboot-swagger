@@ -4,12 +4,12 @@ import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import mate.academy.springboot.swagger.dto.ProductMapper;
 import mate.academy.springboot.swagger.dto.ProductRequest;
 import mate.academy.springboot.swagger.dto.ProductResponse;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.SortingOptionsParser;
+import mate.academy.springboot.swagger.service.mapper.ProductMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
-
     private final ProductMapper productMapper;
     private final SortingOptionsParser sortingOptionsParser;
 
@@ -79,7 +78,7 @@ public class ProductController {
     }
 
     @GetMapping("/price")
-    @ApiOperation(value = "get all products with pagination and sorting by price between 2 values")
+    @ApiOperation(value = "get all products with pagination and sorting by price between")
     public List<ProductResponse> getAllByPriceBetween(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "20") Integer count,
@@ -91,5 +90,4 @@ public class ProductController {
                 .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
-
 }
