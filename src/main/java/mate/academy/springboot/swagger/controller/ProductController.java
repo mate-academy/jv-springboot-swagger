@@ -10,7 +10,7 @@ import mate.academy.springboot.swagger.dto.request.response.ProductResponseDto;
 import mate.academy.springboot.swagger.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.util.Parser;
+import mate.academy.springboot.swagger.util.SortingUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,7 +63,7 @@ public class ProductController {
     }
 
     @GetMapping
-    @ApiOperation(value = "Get all products and sort them for some parameters")
+    @ApiOperation(value = "Get all products and sort them by some parameters")
     public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "20")
                                                @ApiParam("default value is 20") Integer count,
                                            @RequestParam (defaultValue = "0")
@@ -71,7 +71,7 @@ public class ProductController {
                                            @RequestParam (defaultValue = "title")
                                                @ApiParam("title/price - default value is title")
                                                String sortBy) {
-        Sort sort = Sort.by(Parser.getSortOrders(sortBy));
+        Sort sort = Sort.by(SortingUtils.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest)
                 .stream()
@@ -90,7 +90,7 @@ public class ProductController {
                                          @RequestParam (defaultValue = "title")
                                              @ApiParam("title/price - default value is title")
                                              String sortBy) {
-        Sort sort = Sort.by(Parser.getSortOrders(sortBy));
+        Sort sort = Sort.by(SortingUtils.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productMapper::toDto)
