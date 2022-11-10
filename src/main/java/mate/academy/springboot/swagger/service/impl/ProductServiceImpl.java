@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllByPriceBetween(BigDecimal from,
                                               BigDecimal to,
                                               PageRequest pageRequest) {
-        return productRepository.getAllByPriceBetween(from, to);
+        return productRepository.getAllByPriceBetween(from, to, pageRequest);
     }
 
     @Override
