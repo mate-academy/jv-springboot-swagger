@@ -75,8 +75,7 @@ public class ProductController {
             @ApiParam(value = "defaultValue is `0`") Integer page,
             @RequestParam (defaultValue = "price")
             @ApiParam(value = "defaultValue is `price`") String sortBy) {
-        List<Sort.Order> orders = productSorter.createSortOrders(sortBy);
-        Sort sort = productSorter.createSort(orders);
+        Sort sort = productSorter.createSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(productMapper::toDto)
@@ -95,8 +94,7 @@ public class ProductController {
             @ApiParam(value = "defaultValue is `0`") Integer page,
             @RequestParam (defaultValue = "price")
             @ApiParam(value = "defaultValue is `price`") String sortBy) {
-        List<Sort.Order> orders = productSorter.createSortOrders(sortBy);
-        Sort sort = productSorter.createSort(orders);
+        Sort sort = productSorter.createSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productMapper::toDto)

@@ -34,7 +34,8 @@ public class SortUtil {
         return orders;
     }
 
-    public Sort createSort(List<Sort.Order> orders) {
+    public Sort createSort(String sorted) {
+        List<Sort.Order> orders = createSortOrders(sorted);
         return Sort.by(orders);
     }
 }
