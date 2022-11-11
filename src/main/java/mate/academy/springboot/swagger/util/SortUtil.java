@@ -3,14 +3,15 @@ package mate.academy.springboot.swagger.util;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SortUtil {
     private static final int DIRECTION_INDEX = 1;
     private static final int PARAM_INDEX = 0;
-    private static List<Sort.Order> orders;
 
-    public static List<Sort.Order> sortOrder(String sortBy) {
-        orders = new ArrayList<>();
+    public List<Sort.Order> getSortOrders(String sortBy) {
+        List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
             for (String field : sortingFields) {

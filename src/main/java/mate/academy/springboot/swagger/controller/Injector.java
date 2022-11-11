@@ -33,7 +33,6 @@ public class Injector {
 
         int name = 0;
         int price = 100;
-
         for (int i = 0; i < 100; i++) {
             Product product = new Product();
             product.setTitle(String.valueOf(name++));

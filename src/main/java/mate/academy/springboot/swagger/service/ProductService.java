@@ -8,11 +8,9 @@ import org.springframework.data.domain.PageRequest;
 public interface ProductService {
     Product save(Product product);
 
-    Product get(Long id);
+    Product getById(Long id);
 
     void delete(Long id);
-
-    Product update(Product product);
 
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest);
 

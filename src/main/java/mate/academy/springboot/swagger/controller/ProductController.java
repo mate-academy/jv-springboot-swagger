@@ -28,10 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final SortUtil sortUtil;
 
-    public ProductController(ProductService productService, ProductMapper productMapper) {
+    public ProductController(ProductService productService,
+                             ProductMapper productMapper,
+                             SortUtil sortUtil) {
         this.productService = productService;
         this.productMapper = productMapper;
+        this.sortUtil = sortUtil;
     }
 
     @PostMapping
@@ -43,8 +47,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "get Product by ID")
-    public ProductResponseDto get(@PathVariable Long id) {
-        return productMapper.toResponseDto(productService.get(id));
+    public ProductResponseDto getById(@PathVariable Long id) {
+        return productMapper.toResponseDto(productService.getById(id));
     }
 
     @DeleteMapping("/{id}")
@@ -59,7 +63,7 @@ public class ProductController {
                                      @RequestBody ProductRequestDto productRequestDto) {
         Product product = productMapper.toModel(productRequestDto);
         product.setId(id);
-        return productMapper.toResponseDto(productService.update(product));
+        return productMapper.toResponseDto(productService.save(product));
     }
 
     @GetMapping("/by-price")
@@ -74,7 +78,7 @@ public class ProductController {
             @ApiParam(value = "defaultValue is `0`") Integer page,
             @RequestParam (defaultValue = "title")
             @ApiParam(value = "defaultValue is `title`") String sortBy) {
-        Sort sort = Sort.by(SortUtil.sortOrder(sortBy));
+        Sort sort = Sort.by(sortUtil.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from,to, pageRequest)
                 .stream()
@@ -92,7 +96,7 @@ public class ProductController {
             @ApiParam(value = "defaultValue is `0`") Integer page,
             @RequestParam (defaultValue = "price")
             @ApiParam(value = "defaultValue is `price`") String sortBy) {
-        Sort sort = Sort.by(SortUtil.sortOrder(sortBy));
+        Sort sort = Sort.by(sortUtil.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
                 .stream()
