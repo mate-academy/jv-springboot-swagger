@@ -11,7 +11,7 @@ public class SortUtil {
     private static final int DIRECTION_INDEX = 1;
     private static final int PARAMETER_INDEX = 0;
 
-    public List<Sort.Order> createSortOrders(String sortBy) {
+    private List<Sort.Order> createSortOrders(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
