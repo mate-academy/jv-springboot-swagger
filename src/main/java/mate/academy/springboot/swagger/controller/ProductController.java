@@ -75,9 +75,17 @@ public class ProductController {
 
     @GetMapping("/by-price")
     @ApiOperation(value = "Get filtered products in a defined price range")
-    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
-            @RequestParam BigDecimal to) {
-        return productService.findAllByPriceBetween(from, to)
+    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam
+            @ApiParam(value = "Price value 'from'") BigDecimal from,
+            @RequestParam @ApiParam(value = "Price value 'to'") BigDecimal to,
+            @RequestParam (defaultValue = "10") @ApiParam(value = "Split in count products on a "
+                + "page. Default value is '10'") Integer count,
+            @RequestParam (defaultValue = "0") @ApiParam(value = "Page number. "
+                  + "Default value is '0'") Integer page,
+            @RequestParam (defaultValue = "id") @ApiParam(value = "Sorting order. "
+                + "Default value is 'id'") String sortBy) {
+        return productService.findAllByPriceBetween(from, to,
+                    ParseUtil.getPageRequest(count, page, sortBy))
               .stream()
               .map(productMapper::toDto)
               .collect(Collectors.toList());
