@@ -18,7 +18,8 @@ public class SortUtil {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[INDEX_OF_PARAM_VALUE]),
+                    order = new Sort.Order(Sort.Direction.valueOf(
+                            fieldsAndDirections[INDEX_OF_PARAM_VALUE]),
                             fieldsAndDirections[INDEX_OF_PARAM_NAME]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
