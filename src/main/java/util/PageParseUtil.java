@@ -1,22 +1,21 @@
-package mate.academy.springboot.swagger.service.impl;
+package util;
 
+import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.List;
-import mate.academy.springboot.swagger.service.ProductSortService;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ProductSortServiceImpl implements ProductSortService {
-    @Override
-    public List<Sort.Order> sortBy(String sortBy) {
+public class PageParseUtil {
+    private static final String PARAMETER_SEPARATOR = ";";
+    private static final String ATTRIBUTES_SEPARATOR = ":";
+
+    public static List<Sort.Order> parse(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
+        if (sortBy.contains(ATTRIBUTES_SEPARATOR)) {
+            String[] sortingFields = sortBy.split(PARAMETER_SEPARATOR);
             for (String field : sortingFields) {
                 Sort.Order order;
-                if (field.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
+                if (field.contains(ATTRIBUTES_SEPARATOR)) {
+                    String[] fieldsAndDirections = field.split(ATTRIBUTES_SEPARATOR);
                     order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
                             fieldsAndDirections[0]);
                 } else {
