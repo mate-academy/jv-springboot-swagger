@@ -1,8 +1,8 @@
-package util;
+package mate.academy.springboot.swagger.util;
 
-import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 public class PageParseUtil {
     private static final String PARAMETER_SEPARATOR = ";";
