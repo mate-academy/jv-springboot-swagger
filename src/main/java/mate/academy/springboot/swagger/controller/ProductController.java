@@ -10,7 +10,7 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.util.SortUtil;
+import mate.academy.springboot.swagger.util.Sorter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,14 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
-    private final SortUtil sortUtil;
+    private final Sorter sorter;
 
     public ProductController(ProductService productService,
                              ProductMapper productMapper,
-                             SortUtil sortUtil) {
+                             Sorter sorter) {
         this.productService = productService;
         this.productMapper = productMapper;
-        this.sortUtil = sortUtil;
+        this.sorter = sorter;
     }
 
     @PostMapping
@@ -75,7 +75,7 @@ public class ProductController {
             @RequestParam (defaultValue = "0")
                 @ApiParam(value = "Default number of page") Integer page,
             @RequestParam (defaultValue = "id") String sortBy) {
-        List<Sort.Order> orders = sortUtil.sort(sortBy);
+        List<Sort.Order> orders = sorter.sort(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
@@ -93,7 +93,7 @@ public class ProductController {
                 @ApiParam(value = "Default value is '20'") Integer count,
             @RequestParam (defaultValue = "0") Integer page,
             @RequestParam (defaultValue = "id") String sortBy) {
-        List<Sort.Order> orders = sortUtil.sort(sortBy);
+        List<Sort.Order> orders = sorter.sort(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)
