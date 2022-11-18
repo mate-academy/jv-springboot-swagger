@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SortUtil {
+public class ProductSorted {
     private static final int DIRECTION_INDEX = 1;
     private static final int PARAMETER_INDEX = 0;
 

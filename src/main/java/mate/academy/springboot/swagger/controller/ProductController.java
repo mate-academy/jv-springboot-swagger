@@ -10,7 +10,7 @@ import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.mapper.ProductMapper;
-import mate.academy.springboot.swagger.util.SortUtil;
+import mate.academy.springboot.swagger.util.ProductSorted;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
-    private final SortUtil productSorter;
+    private final ProductSorted productSorter;
 
     public ProductController(ProductService productService, ProductMapper productMapper,
-                             SortUtil productSorter) {
+                             ProductSorted productSorter) {
         this.productService = productService;
         this.productMapper = productMapper;
         this.productSorter = productSorter;
