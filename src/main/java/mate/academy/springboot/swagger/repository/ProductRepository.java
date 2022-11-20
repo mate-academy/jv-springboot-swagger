@@ -3,6 +3,7 @@ package mate.academy.springboot.swagger.repository;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.model.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>,
         JpaSpecificationExecutor<Product> {
-    List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to);
+    List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, Pageable pageable);
 
     @Modifying
     @Transactional

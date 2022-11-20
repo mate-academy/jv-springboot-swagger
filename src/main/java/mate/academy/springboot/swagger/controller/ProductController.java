@@ -1,7 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductDtoMapper;
@@ -9,6 +8,7 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,11 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductDtoMapper productDtoMapper;
     private final ProductService productService;
+    private final SortUtil sortUtil;
 
     public ProductController(ProductDtoMapper productDtoMapper,
-                             ProductService productService) {
+                             ProductService productService, SortUtil sortUtil) {
         this.productDtoMapper = productDtoMapper;
         this.productService = productService;
+        this.sortUtil = sortUtil;
     }
 
     @PostMapping
@@ -58,38 +60,24 @@ public class ProductController {
     @GetMapping("/getAll")
     private List<ProductResponseDto> getAll(@RequestParam (defaultValue = "3") Integer count,
                                             @RequestParam (defaultValue = "0") Integer page,
-                                            @RequestParam (defaultValue = "id") String sortBy,
-                                            @RequestParam BigDecimal from,
-                                            @RequestParam BigDecimal to) {
-        List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
-            for (String field : sortingFields) {
-                Sort.Order order;
-                if (field.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
-                } else {
-                    order = new Sort.Order(Sort.Direction.DESC, field);
-                }
-                orders.add(order);
-            }
-        } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
-            orders.add(order);
-        }
-        Sort sort = Sort.by(orders);
+                                            @RequestParam (defaultValue = "id") String sortBy) {
+        Sort sort = sortUtil.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest).stream()
                 .map(productDtoMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
 
+
+
     @GetMapping("/getAllByPriceBetween")
-    private List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
+    private List<ProductResponseDto> getAllByPriceBetween(@RequestParam (defaultValue = "3") Integer count,
+                                                          @RequestParam (defaultValue = "0") Integer page,
+                                                          @RequestParam (defaultValue = "id") String sortBy,
+                                                          @RequestParam BigDecimal from,
                                                           @RequestParam BigDecimal to) {
-        return productService.getAllByPriceBetween(from, to).stream()
+        PageRequest pageRequest = PageRequest.of(page, count, sortUtil.parse(sortBy));
+        return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productDtoMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
