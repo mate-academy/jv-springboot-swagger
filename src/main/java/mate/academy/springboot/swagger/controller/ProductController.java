@@ -1,21 +1,27 @@
 package mate.academy.springboot.swagger.controller;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.mapper.request.ProductRequestMapper;
 import mate.academy.springboot.swagger.mapper.response.ProductResponseMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.service.ProductService;
-import net.bytebuddy.implementation.bytecode.constant.DefaultValue;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/products")
@@ -24,7 +30,9 @@ public class ProductController {
     private final ProductRequestMapper productRequestMapper;
     private final ProductResponseMapper productResponseMapper;
 
-    public ProductController(ProductService productService, ProductRequestMapper productRequestMapper, ProductResponseMapper productResponseMapper) {
+    public ProductController(ProductService productService,
+                             ProductRequestMapper productRequestMapper,
+                             ProductResponseMapper productResponseMapper) {
         this.productService = productService;
         this.productRequestMapper = productRequestMapper;
         this.productResponseMapper = productResponseMapper;
@@ -91,9 +99,12 @@ public class ProductController {
     @GetMapping("/by-price")
     public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal from,
                                                   @RequestParam BigDecimal to,
-                                                  @RequestParam (defaultValue = "5") Integer count,
-                                                  @RequestParam (defaultValue = "1") Integer page,
-                                                  @RequestParam (defaultValue = "DESC") String sorted) {
+                                                  @RequestParam (defaultValue = "5")
+                                                      Integer count,
+                                                  @RequestParam (defaultValue = "1")
+                                                      Integer page,
+                                                  @RequestParam (defaultValue = "DESC")
+                                                      String sorted) {
         Sort.Order order;
         order = new Sort.Order(Sort.Direction.DESC,"price");
         Sort sort = Sort.by(order);

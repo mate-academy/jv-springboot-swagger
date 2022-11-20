@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
@@ -44,12 +44,12 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<Product> findAll(PageRequest pageRequest) {
-        return  productRepository.findAll(pageRequest).toList();
+        return productRepository.findAll(pageRequest).toList();
     }
 
     @Override
     public List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, Pageable pageable) {
-        return productRepository.findAllByPriceBetween(from,to,pageable );
+        return productRepository.findAllByPriceBetween(from, to, pageable);
     }
 
 }

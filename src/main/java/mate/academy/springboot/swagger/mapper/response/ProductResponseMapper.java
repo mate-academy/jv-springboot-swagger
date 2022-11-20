@@ -14,6 +14,6 @@ public class ProductResponseMapper implements DtoResponseMapper<ProductResponseD
         productResponseDto.setId(product.getId());
         productResponseDto.setTitle(product.getTitle());
         productResponseDto.setPrice(product.getPrice());
-         return productResponseDto;
+        return productResponseDto;
     }
 }
