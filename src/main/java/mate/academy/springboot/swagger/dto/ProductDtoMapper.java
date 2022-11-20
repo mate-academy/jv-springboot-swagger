@@ -1,8 +1,6 @@
 package mate.academy.springboot.swagger.dto;
 
 import mate.academy.springboot.swagger.model.Product;
-import mate.academy.springboot.swagger.repository.ProductRepository;
-import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.stereotype.Repository;
 
 @Repository
