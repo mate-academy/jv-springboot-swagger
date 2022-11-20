@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +36,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @ApiOperation(value = "creates a new product")
     private ProductResponseDto save(@RequestBody ProductRequestDto productRequestDto) {
         Product product = productDtoMapper.toProduct(productRequestDto);
         product = productService.save(product);
@@ -42,22 +44,27 @@ public class ProductController {
     }
 
     @GetMapping
+    @ApiOperation(value = "gets product from DB by id")
     private ProductResponseDto getById(@RequestParam Long id) {
         Product product = productService.getById(id);
         return productDtoMapper.toResponseDto(product);
     }
 
     @DeleteMapping
+    @ApiOperation(value = "deletes product from DB by id")
     private void deleteById(@RequestParam Long id) {
         productService.deleteById(id);
     }
 
     @PutMapping
+    @ApiOperation(value = "updates product in DB. Product object should be passed as json body")
     private void update(@RequestBody Product product) {
         productService.update(product);
     }
 
     @GetMapping("/getAll")
+    @ApiOperation(value = "gets all products in DB. "
+            + "Accepts page size, page number and sortBy parameters")
     private List<ProductResponseDto> getAll(@RequestParam (defaultValue = "3") Integer count,
                                             @RequestParam (defaultValue = "0") Integer page,
                                             @RequestParam (defaultValue = "id") String sortBy) {
@@ -71,6 +78,8 @@ public class ProductController {
 
 
     @GetMapping("/getAllByPriceBetween")
+    @ApiOperation(value = "gets all products in DB where price is within the specified range. "
+            + "Accepts page size, page number and sortBy parameters")
     private List<ProductResponseDto> getAllByPriceBetween(@RequestParam (defaultValue = "3") Integer count,
                                                           @RequestParam (defaultValue = "0") Integer page,
                                                           @RequestParam (defaultValue = "id") String sortBy,
