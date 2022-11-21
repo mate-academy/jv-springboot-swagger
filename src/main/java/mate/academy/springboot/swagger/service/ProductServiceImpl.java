@@ -34,14 +34,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsWithPriceBetween(BigDecimal from,
-                                                     BigDecimal to,
-                                                     Pageable pageable) {
+    public List<Product> getAllWithPriceBetween(BigDecimal from,
+                                                BigDecimal to,
+                                                Pageable pageable) {
         return productRepository.findAllByPriceBetween(from, to, pageable);
     }
 
     @Override
     public List<Product> findAll(PageRequest pageRequest) {
-        return productRepository.findAll();
+        return productRepository.findAll(pageRequest).toList();
     }
 }

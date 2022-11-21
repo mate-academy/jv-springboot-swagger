@@ -71,7 +71,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam (defaultValue = "20") Integer count,
                                             @RequestParam (defaultValue = "id") String sortBy) {
-        Sort sort = SortUtil.sort(sortBy);
+        Sort sort = new SortUtil().sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
                 .stream()
@@ -79,17 +79,17 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/price")
+    @GetMapping("/by-price")
     @ApiOperation("Get a sorted list of products by price")
     public List<ProductResponseDto> findAll(@RequestParam BigDecimal fromPrice,
                                             @RequestParam BigDecimal toPrice,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "10") Integer count,
                                             @RequestParam(defaultValue = "id") String sortBy) {
-        Sort sort = SortUtil.sort(sortBy);
+        Sort sort = new SortUtil().sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         List<Product> productList = productService
-                .getProductsWithPriceBetween(fromPrice, toPrice, pageRequest);
+                .getAllWithPriceBetween(fromPrice, toPrice, pageRequest);
         return productList.stream()
                 .map(responseMapper::toDto)
                 .collect(Collectors.toList());

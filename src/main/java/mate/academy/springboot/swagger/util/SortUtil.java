@@ -10,7 +10,7 @@ public class SortUtil {
     private static final int DIRECTION_INDEX = 1;
     private static final int PARAM_INDEX = 0;
 
-    public static Sort sort(String sortBy) {
+    public Sort sort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
