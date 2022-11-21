@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,18 +40,21 @@ public class ProductController {
     }
 
     @PostMapping("/")
+    @ApiOperation(value = "Create new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto dto) {
         Product product = productService.create(productRequestMapper.fromDto(dto));
         return productResponseMapper.toDto(product);
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get product by id")
     public ProductResponseDto get(@PathVariable Long id) {
         Product product = productService.get(id);
         return productResponseMapper.toDto(product);
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update product by id")
     public ProductResponseDto update(@PathVariable Long id, @RequestBody ProductRequestDto dto) {
         Product product = productService.get(id);
         product.setTitle(dto.getTitle());
@@ -60,6 +64,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete product by id")
     public ProductResponseDto delete(@PathVariable Long id) {
         Product product = productService.get(id);
         productService.delete(product);
@@ -67,10 +72,10 @@ public class ProductController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get all products")
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "5") Integer count,
-                                            @RequestParam (defaultValue = "5") Integer page,
+                                            @RequestParam (defaultValue = "0") Integer page,
                                             @RequestParam (defaultValue = "id") String sortBy) {
-
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
@@ -81,32 +86,33 @@ public class ProductController {
                     order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
                             fieldsAndDirections[0]);
                 } else {
-                    order = new Sort.Order(Sort.Direction.DESC,field);
+                    order = new Sort.Order(Sort.Direction.DESC, field);
                 }
                 orders.add(order);
             }
         } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC,sortBy);
+            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
             orders.add(order);
         }
         Sort sort = Sort.by(orders);
-        PageRequest pageRequest = PageRequest.of(page,count,sort);
+        PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(productResponseMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(value = "Get a list of products in price range")
     public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal from,
                                                   @RequestParam BigDecimal to,
                                                   @RequestParam (defaultValue = "5")
                                                       Integer count,
-                                                  @RequestParam (defaultValue = "1")
+                                                  @RequestParam (defaultValue = "0")
                                                       Integer page,
                                                   @RequestParam (defaultValue = "DESC")
                                                       String sorted) {
         Sort.Order order;
-        order = new Sort.Order(Sort.Direction.DESC,"price");
+        order = new Sort.Order(Sort.Direction.DESC, "price");
         Sort sort = Sort.by(order);
         Pageable pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
