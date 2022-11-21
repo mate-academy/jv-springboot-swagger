@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PageRequestUtil {
     private static final String SEPARATOR_ATTRIBUTES = ":";
     private static final String SEPARATOR_PARAMS = ";";
     private static final int INDEX_FIELD_NAME = 0;
     private static final int INDEX_DIRECTION_VALUE = 1;
 
-    public static PageRequest getPageRequest(Integer page, Integer count, String sortBy) {
+    public PageRequest getPageRequest(Integer page, Integer count, String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(SEPARATOR_ATTRIBUTES)) {
             String[] sortingField = sortBy.split(SEPARATOR_PARAMS);
