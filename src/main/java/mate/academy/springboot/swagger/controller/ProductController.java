@@ -63,7 +63,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer count,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "title") String sortBy) {
-        PageRequest pageRequest = PageRequest.of(page, count, sortUtil.parse(sortBy));
+        PageRequest pageRequest = PageRequest.of(page, count, sortUtil.getSort(sortBy));
         return productService.findAll(pageRequest)
                 .stream()
                 .map(productMapper::mapToDto)
@@ -78,7 +78,7 @@ public class ProductController {
                 @RequestParam(defaultValue = "price") String sortBy,
                 @RequestParam BigDecimal from,
                 @RequestParam BigDecimal to) {
-        PageRequest pageRequest = PageRequest.of(page, count, sortUtil.parse(sortBy));
+        PageRequest pageRequest = PageRequest.of(page, count, sortUtil.getSort(sortBy));
         return productService.findAllByPriceBetween(from, to, pageRequest)
                 .stream()
                 .map(productMapper::mapToDto)

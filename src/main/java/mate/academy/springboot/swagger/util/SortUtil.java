@@ -7,7 +7,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortUtil {
-    public Sort parse(String sortBy) {
+    private static final int DIRECTION_INDEX = 1;
+    private static final int FIELD_INDEX = 0;
+
+    public Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
@@ -15,8 +18,9 @@ public class SortUtil {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirections[1]),
-                            fieldAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(
+                            fieldAndDirections[DIRECTION_INDEX]),
+                            fieldAndDirections[FIELD_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
