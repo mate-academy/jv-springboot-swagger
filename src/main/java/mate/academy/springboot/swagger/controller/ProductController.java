@@ -10,6 +10,7 @@ import mate.academy.springboot.swagger.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.servise.ProductService;
 import mate.academy.springboot.swagger.util.PageRequestUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +29,7 @@ public class ProductController {
     private ProductService productService;
     private PageRequestUtil requestUtil;
 
+    @Autowired
     public ProductController(ProductMapper productMapper,
                              ProductService productService,
                              PageRequestUtil requestUtil) {
