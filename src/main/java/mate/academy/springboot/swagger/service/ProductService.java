@@ -6,13 +6,11 @@ import mate.academy.springboot.swagger.model.Product;
 import org.springframework.data.domain.PageRequest;
 
 public interface ProductService {
-    Product create(Product product);
+    Product save(Product product);
 
     Product getById(Long id);
 
     void delete(Long id);
-
-    Product update(Product product);
 
     List<Product> findAll(PageRequest pageRequest);
 

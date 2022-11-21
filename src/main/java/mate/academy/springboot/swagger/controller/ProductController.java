@@ -29,11 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductMapper productMapper;
     private final ProductService productService;
+    private final SortUtill sortUtill;
 
     @PostMapping
     @ApiOperation(value = "Create new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto productRequestDto) {
-        return productMapper.toDto(productService.create(productMapper.toModel(productRequestDto)));
+        return productMapper.toDto(productService.save(productMapper.toModel(productRequestDto)));
     }
 
     @GetMapping("/{id}")
@@ -54,7 +55,7 @@ public class ProductController {
                                      @PathVariable Long id) {
         Product product = productMapper.toModel(productRequestDto);
         product.setId(id);
-        return productMapper.toDto(productService.update(product));
+        return productMapper.toDto(productService.save(product));
     }
 
     @GetMapping
@@ -62,7 +63,8 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20") Integer count,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "id") String sortBy) {
-        Sort sort = Sort.by(SortUtill.createSortOrders(sortBy));
+        List<Sort.Order> orders = sortUtill.createSortOrders(sortBy);
+        Sort sort = sortUtill.createSort(orders);
         PageRequest pageRequest = PageRequest.of(count, page, sort);
         return productService.findAll(pageRequest).stream()
                 .map(productMapper::toDto)
@@ -76,7 +78,8 @@ public class ProductController {
                                             @RequestParam(defaultValue = "20") Integer count,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "id") String sortBy) {
-        Sort sort = Sort.by(SortUtill.createSortOrders(sortBy));
+        List<Sort.Order> orders = sortUtill.createSortOrders(sortBy);
+        Sort sort = sortUtill.createSort(orders);
         PageRequest pageRequest = PageRequest.of(count, page, sort);
         return productService.findAllByPriceBetween(pageRequest, from, to).stream()
                 .map(productMapper::toDto)

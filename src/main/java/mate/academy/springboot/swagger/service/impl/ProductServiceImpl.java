@@ -17,23 +17,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product create(Product product) {
+    public Product save(Product product) {
         return productRepository.save(product);
     }
 
     @Override
     public Product getById(Long id) {
-        return productRepository.getById(id);
+        return productRepository.getProductsById(id).orElseThrow(
+                () -> new RuntimeException("Can't get product by id"));
     }
 
     @Override
     public void delete(Long id) {
-        productRepository.delete(productRepository.getById(id));
-    }
-
-    @Override
-    public Product update(Product product) {
-        return productRepository.save(product);
+        productRepository.deleteById(id);
     }
 
     @Override
