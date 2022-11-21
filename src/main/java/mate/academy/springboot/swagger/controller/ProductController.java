@@ -27,13 +27,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
+    private final SortUtil sortUtil;
     private final RequestDtoMapper<ProductRequestDto, Product> requestMapper;
     private final ResponseDtoMapper<ProductResponseDto, Product> responseMapper;
 
     public ProductController(ProductService productService,
+                             SortUtil sortUtil,
                              RequestDtoMapper<ProductRequestDto, Product> requestMapper,
                              ResponseDtoMapper<ProductResponseDto, Product> responseMapper) {
         this.productService = productService;
+        this.sortUtil = sortUtil;
         this.requestMapper = requestMapper;
         this.responseMapper = responseMapper;
     }
@@ -71,7 +74,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam (defaultValue = "20") Integer count,
                                             @RequestParam (defaultValue = "id") String sortBy) {
-        Sort sort = new SortUtil().sort(sortBy);
+        Sort sort = sortUtil.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
                 .stream()
@@ -86,7 +89,7 @@ public class ProductController {
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "10") Integer count,
                                             @RequestParam(defaultValue = "id") String sortBy) {
-        Sort sort = new SortUtil().sort(sortBy);
+        Sort sort = sortUtil.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         List<Product> productList = productService
                 .getAllWithPriceBetween(fromPrice, toPrice, pageRequest);
