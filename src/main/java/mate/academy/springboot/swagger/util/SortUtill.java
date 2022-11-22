@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortUtill {
-    private static final int INDEX_ZERO = 0;
-    private static final int INDEX_ONE = 1;
+    private static final int FIELD_INDEX = 0;
+    private static final int DIRECTION_INDEX = 1;
 
     public List<Sort.Order> createSortOrders(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
@@ -18,8 +18,8 @@ public class SortUtill {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[INDEX_ONE]),
-                            fieldsAndDirections[INDEX_ZERO]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
+                            fieldsAndDirections[FIELD_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
