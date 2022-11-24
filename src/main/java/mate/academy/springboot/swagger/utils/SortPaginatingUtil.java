@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortPaginatingUtil {
+    private static final int DIRECTION_INDEX = 1;
+    private static final int PARAM_INDEX = 0;
+
     public static List<Sort.Order> parseSortingOptions(String sortBy) {
         List<Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
@@ -16,8 +19,8 @@ public class SortPaginatingUtil {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
+                            fieldsAndDirections[PARAM_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }

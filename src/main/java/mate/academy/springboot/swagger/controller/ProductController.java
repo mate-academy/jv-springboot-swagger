@@ -2,6 +2,8 @@ package mate.academy.springboot.swagger.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
@@ -27,26 +29,31 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     @PostMapping
+    @ApiOperation(value = "create product")
     public void createProduct(ProductRequestDto productRequestDto) {
         productService.add(productMapper.toModel(productRequestDto));
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "get product by id")
     public ProductResponseDto getProduct(@PathVariable Long id) {
         return productMapper.toResponse(productService.findById(id));
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "delete product by id")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteById(id);
     }
 
     @PutMapping
+    @ApiOperation(value = "update product by id")
     public void updateProduct(ProductRequestDto productRequestDto) {
         productService.update(productMapper.toModel(productRequestDto));
     }
 
     @GetMapping
+    @ApiOperation(value = "get all products")
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "10") Integer count,
                                            @RequestParam(defaultValue = "0") Integer page,
                                            @RequestParam(defaultValue = "id") String sortBy) {
@@ -59,6 +66,7 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(value = "get all where price between")
     public List<ProductResponseDto> getAllWherePriceBetween(
             @RequestParam(defaultValue = "0") Double from,
             @RequestParam Double to,
