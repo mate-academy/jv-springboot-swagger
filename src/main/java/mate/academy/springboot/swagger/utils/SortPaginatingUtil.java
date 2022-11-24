@@ -19,7 +19,8 @@ public class SortPaginatingUtil {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
+                    order = new Sort.Order(
+                            Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
                             fieldsAndDirections[PARAM_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
