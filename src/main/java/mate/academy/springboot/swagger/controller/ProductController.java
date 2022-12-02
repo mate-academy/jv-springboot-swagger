@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,15 +55,6 @@ public class ProductController {
         productService.delete(id);
     }
 
-    @PutMapping
-    @ApiOperation(value = "update product by id")
-    public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestParam ProductRequestDto requestDto) {
-        Product product = mapper.fromDto(requestDto);
-        product.setId(id);
-        return mapper.toDto(productService.update(product));
-    }
-
     @GetMapping
     @ApiOperation(value = "get list products "
             + "with using pagination and soring by params")
@@ -78,7 +68,7 @@ public class ProductController {
             @RequestParam(defaultValue = "id")
             @ApiParam(value = "sorting by id by default")
             String sortBy) {
-        Sort sort = Sort.by(SortUtil.sort(sortBy));
+        Sort sort = Sort.by((List<Sort.Order>) SortUtil.sort(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest).stream()
                 .map(mapper::toDto)
@@ -103,7 +93,7 @@ public class ProductController {
                   @ApiParam(value = "sorting by id by default")
                   String sortBy) {
 
-        Sort sort = Sort.by(SortUtil.sort(sortBy));
+        Sort sort = Sort.by((List<Sort.Order>) SortUtil.sort(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAllForPriceBetween(from, to, pageRequest).stream()
                 .map(mapper::toDto)
