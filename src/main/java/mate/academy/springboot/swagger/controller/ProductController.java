@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,9 +54,9 @@ public class ProductController {
 
     @GetMapping("/getAll")
     @ApiOperation(value = "Get all products (page size, page number, sortBy parameters)")
-    public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "3") Integer count,
-                                           @RequestParam (defaultValue = "0") Integer page,
-                                           @RequestParam (defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> getAll(@ApiParam (defaultValue = "3") Integer count,
+                                           @ApiParam (defaultValue = "0") Integer page,
+                                           @ApiParam (defaultValue = "id") String sortBy) {
         Sort sort = sortUtil.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return service.getAll(pageRequest).stream()
@@ -65,11 +66,11 @@ public class ProductController {
 
     @GetMapping("/getAllByPriceBetween")
     public List<ProductResponseDto> getAllByPriceBetween(
-                @RequestParam (defaultValue = "3") Integer count,
-                @RequestParam (defaultValue = "0") Integer page,
-                @RequestParam (defaultValue = "id") String sortBy,
-                @RequestParam BigDecimal from,
-                @RequestParam BigDecimal to) {
+                @ApiParam (defaultValue = "3") Integer count,
+                @ApiParam (defaultValue = "0") Integer page,
+                @ApiParam(defaultValue = "id") String sortBy,
+                @ApiParam BigDecimal from,
+                @ApiParam BigDecimal to) {
         PageRequest pageRequest = PageRequest.of(page, count, sortUtil.parse(sortBy));
         return service.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(mapper::modelToDto)

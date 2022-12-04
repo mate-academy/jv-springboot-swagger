@@ -3,9 +3,9 @@ package mate.academy.springboot.swagger.dto.mapper;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 public class ProductDtoMapper {
     public ProductResponseDto modelToDto(Product product) {
         ProductResponseDto responseDto = new ProductResponseDto();
