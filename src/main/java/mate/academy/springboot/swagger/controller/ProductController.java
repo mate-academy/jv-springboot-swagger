@@ -31,7 +31,8 @@ public class ProductController {
     @PostMapping
     @ApiOperation(value = "create product")
     public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
-        return productMapper.toResponse(productService.save(productMapper.toModel(productRequestDto)));
+        return productMapper.toResponse(
+                productService.save(productMapper.toModel(productRequestDto)));
     }
 
     @GetMapping("/{id}")
