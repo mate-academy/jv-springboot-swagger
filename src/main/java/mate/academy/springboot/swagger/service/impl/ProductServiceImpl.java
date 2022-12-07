@@ -1,7 +1,6 @@
 package mate.academy.springboot.swagger.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
@@ -16,17 +15,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll(PageRequest pageRequest) {
-        return productRepository.findAll(pageRequest).stream().collect(Collectors.toList());
+        return productRepository.findAll(pageRequest).toList();
     }
 
     @Override
     public List<Product> findAllByPriceBetween(Double from, Double to, PageRequest pageRequest) {
         return productRepository.findAllByPriceBetween(from, to, pageRequest);
-    }
-
-    @Override
-    public void update(Product product) {
-        productRepository.save(product);
     }
 
     @Override
@@ -42,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void add(Product product) {
-        productRepository.save(product);
+    public Product save(Product product) {
+        return productRepository.save(product);
     }
 }

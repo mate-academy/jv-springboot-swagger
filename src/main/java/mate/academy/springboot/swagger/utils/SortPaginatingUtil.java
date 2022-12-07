@@ -11,7 +11,7 @@ public class SortPaginatingUtil {
     private static final int DIRECTION_INDEX = 1;
     private static final int PARAM_INDEX = 0;
 
-    public static List<Sort.Order> parseSortingOptions(String sortBy) {
+    public List<Sort.Order> getSortOrders(String sortBy) {
         List<Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");

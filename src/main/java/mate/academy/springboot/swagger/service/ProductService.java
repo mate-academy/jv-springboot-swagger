@@ -9,11 +9,9 @@ public interface ProductService {
 
     List<Product> findAllByPriceBetween(Double from, Double to, PageRequest pageRequest);
 
-    void update(Product product);
-
     void deleteById(Long id);
 
     Product findById(Long id);
 
-    void add(Product product);
+    Product save(Product product);
 }

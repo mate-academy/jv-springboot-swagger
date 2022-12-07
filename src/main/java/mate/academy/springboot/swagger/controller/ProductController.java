@@ -26,11 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final SortPaginatingUtil sortPaginatingUtil;
 
     @PostMapping
     @ApiOperation(value = "create product")
-    public void createProduct(ProductRequestDto productRequestDto) {
-        productService.add(productMapper.toModel(productRequestDto));
+    public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
+        return productMapper.toResponse(productService.save(productMapper.toModel(productRequestDto)));
     }
 
     @GetMapping("/{id}")
@@ -45,10 +46,10 @@ public class ProductController {
         productService.deleteById(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "update product by id")
     public void updateProduct(ProductRequestDto productRequestDto) {
-        productService.update(productMapper.toModel(productRequestDto));
+        productService.save(productMapper.toModel(productRequestDto));
     }
 
     @GetMapping
@@ -56,7 +57,7 @@ public class ProductController {
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "10") Integer count,
                                            @RequestParam(defaultValue = "0") Integer page,
                                            @RequestParam(defaultValue = "id") String sortBy) {
-        Sort sort = Sort.by(SortPaginatingUtil.parseSortingOptions(sortBy));
+        Sort sort = Sort.by(sortPaginatingUtil.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
                 .stream()
@@ -72,7 +73,7 @@ public class ProductController {
             @RequestParam (defaultValue = "10") Integer count,
             @RequestParam (defaultValue = "0") Integer page,
             @RequestParam (defaultValue = "title") String sortBy) {
-        List<Sort.Order> orders = SortPaginatingUtil.parseSortingOptions(sortBy);
+        List<Sort.Order> orders = sortPaginatingUtil.getSortOrders(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)
