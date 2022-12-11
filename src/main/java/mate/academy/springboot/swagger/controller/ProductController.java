@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,9 +61,15 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "Get all products")
-    public List<ProductResponseDto> getAll(@RequestParam Integer count,
-                                           @RequestParam (defaultValue = "0") Integer page,
-                                           @RequestParam (defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "5")
+                                               @ApiParam(value = "default value is '5'")
+                                               Integer count,
+                                           @RequestParam (defaultValue = "0")
+                                           @ApiParam(value = "default value is '0'")
+                                           Integer page,
+                                           @RequestParam (defaultValue = "id")
+                                               @ApiParam(value = "default value is 'id'")
+                                               String sortBy) {
         PageRequest pageRequest = PageRequest.of(page, count, sortUtil.parse(sortBy));
         return productService.getAll(pageRequest)
                .stream()
@@ -74,10 +81,17 @@ public class ProductController {
     @ApiOperation(value = "Get all products by price")
     public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
                                                           @RequestParam BigDecimal to,
-                                                          @RequestParam Integer count,
+                                                          @RequestParam (defaultValue = "5")
+                                                              @ApiParam(value =
+                                                                      "default value is '5'")
+                                                              Integer count,
                                                          @RequestParam (defaultValue = "0")
+                                                              @ApiParam(value =
+                                                                      "default value is '0'")
                                                               Integer page,
                                                          @RequestParam (defaultValue = "id")
+                                                              @ApiParam(value =
+                                                                      "default value is 'id'")
                                                               String sortBy) {
         Pageable pageable = PageRequest.of(page, count, sortUtil.parse(sortBy));
         return productService.findAllByPriceBetween(from, to, pageable)
