@@ -1,6 +1,5 @@
 package mate.academy.springboot.swagger.repository;
 
-import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.model.Product;

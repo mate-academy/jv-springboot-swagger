@@ -2,20 +2,24 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.service.ProductSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/products")
@@ -60,8 +64,7 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "find all Products to DB, page by page, sorted by title")
-    public List<ProductResponseDto> getAll
-            (@RequestParam (defaultValue = "5")
+    public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "5")
              @ApiParam (defaultValue = "value to default is 5") Integer count,
              @RequestParam (defaultValue = "0")
              @ApiParam (defaultValue = "value to default is 0") Integer page,
@@ -76,8 +79,8 @@ public class ProductController {
     @GetMapping("/findAllByPrice")
     @ApiOperation(value = "find all Products by price between two values, "
             + "page to page, sorted by title")
-    public List<ProductResponseDto> getAllByPriceBetween
-            (@RequestParam BigDecimal from, @RequestParam BigDecimal to,
+    public List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
+                                                         @RequestParam BigDecimal to,
              @RequestParam (defaultValue = "5")
              @ApiParam (defaultValue = "value to default is 5") Integer count,
              @RequestParam (defaultValue = "0")

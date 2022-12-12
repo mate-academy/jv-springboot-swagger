@@ -16,7 +16,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductSortService productSortService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ProductSortService productSortService) {
+    public ProductServiceImpl(ProductRepository productRepository,
+                              ProductSortService productSortService) {
         this.productRepository = productRepository;
         this.productSortService = productSortService;
     }
@@ -38,8 +39,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll(PageRequest pageRequest, String sortBy) {
-        return productRepository.findAll(pageRequest.withSort
-                (productSortService.getSort(sortBy))).toList();
+        return productRepository.findAll(pageRequest
+                .withSort(productSortService.getSort(sortBy))).toList();
     }
 
     @Override

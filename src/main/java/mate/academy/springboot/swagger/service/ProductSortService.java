@@ -9,15 +9,14 @@ import org.springframework.stereotype.Component;
 public class ProductSortService {
     public Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if(sortBy.contains(":")) {
+        if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
             for (String sortingField : sortingFields) {
                 Sort.Order order;
-                if(sortingField.contains(":")) {
+                if (sortingField.contains(":")) {
                     String[] fieldsAndDirections = sortingField.split(";");
-                    order = new Sort.Order
-                            (Sort.Direction.valueOf
-                                    (fieldsAndDirections[1]), fieldsAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
+                            fieldsAndDirections[0]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, sortingField);
                 }
