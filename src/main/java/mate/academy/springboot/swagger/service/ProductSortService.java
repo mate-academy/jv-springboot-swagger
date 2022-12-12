@@ -18,12 +18,12 @@ public class ProductSortService {
                     order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
                             fieldsAndDirections[0]);
                 } else {
-                    order = new Sort.Order(Sort.Direction.DESC, sortingField);
+                    order = new Sort.Order(Sort.Direction.ASC, sortingField);
                 }
             }
 
         } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
+            Sort.Order order = new Sort.Order(Sort.Direction.ASC, sortBy);
             orders.add(order);
         }
         return Sort.by(orders);
