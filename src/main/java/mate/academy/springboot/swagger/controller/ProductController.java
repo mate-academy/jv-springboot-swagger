@@ -31,7 +31,8 @@ public class ProductController {
     private final SorterService sorterService;
 
     @Autowired
-    public ProductController(ProductService productService, ProductMapper productMapper, SorterService sorterService) {
+    public ProductController(ProductService productService, ProductMapper productMapper,
+                             SorterService sorterService) {
         this.productService = productService;
         this.productMapper = productMapper;
         this.sorterService = sorterService;
