@@ -3,15 +3,16 @@ package mate.academy.springboot.swagger.service;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.model.Product;
+import org.springframework.data.domain.PageRequest;
 
 public interface ProductService {
-    Product save (Product product);
+    Product save(Product product);
 
     Product getDyId(Long id);
 
     void deleteById(Long id);
 
-    List<Product> getAll();
+    List<Product> getAll(PageRequest pageRequest);
 
-    List<Product> getAllByPriceBetween(BigDecimal from, BigDecimal to);
+    List<Product> getAllByPriceBetween(PageRequest pageRequest, BigDecimal from, BigDecimal to);
 }

@@ -8,7 +8,7 @@ import mate.academy.springboot.swagger.service.mapper.ResponseDtoMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductDtoMapper implements RequestDtoMapper<ProductRequestDto, Product>,
+public class ProductMapper implements RequestDtoMapper<ProductRequestDto, Product>,
         ResponseDtoMapper<ProductResponseDto, Product> {
 
     @Override

@@ -6,6 +6,7 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,12 +34,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll() {
-        return productRepository.findAll();
+    public List<Product> getAll(PageRequest pageRequest) {
+        return productRepository.findAll(pageRequest).toList();
     }
 
     @Override
-    public List<Product> getAllByPriceBetween(BigDecimal from, BigDecimal to) {
+    public List<Product> getAllByPriceBetween(PageRequest pageRequest, BigDecimal from, BigDecimal to) {
         return productRepository.findAllByPriceBetween(from, to);
     }
 }
