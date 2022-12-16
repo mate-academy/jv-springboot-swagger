@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,22 +39,30 @@ public class ProductController {
         this.sorterService = sorterService;
     }
 
+    @ApiOperation(value = "Gets product by ID",
+            response = ProductRequestDto.class)
+    @GetMapping("/{id}")
+    public ProductResponseDto getById(@PathVariable Long id) {
+        return productMapper.mapToDto(productService.getDyId(id));
+    }
+
+    @ApiOperation(value = "Create product",
+            response = ProductRequestDto.class)
     @PostMapping
     public ProductResponseDto create(@RequestBody ProductRequestDto productRequestDto) {
         return productMapper
                 .mapToDto(productService.save(productMapper.mapToModel(productRequestDto)));
     }
 
-    @GetMapping("/{id}")
-    public ProductResponseDto getById(@PathVariable Long id) {
-        return productMapper.mapToDto(productService.getDyId(id));
-    }
-
+    @ApiOperation(value = "Delete product by ID",
+            response = ProductRequestDto.class)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         productService.deleteById(id);
     }
 
+    @ApiOperation(value = "Update product with id",
+            response = ProductRequestDto.class)
     @PutMapping("/{id}")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto productRequestDto) {
@@ -62,6 +71,8 @@ public class ProductController {
         return productMapper.mapToDto(productService.save(product));
     }
 
+    @ApiOperation(value = "Get all products",
+            response = ProductRequestDto.class)
     @GetMapping
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "20") Integer count,
                                            @RequestParam(defaultValue = "0") Integer page,
@@ -75,6 +86,8 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
+    @ApiOperation(value = "Get all products by price between",
+            response = ProductRequestDto.class)
     @GetMapping("/{by-price}")
     public List<ProductResponseDto> getAllByPriceBetween(
             @RequestParam(defaultValue = "20") Integer count,
