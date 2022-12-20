@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import mate.academy.springboot.swagger.service.SortService;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class SortServiceImpl implements SortService {
     public static final Integer FIELD_INDEX = 0;
     public static final Integer DIRECTION_INDEX = 1;
