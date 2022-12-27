@@ -1,9 +1,8 @@
 package mate.academy.springboot.swagger.util;
 
-import org.springframework.data.domain.Sort;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 public class SortingOrders {
     public static List<Sort.Order> getOrders(String sortBy) {
