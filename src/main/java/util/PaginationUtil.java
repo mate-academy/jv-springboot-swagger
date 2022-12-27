@@ -3,12 +3,11 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 public class PaginationUtil {
     private static final String SYMBOL_BETWEEN_ATTRIBUTES = ":";
-    private static final String SYMBOL_BETWEEN_PARAMETERS= ";";
+    private static final String SYMBOL_BETWEEN_PARAMETERS = ";";
     private static final int INDEX_OF_FIELD_NAME = 0;
     private static final int INDEX_OF_DIRECTION_VALUE = 1;
 
