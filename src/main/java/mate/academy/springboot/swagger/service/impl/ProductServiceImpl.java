@@ -27,13 +27,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean deleteById(Long id) {
-        try {
-            productRepository.deleteById(id);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
     }
 
     @Override
@@ -47,8 +42,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllByPriceBetween(PageRequest pageRequest,
-                                               BigDecimal from, BigDecimal to) {
+    public List<Product> findAllByPriceBetween(
+            PageRequest pageRequest,
+            BigDecimal from,
+            BigDecimal to) {
         return productRepository.findAllByPriceBetween(pageRequest, from, to);
     }
 }

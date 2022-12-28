@@ -10,13 +10,11 @@ public interface ProductService {
 
     Product getById(Long id);
 
-    Boolean deleteById(Long id);
+    void deleteById(Long id);
 
     Product update(Product product);
 
     List<Product> findAll(PageRequest pageRequest);
 
     List<Product> findAllByPriceBetween(PageRequest pageRequest, BigDecimal from, BigDecimal to);
-    // toDo: get all products where price is between two values received as a RequestParam inputs.
-    //  Add pagination and ability to sort by price or by title in ASC or DESC order.
 }

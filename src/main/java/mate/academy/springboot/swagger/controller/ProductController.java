@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,8 +49,7 @@ public class ProductController {
     @ApiOperation("Create product and return created product with id")
     public ProductResponseDto create(@RequestBody ProductRequestDto requestDto) {
         return responseDtoMapper.mapToDto(
-                productService.save(
-                        requestDtoMapper.mapToModel(requestDto)));
+                productService.save(requestDtoMapper.mapToModel(requestDto)));
     }
 
     @PutMapping("/{id}")
@@ -63,18 +63,22 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ApiOperation("Remove product with id")
-    public String deleteById(@PathVariable Long id) {
-        if (productService.deleteById(id)) {
-            return "Success";
-        }
-        return "Something went wrong";
+    public void deleteById(@PathVariable Long id) {
+        productService.deleteById(id);
     }
 
     @GetMapping
     @ApiOperation("Get list of all products with pagination by pages, and required sorting")
-    public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "20") Integer count,
-                                           @RequestParam (defaultValue = "0") Integer page,
-                                           @RequestParam (defaultValue = "title") String sortBy) {
+    public List<ProductResponseDto> getAll(
+            @RequestParam (defaultValue = "20")
+                @ApiParam(value = "default value is 20")
+                Integer count,
+            @RequestParam (defaultValue = "0")
+                @ApiParam(value = "default value is 0")
+                Integer page,
+            @RequestParam (defaultValue = "title")
+                @ApiParam(value = "default value is title")
+                String sortBy) {
         Sort sort = Sort.by(SortingOrders.getOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -85,10 +89,18 @@ public class ProductController {
     @GetMapping("/price")
     @ApiOperation("Get list of all products with pagination by pages, required sorting,"
             + " and filtering by price")
-    public List<ProductResponseDto> getAllByPrice(@RequestParam (defaultValue = "20") Integer count,
-                                           @RequestParam (defaultValue = "0") Integer page,
-                                           @RequestParam (defaultValue = "title") String sortBy,
-                                           @RequestParam BigDecimal from, BigDecimal to) {
+    public List<ProductResponseDto> getAllByPrice(
+            @RequestParam(defaultValue = "20")
+                @ApiParam(value = "default value is 20")
+                Integer count,
+            @RequestParam (defaultValue = "0")
+                @ApiParam(value = "default value is 0")
+                Integer page,
+            @RequestParam (defaultValue = "title")
+                @ApiParam(value = "default value is title")
+                String sortBy,
+            @RequestParam BigDecimal from,
+            @RequestParam BigDecimal to) {
         Sort sort = Sort.by(SortingOrders.getOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(pageRequest, from, to).stream()
