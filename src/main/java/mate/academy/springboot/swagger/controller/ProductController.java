@@ -46,8 +46,10 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Update product by id")
-    public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody ProductRequestDto productRequestDto) {
+    public ProductResponseDto update(
+            @PathVariable Long id,
+            @RequestBody ProductRequestDto productRequestDto
+    ) {
         Product product = productDtoMapper.fromDto(productRequestDto);
         product.setId(id);
         return productDtoMapper.toDto(productService.save(product));
@@ -67,15 +69,17 @@ public class ProductController {
 
     @GetMapping("/all")
     @ApiOperation(value = "Get a sorted list of products by parameters")
-    public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "0")
-                                           @ApiParam(value = "default value is '0'")
-                                           Integer page,
-                                           @RequestParam (defaultValue = "10")
-                                           @ApiParam(value = "default value is '10'")
-                                           Integer count,
-                                           @RequestParam (defaultValue = "id")
-                                           @ApiParam(value = "default value is 'id'")
-                                           String sortBy) {
+    public List<ProductResponseDto> getAll(
+            @RequestParam (defaultValue = "0")
+            @ApiParam(value = "default value is '0'")
+            Integer page,
+            @RequestParam (defaultValue = "10")
+            @ApiParam(value = "default value is '10'")
+            Integer count,
+            @RequestParam (defaultValue = "id")
+            @ApiParam(value = "default value is 'id'")
+            String sortBy
+    ) {
         PageRequest pageRequest = PageRequest.of(page, count, parser.parse(sortBy));
         return productService.getAll(pageRequest)
                 .stream()
@@ -85,17 +89,19 @@ public class ProductController {
 
     @GetMapping("/price")
     @ApiOperation(value = "Get a sorted list of products by parameters and price")
-    public List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
-                                                         @RequestParam BigDecimal to,
-                                                         @RequestParam (defaultValue = "0")
-                                                         @ApiParam(value = "default value is '0'")
-                                                         Integer page,
-                                                         @RequestParam (defaultValue = "10")
-                                                         @ApiParam(value = "default value is '10'")
-                                                         Integer count,
-                                                         @RequestParam (defaultValue = "id")
-                                                         @ApiParam(value = "default value is 'id'")
-                                                         String sortBy) {
+    public List<ProductResponseDto> getAllByPriceBetween(
+            @RequestParam BigDecimal from,
+            @RequestParam BigDecimal to,
+            @RequestParam (defaultValue = "0")
+            @ApiParam(value = "default value is '0'")
+            Integer page,
+            @RequestParam (defaultValue = "10")
+            @ApiParam(value = "default value is '10'")
+            Integer count,
+            @RequestParam (defaultValue = "id")
+            @ApiParam(value = "default value is 'id'")
+            String sortBy
+    ) {
         PageRequest pageRequest = PageRequest.of(page, count, parser.parse(sortBy));
         return productService.getAllByPriceBetween(from, to, pageRequest)
                 .stream()
