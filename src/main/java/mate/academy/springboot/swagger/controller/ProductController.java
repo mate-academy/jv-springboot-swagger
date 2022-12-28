@@ -30,13 +30,16 @@ public class ProductController {
     private final ProductService productService;
     private final RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper;
     private final ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper;
+    private final SortingOrders sortingOrders;
 
     public ProductController(ProductService productService,
                              RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper,
-                             ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper) {
+                             ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper,
+                             SortingOrders sortingOrders) {
         this.productService = productService;
         this.requestDtoMapper = requestDtoMapper;
         this.responseDtoMapper = responseDtoMapper;
+        this.sortingOrders = sortingOrders;
     }
 
     @GetMapping("/{id}")
@@ -79,7 +82,7 @@ public class ProductController {
             @RequestParam (defaultValue = "title")
                 @ApiParam(value = "default value is title")
                 String sortBy) {
-        Sort sort = Sort.by(SortingOrders.getOrders(sortBy));
+        Sort sort = sortingOrders.sortBy(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(responseDtoMapper::mapToDto)
@@ -101,7 +104,7 @@ public class ProductController {
                 String sortBy,
             @RequestParam BigDecimal from,
             @RequestParam BigDecimal to) {
-        Sort sort = Sort.by(SortingOrders.getOrders(sortBy));
+        Sort sort = sortingOrders.sortBy(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(pageRequest, from, to).stream()
                 .map(responseDtoMapper::mapToDto)

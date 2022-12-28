@@ -3,9 +3,11 @@ package mate.academy.springboot.swagger.util;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SortingOrders {
-    public static List<Sort.Order> getOrders(String sortBy) {
+    public Sort sortBy(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
@@ -24,6 +26,6 @@ public class SortingOrders {
             Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
             orders.add(order);
         }
-        return orders;
+        return Sort.by(orders);
     }
 }
