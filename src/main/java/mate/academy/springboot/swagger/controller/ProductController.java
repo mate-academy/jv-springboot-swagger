@@ -38,7 +38,7 @@ public class ProductController {
         this.myCustomSorter = myCustomSorter;
     }
 
-    @PostMapping()
+    @PostMapping
     @ApiOperation(value = "Create a new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto productRequestDto) {
         Product product = productService.save(productMapper.mapToModel(productRequestDto));
@@ -58,30 +58,30 @@ public class ProductController {
     @GetMapping("/inject")
     @ApiOperation(value = "Inject initial data")
     public String inject() {
-        Product product1 = new Product();
-        product1.setTitle("iPhone 12");
-        product1.setPrice(BigDecimal.valueOf(1999));
-        productService.save(product1);
+        Product iphone = new Product();
+        iphone.setTitle("iPhone 12");
+        iphone.setPrice(BigDecimal.valueOf(1999));
+        productService.save(iphone);
 
-        Product product2 = new Product();
-        product2.setTitle("Samsung s20");
-        product2.setPrice(BigDecimal.valueOf(1500));
-        productService.save(product2);
+        Product samsung = new Product();
+        samsung.setTitle("Samsung s20");
+        samsung.setPrice(BigDecimal.valueOf(1500));
+        productService.save(samsung);
 
-        Product product3 = new Product();
-        product3.setTitle("PS5");
-        product3.setPrice(BigDecimal.valueOf(900));
-        productService.save(product3);
+        Product ps5 = new Product();
+        ps5.setTitle("PS5");
+        ps5.setPrice(BigDecimal.valueOf(900));
+        productService.save(ps5);
 
-        Product product4 = new Product();
-        product4.setTitle("EcoFlow");
-        product4.setPrice(BigDecimal.valueOf(1100));
-        productService.save(product4);
+        Product ecoflow = new Product();
+        ecoflow.setTitle("EcoFlow");
+        ecoflow.setPrice(BigDecimal.valueOf(1100));
+        productService.save(ecoflow);
 
-        Product product5 = new Product();
-        product5.setTitle("Sword");
-        product5.setPrice(BigDecimal.valueOf(1000));
-        productService.save(product5);
+        Product sword = new Product();
+        sword.setTitle("Medieval Sword from France XII");
+        sword.setPrice(BigDecimal.valueOf(1000));
+        productService.save(sword);
 
         return "Done!";
 
