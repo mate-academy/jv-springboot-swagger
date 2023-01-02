@@ -16,5 +16,5 @@ public interface ProductService {
 
     List<Product> findAll(PageRequest pageRequest);
 
-    List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to);
+    List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest);
 }
