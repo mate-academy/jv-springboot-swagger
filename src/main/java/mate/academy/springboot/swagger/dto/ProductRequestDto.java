@@ -5,12 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.Getter;
 
-@Data
-@Setter(AccessLevel.NONE)
+@Getter
 @ApiModel(value = "Request product")
 public class ProductRequestDto {
     @NotNull
