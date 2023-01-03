@@ -101,7 +101,7 @@ public class ProductController {
                                                 @ApiParam(value = "default value = 0")
                                                 Integer page,
                                             @RequestParam (defaultValue = "id")
-                                                @ApiParam(value = "default sorting order DESC")
+                                                @ApiParam(value = "default sort by id")
                                                 String sortBy) {
         Sort orders = SortParserUtil.sortParse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, orders);
