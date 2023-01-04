@@ -1,0 +1,35 @@
+package mate.academy.springboot.swagger.util;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SortParserImpl implements SortParser {
+    private static final int DIRECTION = 1;
+    private static final int FIELD = 0;
+
+    @Override
+    public Sort sortBy(String sortBy) {
+        List<Sort.Order> orders = new ArrayList<>();
+        if (sortBy.contains(":")) {
+            String[] sortingFields = sortBy.split(";");
+            for (String field : sortingFields) {
+                Sort.Order order;
+                if (field.contains(":")) {
+                    String[] fieldAndDirections = field.split(":");
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirections[DIRECTION]),
+                            fieldAndDirections[FIELD]);
+                } else {
+                    order = new Sort.Order(Sort.Direction.DESC, field);
+                }
+                orders.add(order);
+            }
+        } else {
+            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
+            orders.add(order);
+        }
+        return Sort.by(orders);
+    }
+}
