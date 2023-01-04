@@ -9,16 +9,18 @@ import org.springframework.stereotype.Component;
 public class SortParserImpl implements SortParser {
     private static final int DIRECTION = 1;
     private static final int FIELD = 0;
+    private static final String FIELD_REGEX = ";";
+    private static final String FIELD_AND_DIRECTION_REGEX = ":";
 
     @Override
     public Sort sortBy(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
+            String[] sortingFields = sortBy.split(FIELD_REGEX);
             for (String field : sortingFields) {
                 Sort.Order order;
                 if (field.contains(":")) {
-                    String[] fieldAndDirections = field.split(":");
+                    String[] fieldAndDirections = field.split(FIELD_AND_DIRECTION_REGEX);
                     order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirections[DIRECTION]),
                             fieldAndDirections[FIELD]);
                 } else {
