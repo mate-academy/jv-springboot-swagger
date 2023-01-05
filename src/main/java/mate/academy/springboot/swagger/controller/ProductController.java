@@ -51,11 +51,11 @@ public class ProductController {
     @GetMapping
     @ApiOperation(value = "get all products")
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "0")
-                                           @ApiParam(value = "default value is '0'") Integer page,
-                                           @RequestParam(defaultValue = "20")
-                                           @ApiParam(value = "default value is '20'") Integer size,
-                                           @RequestParam(defaultValue = "title")
-                                           @ApiParam(value = "default value is 'title'") String orderBy) {
+                                   @ApiParam(value = "default value is '0'") Integer page,
+                                   @RequestParam(defaultValue = "20")
+                                   @ApiParam(value = "default value is '20'") Integer size,
+                                   @RequestParam(defaultValue = "title")
+                                   @ApiParam(value = "default value is 'title'") String orderBy) {
         Sort sort = productService.getSorter(orderBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAll(pageRequest).stream()
@@ -66,15 +66,15 @@ public class ProductController {
     @GetMapping("/by-price")
     @ApiOperation(value = "get all product in price range")
     public List<ProductResponseDto> getAllByPrice(@RequestParam
-                                                  @ApiParam(value = "start price (including)") BigDecimal priceFrom,
-                                                  @RequestParam
-                                                  @ApiParam(value = "end price (excluding)") BigDecimal priceTo,
-                                                  @RequestParam(defaultValue = "0")
-                                                  @ApiParam(value = "default value is '0'") Integer page,
-                                                  @RequestParam(defaultValue = "20")
-                                                  @ApiParam(value = "default value is '20'") Integer size,
-                                                  @RequestParam(defaultValue = "title")
-                                                  @ApiParam(value = "default value is 'title'") String orderBy) {
+                                  @ApiParam(value = "start price (including)") BigDecimal priceFrom,
+                                  @RequestParam
+                                  @ApiParam(value = "end price (excluding)") BigDecimal priceTo,
+                                  @RequestParam(defaultValue = "0")
+                                  @ApiParam(value = "default value is '0'") Integer page,
+                                  @RequestParam(defaultValue = "20")
+                                  @ApiParam(value = "default value is '20'") Integer size,
+                                  @RequestParam(defaultValue = "title")
+                                  @ApiParam(value = "default value is 'title'") String orderBy) {
         Sort sort = productService.getSorter(orderBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAllBetweenPrice(priceFrom, priceTo, pageRequest).stream()
