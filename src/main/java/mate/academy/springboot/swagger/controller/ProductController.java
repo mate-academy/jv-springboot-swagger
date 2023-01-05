@@ -1,5 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.List;
@@ -33,21 +35,27 @@ public class ProductController {
     }
 
     @PostMapping
+    @ApiOperation(value = "add a new product to DB")
     public ProductResponseDto add(@RequestBody ProductRequestDto requestDto) {
         Product product = productService.add(mapper.dtoToModel(requestDto));
         return mapper.modelToDto(product);
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "return certain product by ID")
     public ProductResponseDto getById(@PathVariable Long id) {
         Product product = productService.getById(id);
         return mapper.modelToDto(product);
     }
 
     @GetMapping
-    public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "0") Integer page,
-                                           @RequestParam(defaultValue = "20") Integer size,
-                                           @RequestParam(defaultValue = "title") String orderBy) {
+    @ApiOperation(value = "get all products")
+    public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "0")
+                                           @ApiParam(value = "default value is '0'") Integer page,
+                                           @RequestParam(defaultValue = "20")
+                                           @ApiParam(value = "default value is '20'") Integer size,
+                                           @RequestParam(defaultValue = "title")
+                                           @ApiParam(value = "default value is 'title'") String orderBy) {
         Sort sort = productService.getSorter(orderBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAll(pageRequest).stream()
@@ -56,11 +64,17 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
-    public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal priceFrom,
-                                                  @RequestParam BigDecimal priceTo,
-                                                  @RequestParam(defaultValue = "0") Integer page,
-                                                  @RequestParam(defaultValue = "20") Integer size,
-                                                  @RequestParam(defaultValue = "price") String orderBy) {
+    @ApiOperation(value = "get all product in price range")
+    public List<ProductResponseDto> getAllByPrice(@RequestParam
+                                                  @ApiParam(value = "start price (including)") BigDecimal priceFrom,
+                                                  @RequestParam
+                                                  @ApiParam(value = "end price (excluding)") BigDecimal priceTo,
+                                                  @RequestParam(defaultValue = "0")
+                                                  @ApiParam(value = "default value is '0'") Integer page,
+                                                  @RequestParam(defaultValue = "20")
+                                                  @ApiParam(value = "default value is '20'") Integer size,
+                                                  @RequestParam(defaultValue = "title")
+                                                  @ApiParam(value = "default value is 'title'") String orderBy) {
         Sort sort = productService.getSorter(orderBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAllBetweenPrice(priceFrom, priceTo, pageRequest).stream()
@@ -69,11 +83,13 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "delete product by ID")
     public void delete(@PathVariable Long id) {
         productService.deleteById(id);
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "update product by ID")
     public void update(@PathVariable Long id, @RequestBody ProductRequestDto requestDto) {
         Product product = mapper.dtoToModel(requestDto);
         product.setId(id);
@@ -81,6 +97,7 @@ public class ProductController {
     }
 
     @GetMapping("/inject")
+    @ApiOperation(value = "add test data")
     public String inject() {
 
         Product tv = new Product();
