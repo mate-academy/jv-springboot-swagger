@@ -20,7 +20,8 @@ public class SortingOrders {
                 Sort.Order order;
                 if (field.contains(SEMI_COLON)) {
                     String[] filedAndDirections = field.split(COLON);
-                    order = new Sort.Order(Sort.Direction.valueOf(filedAndDirections[FIRST_ELEMENT]),
+                    order = new Sort.Order(
+                            Sort.Direction.valueOf(filedAndDirections[FIRST_ELEMENT]),
                             filedAndDirections[ZERO_ELEMENT]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
