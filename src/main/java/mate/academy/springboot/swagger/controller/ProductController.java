@@ -40,23 +40,23 @@ public class ProductController {
     @GetMapping("/{id}")
     @ApiOperation("Get product by id")
     public ProductResponseDto getById(@PathVariable Long id) {
-        return productMapper.mapToDto(productService.get(id));
+        return productMapper.toDto(productService.get(id));
     }
 
     @PostMapping
     @ApiOperation("Create product")
     public ProductResponseDto create(@RequestBody ProductRequestDto requestDto) {
-        return productMapper.mapToDto(productService
-                .save(productMapper.mapToModel(requestDto)));
+        return productMapper.toDto(productService
+                .save(productMapper.toModel(requestDto)));
     }
 
     @PutMapping("/{id}")
     @ApiOperation("Update product")
     public ProductResponseDto update(@PathVariable Long id,
             @RequestBody ProductRequestDto requestDto) {
-        Product product = productMapper.mapToModel(requestDto);
+        Product product = productMapper.toModel(requestDto);
         product.setId(id);
-        return productMapper.mapToDto(productService.update(product));
+        return productMapper.toDto(productService.update(product));
     }
 
     @DeleteMapping("/{id}")
@@ -66,6 +66,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @ApiOperation("Get all products")
     public List<ProductResponseDto> getAll(
             @RequestParam(defaultValue = "10")
             @ApiParam(value = "default value = 10")
@@ -80,7 +81,7 @@ public class ProductController {
         Sort sort = sortingOrders.sortBy(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
-                .map(productMapper::mapToDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -101,8 +102,7 @@ public class ProductController {
         Sort sort = sortingOrders.sortBy(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(pageRequest, from, to).stream()
-                .map(productMapper::mapToDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
-
 }

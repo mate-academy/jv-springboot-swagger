@@ -1,12 +1,9 @@
 package mate.academy.springboot.swagger.dto;
 
 import java.math.BigDecimal;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.Getter;
 
-@Data
-@Setter(AccessLevel.NONE)
+@Getter
 public class ProductRequestDto {
     private String title;
     private BigDecimal price;
