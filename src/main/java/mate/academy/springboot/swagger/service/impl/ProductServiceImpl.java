@@ -5,6 +5,7 @@ import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -35,5 +36,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll(PageRequest pageRequest) {
         return productRepository.findAll(pageRequest).getContent();
+    }
+
+    @Override
+    public List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest) {
+        return productRepository.getAllByPriceBetween(from, to, pageRequest);
     }
 }

@@ -71,7 +71,10 @@ public class ProductController {
                                           @RequestParam(defaultValue = "3") Integer count,
                                           @RequestParam(defaultValue = "0") Integer page,
                                           @RequestParam(defaultValue = "id") String sortBy) {
-
+        PageRequest pageRequest = PageRequest.of(page, count, SortParser.parse(sortBy));
+        return productService.findAllByPriceBetween(from, to, pageRequest).stream()
+                .map(productMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
 
