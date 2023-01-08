@@ -3,7 +3,9 @@ package mate.academy.springboot.swagger.dto.mapper;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductMapper implements RequestMapper<ProductRequestDto, Product>,
         ResponseMapper<ProductResponseDto, Product> {
     @Override
