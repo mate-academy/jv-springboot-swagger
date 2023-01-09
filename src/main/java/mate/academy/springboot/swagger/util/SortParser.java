@@ -3,19 +3,25 @@ package mate.academy.springboot.swagger.util;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SortParser {
-    // products?count=20&page=1&sortBy=price:ASC;title:ASC
-    public static Sort parse(String sortBy) {
+    private static final int FIELD_INDEX = 1;
+    private static final int DIRECTION_INDEX = 0;
+    private static final String SEMICOLON = ";";
+    private static final String COLON = ":";
+
+    public Sort parse(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            String[] sortedFields = sortBy.split(";");
+        if (sortBy.contains(COLON)) {
+            String[] sortedFields = sortBy.split(SEMICOLON);
             for (String field : sortedFields) {
                 Sort.Order order;
-                if (field.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                if (field.contains(COLON)) {
+                    String[] fieldsAndDirections = field.split(COLON);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[FIELD_INDEX]),
+                            fieldsAndDirections[DIRECTION_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
