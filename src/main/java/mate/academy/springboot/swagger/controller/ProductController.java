@@ -10,6 +10,7 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.service.SortParser;
 import mate.academy.springboot.swagger.service.mapper.ProductMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,24 +29,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper mapper;
+    private final SortParser sortParser;
 
-    public ProductController(ProductService productService, ProductMapper mapper) {
+    public ProductController(ProductService productService,
+                             ProductMapper mapper, SortParser sortParser) {
         this.productService = productService;
         this.mapper = mapper;
+        this.sortParser = sortParser;
     }
 
     @PostMapping
     @ApiOperation(value = "add a new product to DB")
     public ProductResponseDto add(@RequestBody ProductRequestDto requestDto) {
-        Product product = productService.add(mapper.dtoToModel(requestDto));
-        return mapper.modelToDto(product);
+        Product product = productService.add(mapper.toModel(requestDto));
+        return mapper.toDto(product);
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "return certain product by ID")
     public ProductResponseDto getById(@PathVariable Long id) {
         Product product = productService.getById(id);
-        return mapper.modelToDto(product);
+        return mapper.toDto(product);
     }
 
     @GetMapping
@@ -56,15 +60,15 @@ public class ProductController {
                                    @ApiParam(value = "default value is '20'") Integer size,
                                    @RequestParam(defaultValue = "title")
                                    @ApiParam(value = "default value is 'title'") String orderBy) {
-        Sort sort = productService.getSorter(orderBy);
+        Sort sort = sortParser.getProductSorter(orderBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAll(pageRequest).stream()
-                .map(mapper::modelToDto)
+                .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/by-price")
-    @ApiOperation(value = "get all product in price range")
+    @ApiOperation(value = "get all products in price range")
     public List<ProductResponseDto> getAllByPrice(@RequestParam
                                   @ApiParam(value = "start price (including)") BigDecimal priceFrom,
                                   @RequestParam
@@ -75,10 +79,10 @@ public class ProductController {
                                   @ApiParam(value = "default value is '20'") Integer size,
                                   @RequestParam(defaultValue = "title")
                                   @ApiParam(value = "default value is 'title'") String orderBy) {
-        Sort sort = productService.getSorter(orderBy);
+        Sort sort = sortParser.getProductSorter(orderBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAllBetweenPrice(priceFrom, priceTo, pageRequest).stream()
-                .map(mapper::modelToDto)
+                .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -91,7 +95,7 @@ public class ProductController {
     @PutMapping("/{id}")
     @ApiOperation(value = "update product by ID")
     public void update(@PathVariable Long id, @RequestBody ProductRequestDto requestDto) {
-        Product product = mapper.dtoToModel(requestDto);
+        Product product = mapper.toModel(requestDto);
         product.setId(id);
         productService.update(product);
     }

@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to);
-
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, Pageable pageable);
 }
