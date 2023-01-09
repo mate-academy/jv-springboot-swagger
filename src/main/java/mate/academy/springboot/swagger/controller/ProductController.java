@@ -9,8 +9,7 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.service.mapper.ProductRequestDtoMapper;
-import mate.academy.springboot.swagger.service.mapper.ProductResponseDtoMapper;
+import mate.academy.springboot.swagger.service.mapper.ProductDtoMapper;
 import mate.academy.springboot.swagger.util.SortParserUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,29 +26,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private ProductService productService;
-    private ProductResponseDtoMapper responseDtoMapper;
-    private ProductRequestDtoMapper requestDtoMapper;
+    private final ProductService productService;
+    private final ProductDtoMapper mapper;
+    private final SortParserUtil parserUtil;
 
-    public ProductController(ProductService productService,
-                             ProductResponseDtoMapper responseDtoMapper,
-                             ProductRequestDtoMapper requestDtoMapper) {
+    public ProductController(ProductService productService, ProductDtoMapper mapper,
+                             SortParserUtil parserUtil) {
         this.productService = productService;
-        this.responseDtoMapper = responseDtoMapper;
-        this.requestDtoMapper = requestDtoMapper;
+        this.mapper = mapper;
+        this.parserUtil = parserUtil;
     }
 
     @PostMapping
     @ApiOperation(value = "create a new product")
     public ProductResponseDto add(@RequestBody ProductRequestDto requestDto) {
-        return responseDtoMapper.mapToDto(productService.save(requestDtoMapper
+        return mapper.mapToDto(productService.save(mapper
                     .mapToModel(requestDto)));
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "get product by id")
     public ProductResponseDto getById(@PathVariable Long id) {
-        return responseDtoMapper.mapToDto(productService.get(id));
+        return mapper.mapToDto(productService.get(id));
     }
 
     @DeleteMapping("/{id}")
@@ -62,9 +60,9 @@ public class ProductController {
     @ApiOperation(value = "update product by id")
     public ProductResponseDto update(@PathVariable Long id,
                     @RequestBody ProductRequestDto requestDto) {
-        Product product = requestDtoMapper.mapToModel(requestDto);
+        Product product = mapper.mapToModel(requestDto);
         product.setId(id);
-        return responseDtoMapper.mapToDto(productService.update(product));
+        return mapper.mapToDto(productService.update(product));
     }
 
     @GetMapping("/price")
@@ -84,11 +82,11 @@ public class ProductController {
                                                                 @ApiParam(value
                                                                         = "default sort by id")
                                                                 String sortBy) {
-        Sort orders = SortParserUtil.sortParse(sortBy);
+        Sort orders = parserUtil.sortParse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, orders);
         return productService.getAllWherePriceBetween(from, to, pageRequest)
                 .stream()
-                .map(responseDtoMapper::mapToDto)
+                .map(mapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -103,10 +101,10 @@ public class ProductController {
                                             @RequestParam (defaultValue = "id")
                                                 @ApiParam(value = "default sort by id")
                                                 String sortBy) {
-        Sort orders = SortParserUtil.sortParse(sortBy);
+        Sort orders = parserUtil.sortParse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, orders);
         return productService.getAll(pageRequest).stream()
-                .map(responseDtoMapper::mapToDto)
+                .map(mapper::mapToDto)
                 .collect(Collectors.toList());
     }
 }
