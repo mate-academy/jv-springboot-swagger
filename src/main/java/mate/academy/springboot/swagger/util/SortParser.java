@@ -1,8 +1,8 @@
 package mate.academy.springboot.swagger.util;
 
-import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 public class SortParser {
     // products?count=20&page=1&sortBy=price:ASC;title:ASC

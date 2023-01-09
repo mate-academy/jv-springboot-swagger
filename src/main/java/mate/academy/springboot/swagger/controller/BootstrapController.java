@@ -1,11 +1,12 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import java.math.BigDecimal;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/init")
@@ -17,6 +18,7 @@ public class BootstrapController {
     }
 
     @GetMapping
+    @ApiOperation(value = "load collection of products for testing")
     public void init() {
         Product product1 = new Product();
         product1.setTitle("bread");
