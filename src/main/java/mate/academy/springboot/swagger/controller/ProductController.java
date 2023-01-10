@@ -70,15 +70,16 @@ public class ProductController {
             + "with pagination and filtering by price options. "
             + "To sort by field in ASC or DESC order, type 'fieldName':'order'.")
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "0")
-            @ApiParam(value = "default value is 0") Integer page,
+                                            @ApiParam(value = "default value is 0") Integer page,
                                             @RequestParam (defaultValue = "20")
-            @ApiParam(value = "default value is 20") Integer size,
+                                            @ApiParam(value = "default value is 20") Integer size,
                                             @RequestParam (defaultValue = "id")
-            @ApiParam(value = "default value is id") String sortBy,
+                                            @ApiParam(value = "default value is id") String sortBy,
                                             @RequestParam (defaultValue = "0")
-            @ApiParam(value = "default value is 0") BigDecimal from,
+                                            @ApiParam(value = "default value is 0") BigDecimal from,
                                             @RequestParam (defaultValue = "1000000")
-            @ApiParam(value = "default value is 1000000") BigDecimal to) {
+                                            @ApiParam(value = "default value is 1000000")
+                                            BigDecimal to) {
         PageRequest pageRequest = pageRequestParser.parse(page, size, sortBy);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productMapper::toDto)

@@ -9,14 +9,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PageRequestParser {
+    private static final String COLON_REGEX = ":";
+    private static final String SEMICOLON_REGEX = ";";
+    private static final int ZERO_INDEX = 0;
+    private static final int FIRST_INDEX = 1;
+
     public PageRequest parse(Integer page, Integer size, String sortBy) {
         List<Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            for (String field : sortBy.split(";")) {
-                if (field.contains(":")) {
-                    String[] fieldAndDirection = field.split(":");
-                    orders.add(new Order(Sort.Direction.valueOf(fieldAndDirection[1]),
-                            fieldAndDirection[0]));
+        if (sortBy.contains(COLON_REGEX)) {
+            for (String field : sortBy.split(SEMICOLON_REGEX)) {
+                if (field.contains(COLON_REGEX)) {
+                    String[] fieldAndDirection = field.split(COLON_REGEX);
+                    orders.add(new Order(Sort.Direction.valueOf(
+                            fieldAndDirection[FIRST_INDEX]),
+                            fieldAndDirection[ZERO_INDEX]));
                 } else {
                     orders.add(new Order(Sort.Direction.ASC, field));
                 }
