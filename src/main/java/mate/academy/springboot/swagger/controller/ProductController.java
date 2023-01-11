@@ -9,7 +9,7 @@ import mate.academy.springboot.swagger.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.mapper.ProductMapper;
-import mate.academy.springboot.swagger.util.SortParser;
+import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -43,7 +43,7 @@ public class ProductController {
         return productMapper.toDto(product);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "get Product by ID")
     public ProductResponseDto get(
             @PathVariable
@@ -51,7 +51,7 @@ public class ProductController {
         return productMapper.toDto(productService.get(id));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "delete Product by ID")
     public void delete(
             @PathVariable
@@ -59,7 +59,7 @@ public class ProductController {
         productService.delete(id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "update Product")
     public ProductResponseDto update(
             @PathVariable
@@ -82,7 +82,7 @@ public class ProductController {
             @RequestParam(defaultValue = "id")
             @ApiParam(value = "Insert sorted fields and directions, default: id:DESC")
                     String sortBy) {
-        Sort sort = Sort.by(SortParser.sortBy(sortBy));
+        Sort sort = Sort.by(SortUtil.sortBy(sortBy));
         Pageable pageable = PageRequest.of(page, count, sort);
         return productService.findAll(pageable)
                 .stream()
@@ -103,7 +103,7 @@ public class ProductController {
             @RequestParam(defaultValue = "id")
             @ApiParam(value = "Insert sorted fields and directions, default: id:DESC")
                     String sortBy) {
-        Sort sort = Sort.by(SortParser.sortBy(sortBy));
+        Sort sort = Sort.by(SortUtil.sortBy(sortBy));
         Pageable pageable = PageRequest.of(page, count, sort);
         return productService.findProductsByPriceBetween(from, to, pageable)
                 .stream()

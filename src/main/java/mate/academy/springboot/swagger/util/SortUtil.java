@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Sort;
 
-public class SortParser {
+public class SortUtil {
     private static final String COLON_REGEX = ":";
     private static final String SEMICOLON_REGEX = ";";
     private static final int INDEX_OF_DIRECTION = 1;
