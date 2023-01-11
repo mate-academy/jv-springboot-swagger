@@ -46,7 +46,7 @@ public class ProductController {
                                 .toModel(productRequestDto)));
     }
 
-    @GetMapping("")
+    @GetMapping
     @ApiOperation(value = "Get all products")
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
                                             @RequestParam (defaultValue = "0") Integer page,
@@ -61,13 +61,11 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Create Product by id")
+    @ApiOperation(value = "Find Product by id")
     public ProductResponseDto findById(@PathVariable Long id) {
-        ProductResponseDto productResponseDto = new ProductResponseDto();
+        ProductResponseDto productResponseDto;
         Product product = productService.findById(id);
-        productResponseDto.setPrice(product.getPrice());
-        productResponseDto.setTitle(product.getTitle());
-        productResponseDto.setId(product.getId());
+        productResponseDto = productMapper.toResponseDto(product);
         return productResponseDto;
     }
 
