@@ -28,13 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
-    private final SortUtil sortUtil;
 
     public ProductController(ProductService productService,
-                             ProductMapper productMapper, SortUtil sortUtil) {
+                             ProductMapper productMapper) {
         this.productService = productService;
         this.productMapper = productMapper;
-        this.sortUtil = sortUtil;
     }
 
     @PostMapping
@@ -79,14 +77,14 @@ public class ProductController {
                                            @RequestParam (defaultValue = "id")
                                                @ApiParam(value = "default value is id")
                                                String sortBy) {
-        Sort sort = sortUtil.sort(sortBy);
+        Sort sort = SortUtil.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page,count,sort);
         return productService.findAll(pageRequest).stream()
                 .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/price")
+    @GetMapping("/by-price-between")
     @ApiOperation(value = "Get all products by price between values")
     public List<ProductResponseDto> getByPriceBetween(@RequestParam BigDecimal from,
                                                       @RequestParam BigDecimal to,
@@ -99,7 +97,7 @@ public class ProductController {
                                                       @RequestParam (defaultValue = "id")
                                                       @ApiParam(value = "default value is id")
                                                       String sortBy) {
-        Sort sort = sortUtil.sort(sortBy);
+        Sort sort = SortUtil.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page,count, sort);
         return productService.findProductsByPriceBetween(pageRequest,from, to)
                 .stream()
