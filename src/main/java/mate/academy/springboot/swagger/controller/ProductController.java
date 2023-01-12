@@ -92,7 +92,8 @@ public class ProductController {
                                             @ApiParam(value = "default value is id") String sortBy,
                                             @RequestParam (defaultValue = "0")
                                             @ApiParam(value = "default value is 0") BigDecimal from,
-                                            @RequestParam BigDecimal to) {
+                                            @RequestParam(defaultValue = "0")
+                                            @ApiParam(value = "default value is 0") BigDecimal to) {
         PageRequest pageRequest = pageRequestParser.parse(page, size, sortBy);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productMapper::toDto)
