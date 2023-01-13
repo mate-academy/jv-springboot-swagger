@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.RequestDtoMapper;
@@ -41,7 +42,7 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create new product")
-    public ProductResponseDto add(@RequestBody ProductRequestDto productRequestDto) {
+    public ProductResponseDto add(@RequestBody @Valid ProductRequestDto productRequestDto) {
         Product product = productService.save(productRequestMapper.toModel(productRequestDto));
         return productResponseMapper.toDto(product);
     }
