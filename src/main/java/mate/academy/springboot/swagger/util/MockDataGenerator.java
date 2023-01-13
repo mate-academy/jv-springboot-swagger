@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MockDataGenerator {
-    private static final int MIN_PRICE = 1000;
-    private static final int RANGE = 500;
+    private static final int MIN_PRICE = 200;
+    private static final int RANGE = 1800;
     private static final int QUANTITY = 100;
     private final ProductService productService;
 
