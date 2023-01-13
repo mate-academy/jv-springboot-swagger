@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 public class PageRequestParser {
     private static final String COLON_REGEX = ":";
     private static final String SEMICOLON_REGEX = ";";
-    private static final int ZERO_INDEX = 0;
-    private static final int FIRST_INDEX = 1;
+    private static final int FIELD_INDEX = 0;
+    private static final int DIRECTION_INDEX = 1;
 
     public PageRequest parse(Integer page, Integer size, String sortBy) {
         List<Order> orders = new ArrayList<>();
@@ -21,8 +21,8 @@ public class PageRequestParser {
                 if (field.contains(COLON_REGEX)) {
                     String[] fieldAndDirection = field.split(COLON_REGEX);
                     orders.add(new Order(Sort.Direction.valueOf(
-                            fieldAndDirection[FIRST_INDEX]),
-                            fieldAndDirection[ZERO_INDEX]));
+                            fieldAndDirection[DIRECTION_INDEX]),
+                            fieldAndDirection[FIELD_INDEX]));
                 } else {
                     orders.add(new Order(Sort.Direction.ASC, field));
                 }
