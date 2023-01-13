@@ -16,7 +16,7 @@ public class MockDataController {
     }
 
     @GetMapping
-    @ApiOperation(value = "Feel free to press 'Enter' x100")
+    @ApiOperation(value = "inject 100 mobile phone with random title and price")
     public void inject() {
         mockDataGenerator.injectRandomData();
     }
