@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.mapper.GenericMapper;
 import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.response.ProductResponseDto;
@@ -81,7 +82,7 @@ public class ProductController {
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest).stream()
                 .map(productMapper::mapToDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/price")
@@ -102,6 +103,6 @@ public class ProductController {
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getProductsByPriceBetween(pageRequest, from, to).stream()
                 .map(productMapper::mapToDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 }
