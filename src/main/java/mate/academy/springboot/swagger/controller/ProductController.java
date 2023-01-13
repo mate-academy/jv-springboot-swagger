@@ -1,5 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
+import static mate.academy.springboot.swagger.util.SortingUtil.sortBy;
+
 import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,7 +11,6 @@ import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.util.SortingUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,17 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
-    private final SortingUtil sortingUtil;
 
     public ProductController(ProductService productService,
-                             ProductMapper productMapper,
-                             SortingUtil sortingUtil) {
+                             ProductMapper productMapper) {
         this.productService = productService;
         this.productMapper = productMapper;
-        this.sortingUtil = sortingUtil;
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     @ApiOperation(value = "Create Product")
     public ProductResponseDto create(@RequestBody ProductRequestDto productRequestDto) {
         return productMapper
@@ -51,7 +49,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
                                             @RequestParam (defaultValue = "0") Integer page,
                                             @RequestParam (defaultValue = "id") String sortBy) {
-        Sort sort = sortingUtil.sortBy(sortBy);
+        Sort sort = sortBy(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService
                 .findAll(pageRequest)
@@ -94,7 +92,7 @@ public class ProductController {
                                                            Integer page,
                                                        @RequestParam (defaultValue = "id")
                                                            String sortBy) {
-        Sort sort = sortingUtil.sortBy(sortBy);
+        Sort sort = sortBy(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService
                 .findAllByPriceBetween(pageRequest, from, to)
