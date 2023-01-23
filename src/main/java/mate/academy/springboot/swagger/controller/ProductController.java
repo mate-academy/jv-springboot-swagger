@@ -65,7 +65,7 @@ public class ProductController {
         return productService.getAll(pageRequest)
                 .stream()
                 .map(productMapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/by-price")
@@ -84,7 +84,7 @@ public class ProductController {
         return productService.getByPrice(from, to, pageRequest)
                 .stream()
                 .map(productMapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @PutMapping
