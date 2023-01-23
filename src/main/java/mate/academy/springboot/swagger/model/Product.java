@@ -15,8 +15,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-@Entity
 @Table(name = "products")
+@Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

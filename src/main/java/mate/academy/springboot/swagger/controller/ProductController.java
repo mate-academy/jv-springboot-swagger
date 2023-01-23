@@ -39,8 +39,7 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "create a new product")
-    public ProductResponseDto create(@RequestBody
-                                         ProductRequestDto productRequestDto) {
+    public ProductResponseDto create(@RequestBody ProductRequestDto productRequestDto) {
         return productMapper.toDto(
                 productService.save(productMapper.toModel(productRequestDto))
         );
@@ -52,7 +51,7 @@ public class ProductController {
         return productMapper.toDto(productService.get(id));
     }
 
-    @GetMapping()
+    @GetMapping
     @ApiOperation(value = "get all sorted (ASC (by default), DESC) products by pages")
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "0")
                                                @ApiParam("default value '0'") Integer page,
@@ -70,6 +69,7 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(value = "get all where price between")
     public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal from,
                                                   @RequestParam BigDecimal to,
                                                   @RequestParam(defaultValue = "0")
@@ -98,7 +98,7 @@ public class ProductController {
         return productMapper.toDto(product);
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     @ApiOperation(value = "delete product by id")
     public void deleteProduct(@RequestParam Long id) {
         productService.delete(id);
