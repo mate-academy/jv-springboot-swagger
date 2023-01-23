@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.response.ProductResponseDto;
