@@ -4,6 +4,7 @@ import java.util.List;
 import java.math.BigDecimal;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to) {
-        return productRepository.findAllByPriceBetween(from, to);
+    public List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to,
+                                               Pageable pageable) {
+        return productRepository.findAllByPriceBetween(from, to, pageable);
     }
 }
