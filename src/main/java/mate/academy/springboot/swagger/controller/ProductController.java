@@ -72,9 +72,9 @@ public class ProductController {
             + "Parameters for pagination are optional (see default values)")
     @GetMapping
     public List<ProductResponseDto> findAll(
-            @ApiParam("Select page for pagination from 1 to any (others will be empty). "
-                    + "Default value is: `1`")
-            @RequestParam(defaultValue = "1") Integer page,
+            @ApiParam("Select page for pagination from 0 to any (others will be empty). "
+                    + "Default value is: `0`")
+            @RequestParam(defaultValue = "0") Integer page,
             @ApiParam("Select items count per page or pagination. Default value is: `20`")
             @RequestParam(defaultValue = "20") Integer count,
             @ApiParam("Select sorting with syntax like: "
