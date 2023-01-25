@@ -39,7 +39,7 @@ public class ProductController {
         this.paginationUtil = paginationUtil;
     }
 
-    @ApiOperation("CRUD: Create product by id")
+    @ApiOperation("CRUD: Create product")
     @PostMapping
     public ProductResponseDto create(@RequestBody ProductRequestDto receiveDto) {
         return mapper.toDto(productService.createOrUpdate(mapper.toModel(receiveDto)));

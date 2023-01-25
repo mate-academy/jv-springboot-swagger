@@ -23,11 +23,11 @@ public class PaginationUtil {
         return PageRequest.of(page, count, getSorting(sortBy));
     }
 
-    private static Sort getSorting(String sortBy) {
+    private Sort getSorting(String sortBy) {
         return Sort.by(getOrders(sortBy));
     }
 
-    private static List<Order> getOrders(String sortBy) {
+    private List<Order> getOrders(String sortBy) {
         return Arrays.stream(PATTERN_ITEMS_SPLITTER.split(sortBy)).map(item -> {
             String[] itemAndSorting = PATTERN_NAME_DIRECTION.split(item);
             Direction direction = itemAndSorting.length == 2
