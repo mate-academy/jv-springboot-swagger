@@ -5,7 +5,7 @@ import mate.academy.springboot.swagger.dto.ProductDto;
 import mate.academy.springboot.swagger.model.Product;
 
 @org.mapstruct.Mapper(componentModel = "spring")
-public interface Mapper {
+public interface Dto {
     Product toModel(ProductDto dto);
 
     ProductDto toDto(Product product);

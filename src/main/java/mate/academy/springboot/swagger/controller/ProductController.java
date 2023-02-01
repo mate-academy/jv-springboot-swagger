@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.dto.ProductDto;
-import mate.academy.springboot.swagger.mapper.Mapper;
+import mate.academy.springboot.swagger.mapper.Dto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.SortParamParser;
@@ -26,26 +26,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final SortParamParser sortParamParser;
-    private final Mapper mapper;
+    private final Dto dto;
 
     public ProductController(ProductService productService, SortParamParser sortParamParser,
-                             Mapper mapper) {
+                             Dto dto) {
         this.productService = productService;
         this.sortParamParser = sortParamParser;
-        this.mapper = mapper;
+        this.dto = dto;
     }
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
     public ResponseEntity<ProductDto> add(@RequestBody ProductDto productDto) {
-        Product add = productService.add(mapper.toModel(productDto));
-        return ResponseEntity.ok(mapper.toDto(add));
+        Product add = productService.add(dto.toModel(productDto));
+        return ResponseEntity.ok(dto.toDto(add));
     }
 
     @ApiOperation(value = "Get product by id")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> get(@PathVariable Long id) {
-        return ResponseEntity.ok(mapper.toDto(productService.get(id)));
+        return ResponseEntity.ok(dto.toDto(productService.get(id)));
     }
 
     @ApiOperation(value = "Delete product by id")
@@ -58,10 +58,10 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> update(@PathVariable Long id,
                                              @RequestBody ProductDto productDto) {
-        Product update = mapper.toModel(productDto);
+        Product update = dto.toModel(productDto);
         update.setId(id);
         productService.update(update);
-        return ResponseEntity.ok(mapper.toDto(update));
+        return ResponseEntity.ok(dto.toDto(update));
     }
 
     @ApiOperation(value = "Get all products")
@@ -72,7 +72,7 @@ public class ProductController {
                                                        String sortBy) {
         Sort parse = sortParamParser.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, size, parse);
-        return ResponseEntity.ok(mapper.toDtoList(productService.getAll(pageRequest)));
+        return ResponseEntity.ok(dto.toDtoList(productService.getAll(pageRequest)));
     }
 
     @ApiOperation(value = "Get all products by price")
@@ -87,7 +87,7 @@ public class ProductController {
                                                                String sortBy) {
         Sort parse = sortParamParser.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, size, parse);
-        return ResponseEntity.ok(mapper.toDtoList(productService
+        return ResponseEntity.ok(dto.toDtoList(productService
                 .getAllByPrice(from, to, pageRequest)));
     }
 }
