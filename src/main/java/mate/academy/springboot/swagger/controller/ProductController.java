@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.dto.ProductDto;
@@ -35,21 +36,25 @@ public class ProductController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Create a new product")
     public ResponseEntity<ProductDto> add(@RequestBody ProductDto productDto) {
         Product add = productService.add(mapper.toModel(productDto));
         return ResponseEntity.ok(mapper.toDto(add));
     }
 
+    @ApiOperation(value = "Get product by id")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(mapper.toDto(productService.get(id)));
     }
 
+    @ApiOperation(value = "Delete product by id")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
+    @ApiOperation(value = "Update product")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> update(@PathVariable Long id,
                                              @RequestBody ProductDto productDto) {
@@ -59,6 +64,7 @@ public class ProductController {
         return ResponseEntity.ok(mapper.toDto(update));
     }
 
+    @ApiOperation(value = "Get all products")
     @GetMapping
     public ResponseEntity<List<ProductDto>> getAll(@RequestParam(defaultValue = "0") Integer page,
                                                   @RequestParam(defaultValue = "20") Integer size,
@@ -69,6 +75,7 @@ public class ProductController {
         return ResponseEntity.ok(mapper.toDtoList(productService.getAll(pageRequest)));
     }
 
+    @ApiOperation(value = "Get all products by price")
     @GetMapping("/byPrice")
     public ResponseEntity<List<ProductDto>> getAllByPrice(@RequestParam BigDecimal from,
                                                            @RequestParam BigDecimal to,
