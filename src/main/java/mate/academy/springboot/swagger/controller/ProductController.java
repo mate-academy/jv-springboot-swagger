@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.dto.ProductDto;
-import mate.academy.springboot.swagger.mapper.Dto;
+import mate.academy.springboot.swagger.mapper.ProductDtoMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.SortParamParser;
@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final SortParamParser sortParamParser;
-    private final Dto dto;
+    private final ProductDtoMapper dto;
 
     public ProductController(ProductService productService, SortParamParser sortParamParser,
-                             Dto dto) {
+                             ProductDtoMapper dto) {
         this.productService = productService;
         this.sortParamParser = sortParamParser;
         this.dto = dto;

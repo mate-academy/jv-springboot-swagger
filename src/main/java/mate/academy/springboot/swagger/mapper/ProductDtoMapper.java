@@ -3,9 +3,10 @@ package mate.academy.springboot.swagger.mapper;
 import java.util.List;
 import mate.academy.springboot.swagger.dto.ProductDto;
 import mate.academy.springboot.swagger.model.Product;
+import org.mapstruct.Mapper;
 
-@org.mapstruct.Mapper(componentModel = "spring")
-public interface Dto {
+@Mapper(componentModel = "spring")
+public interface ProductDtoMapper {
     Product toModel(ProductDto dto);
 
     ProductDto toDto(Product product);
