@@ -64,8 +64,8 @@ public class ProductController {
     }
 
     @GetMapping
-    @ApiOperation(value = "Get all products with pagination and ability " +
-            "to sort by price or by title in ASC or DESC order")
+    @ApiOperation(value = "Get all products with pagination and ability "
+            + "to sort by price or by title in ASC or DESC order")
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "10") Integer count,
                                             @RequestParam(defaultValue = "id") String sortBy) {
@@ -77,13 +77,16 @@ public class ProductController {
     }
 
     @GetMapping("/price-range")
-    @ApiOperation(value = "Get all products where price is between two values and ability " +
-            "to sort by price or by title in ASC or DESC order")
+    @ApiOperation(value = "Get all products where price is between two values and ability "
+            + "to sort by price or by title in ASC or DESC order")
     public List<ProductResponseDto> getAllByPriceBetween(@RequestParam Long from,
                                                           @RequestParam Long to,
-                                                          @RequestParam(defaultValue = "0") Integer page,
-                                                          @RequestParam(defaultValue = "10") Integer count,
-                                                          @RequestParam(defaultValue = "id") String sortBy) {
+                                                          @RequestParam(defaultValue = "0")
+                                                                     Integer page,
+                                                          @RequestParam(defaultValue = "10")
+                                                                     Integer count,
+                                                          @RequestParam(defaultValue = "id")
+                                                                     String sortBy) {
         Sort sort = sortParser.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAllByPriceBetween(from, to, pageRequest).stream()
