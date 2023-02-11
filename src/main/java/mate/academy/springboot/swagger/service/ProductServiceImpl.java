@@ -35,13 +35,14 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
+    public List<Product> findAll(PageRequest pageRequest) {
+        return productRepository.findAll(pageRequest).toList();
+    }
+
     @Override
-    public List<Product> findProductByPriceIsBetweenPageable(BigDecimal from,
-                                                             BigDecimal to,
-                                                             PageRequest pageRequest) {
-        if (to == null) {
-            to = productRepository.findMaxPrice().orElse(from);
-        }
+    public List<Product> findProductByPriceIsBetween(BigDecimal from,
+                                                     BigDecimal to,
+                                                     PageRequest pageRequest) {
         return productRepository.findProductByPriceIsBetween(from, to, pageRequest);
     }
 }

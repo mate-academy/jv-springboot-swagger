@@ -15,7 +15,10 @@ public interface ProductService {
 
     Product update(Product product);
 
-    List<Product> findProductByPriceIsBetweenPageable(BigDecimal from,
-                                                             BigDecimal to,
-                                                             PageRequest pageRequest);
+    List<Product> findAll(PageRequest pageRequest);
+
+    List<Product> findProductByPriceIsBetween(BigDecimal from,
+                                        BigDecimal to,
+                                        PageRequest pageRequest);
+
 }

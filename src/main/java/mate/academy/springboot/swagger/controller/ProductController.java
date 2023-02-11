@@ -64,16 +64,31 @@ public class ProductController {
     }
 
     @GetMapping
-    @ApiOperation("Get all products by price between from and to with sorting and pagination.")
+    @ApiOperation("Get all products with sorting and pagination.")
     public List<ProductResponseDto> findAllWithPaginationAndSort(
-            @RequestParam(defaultValue = "0") BigDecimal from,
-            @RequestParam(required = false) BigDecimal to,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "id") String sortBy) {
+
         PageRequest pageRequest = PageRequest.of(page, count,
                 ParseSortAttributeService.parseSortParams(sortBy));
-        return productService.findProductByPriceIsBetweenPageable(from, to, pageRequest).stream()
+        return productService.findAll(pageRequest).stream()
+                .map(productDtoMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/by-price")
+    @ApiOperation("Get all products by price from and to with sorting and pagination.")
+    public List<ProductResponseDto> findAllWithPaginationAndSort(
+            @RequestParam BigDecimal from,
+            @RequestParam BigDecimal to,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "20") Integer count,
+            @RequestParam(defaultValue = "id") String sortBy) {
+
+        PageRequest pageRequest = PageRequest.of(page, count,
+                ParseSortAttributeService.parseSortParams(sortBy));
+        return productService.findProductByPriceIsBetween(from, to, pageRequest).stream()
                 .map(productDtoMapper::toDto)
                 .collect(Collectors.toList());
     }
