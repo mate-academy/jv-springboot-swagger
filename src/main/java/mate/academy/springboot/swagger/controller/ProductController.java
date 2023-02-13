@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,9 +71,15 @@ public class ProductController {
     @ApiOperation(value = "Get all products with pagination "
             + "and sorting options (ASC & DESC) for title and price")
     @GetMapping
-    public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "10") Integer count,
-                                           @RequestParam(defaultValue = "0") Integer page,
-                                           @RequestParam(defaultValue = "title") String[] sortBy) {
+    public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "10")
+                                               @ApiParam(value = "default value is '10'")
+                                               Integer count,
+                                           @RequestParam(defaultValue = "0")
+                                           @ApiParam(value = "default value is '0'")
+                                           Integer page,
+                                           @RequestParam(defaultValue = "title")
+                                               @ApiParam(value = "default value is 'title'")
+                                               String[] sortBy) {
         Sort sort = SortOrderUtil.getSorter(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -86,9 +93,14 @@ public class ProductController {
     @GetMapping("/by-price")
     public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal from,
                                                   @RequestParam BigDecimal to,
-                                                  @RequestParam(defaultValue = "10") Integer count,
-                                                  @RequestParam(defaultValue = "0") Integer page,
+                                                  @RequestParam(defaultValue = "10")
+                                                      @ApiParam(value = "default value is '10'")
+                                                      Integer count,
+                                                  @RequestParam(defaultValue = "0")
+                                                      @ApiParam(value = "default value is '0'")
+                                                      Integer page,
                                                   @RequestParam(defaultValue = "title")
+                                                      @ApiParam(value = "default value is 'title'")
                                                       String[] sortBy) {
         Sort sort = SortOrderUtil.getSorter(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
