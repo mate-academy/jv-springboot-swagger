@@ -8,9 +8,6 @@ public class SortOrderUtil {
     private static final int ORDER_DIRECTION_INDEX = 1;
     private static final int FIELD_INDEX = 0;
 
-    private SortOrderUtil() {
-    }
-
     public Sort getSorter(String sortBy) {
         Sort.Order order;
         if (sortBy.contains(":")) {
