@@ -1,26 +1,26 @@
 package mate.academy.springboot.swagger.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SortOrderUtil {
+    private static final int ORDER_DIRECTION_INDEX = 1;
+    private static final int FIELD_INDEX = 0;
+
     private SortOrderUtil() {
     }
 
-    public static Sort getSorter(String[] sortBy) {
-        List<Sort.Order> orders = new ArrayList<>();
-        for (String field : sortBy) {
-            if (field.contains(":")) {
-                String[] fieldAndOrder = field.split(":");
-                Sort.Order order = new Sort.Order(Sort.Direction.valueOf(fieldAndOrder[1]),
-                        fieldAndOrder[0]);
-                orders.add(order);
-            } else {
-                Sort.Order order = Sort.Order.asc(field);
-                orders.add(order);
-            }
+    public Sort getSorter(String sortBy) {
+        Sort.Order order;
+        if (sortBy.contains(":")) {
+            String[] fieldAndOrder = sortBy.split(":");
+            order = new Sort.Order(
+                    Sort.Direction.valueOf(fieldAndOrder[ORDER_DIRECTION_INDEX]),
+                    fieldAndOrder[FIELD_INDEX]);
+        } else {
+            order = Sort.Order.asc(sortBy);
         }
-        return Sort.by(orders);
+        return Sort.by(order);
     }
 }

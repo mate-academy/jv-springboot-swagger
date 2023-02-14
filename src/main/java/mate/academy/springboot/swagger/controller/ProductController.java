@@ -30,13 +30,16 @@ public class ProductController {
     private final ProductService productService;
     private final RequestDtoMapper<ProductRequestDto, Product> requestMapper;
     private final ResponseDtoMapper<ProductResponseDto, Product> responseMapper;
+    private final SortOrderUtil sortOrderUtil;
 
     public ProductController(ProductService productService,
                              RequestDtoMapper<ProductRequestDto, Product> requestMapper,
-                             ResponseDtoMapper<ProductResponseDto, Product> responseMapper) {
+                             ResponseDtoMapper<ProductResponseDto, Product> responseMapper,
+                             SortOrderUtil sortOrderUtil) {
         this.productService = productService;
         this.requestMapper = requestMapper;
         this.responseMapper = responseMapper;
+        this.sortOrderUtil = sortOrderUtil;
     }
 
     @ApiOperation(value = "Add a new product")
@@ -69,7 +72,7 @@ public class ProductController {
     }
 
     @ApiOperation(value = "Get all products with pagination "
-            + "and sorting options (ASC & DESC) for title and price")
+            + "and sorting options (ASC & DESC) for title or price")
     @GetMapping
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "10")
                                                @ApiParam(value = "default value is '10'")
@@ -79,8 +82,8 @@ public class ProductController {
                                            Integer page,
                                            @RequestParam(defaultValue = "title")
                                                @ApiParam(value = "default value is 'title'")
-                                               String[] sortBy) {
-        Sort sort = SortOrderUtil.getSorter(sortBy);
+                                               String sortBy) {
+        Sort sort = sortOrderUtil.getSorter(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(responseMapper::toDto)
@@ -89,7 +92,7 @@ public class ProductController {
 
     @ApiOperation(value = "Get all products having price in range from "
             + "@param 'from' to @param 'to' inclusively "
-            + "with pagination and sorting options (ASC & DESC) for title and price")
+            + "with pagination and sorting options (ASC & DESC) for title or price")
     @GetMapping("/by-price")
     public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal from,
                                                   @RequestParam BigDecimal to,
@@ -101,8 +104,8 @@ public class ProductController {
                                                       Integer page,
                                                   @RequestParam(defaultValue = "title")
                                                       @ApiParam(value = "default value is 'title'")
-                                                      String[] sortBy) {
-        Sort sort = SortOrderUtil.getSorter(sortBy);
+                                                      String sortBy) {
+        Sort sort = sortOrderUtil.getSorter(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(responseMapper::toDto)
