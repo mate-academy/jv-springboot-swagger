@@ -39,9 +39,9 @@ public class ProductController {
         return mapper.toResponseDto(product);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update a product")
-    public ProductResponseDto update(@PathVariable Long id,
+    public ProductResponseDto update(@PathVariable @ApiParam(value = "Product id") Long id,
                           @RequestBody ProductRequestDto requestDto) {
         Product product = productService.getById(id);
         product.setTitle(requestDto.getTitle());
@@ -51,13 +51,13 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id")
-    public ProductResponseDto getById(@PathVariable Long id) {
+    public ProductResponseDto getById(@PathVariable @ApiParam(value = "Product id") Long id) {
         return mapper.toResponseDto(productService.getById(id));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete product by id")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable @ApiParam(value = "Product id") Long id) {
         productService.delete(id);
     }
 
