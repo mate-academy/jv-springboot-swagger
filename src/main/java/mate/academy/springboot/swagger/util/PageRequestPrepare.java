@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class PageRequestPrepare {
     private static final String FIRST_SEPARATOR = ";";
     private static final String SECOND_SEPARATOR = ":";
+    private static final Sort.Direction DEFAULT_SORT_DIRECTION = Sort.Direction.DESC;
 
     public static PageRequest getPageRequestObj(Integer size, Integer page, String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
@@ -22,12 +23,12 @@ public class PageRequestPrepare {
                     order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
                             fieldsAndDirections[0]);
                 } else {
-                    order = new Sort.Order(Sort.Direction.DESC, sortingField);
+                    order = new Sort.Order(DEFAULT_SORT_DIRECTION, sortingField);
                 }
                 orders.add(order);
             }
         } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
+            Sort.Order order = new Sort.Order(DEFAULT_SORT_DIRECTION, sortBy);
             orders.add(order);
         }
 
