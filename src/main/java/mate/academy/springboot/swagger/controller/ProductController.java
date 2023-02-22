@@ -65,15 +65,15 @@ public class ProductController {
     @ApiOperation(value = "Get all products")
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20")
                                                 @ApiParam(value = "Elements on page. "
-                                                        + "Default value is `20`")
+                                                        + "Default = `20`")
                                                 Integer size,
                                             @RequestParam (defaultValue = "0")
-                                            @ApiParam(value = "Number of page. "
-                                                    + "Default value is `0`")
+                                            @ApiParam(value = "Number of page. Default = `0`")
                                                 Integer page,
                                             @RequestParam (defaultValue = "id")
                                             @ApiParam(value = "By default sorting by "
-                                                    + "`id` order `DESC`")
+                                                    + "`id` order `DESC`. "
+                                                    + "Example: ?orderBy=price:DESC;title:ASC")
                                                 String sortBy) {
 
         return productService.getAll(PageRequestPrepare
@@ -86,20 +86,20 @@ public class ProductController {
     @GetMapping("/by-price")
     @ApiOperation(value = "Get all products by price between")
     public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal priceFrom,
-                                                          @RequestParam BigDecimal priceTo,
-                                                          @RequestParam (defaultValue = "20")
-                                                              @ApiParam(value = "Elements on page. "
-                                                                      + "Default value is `20`")
-                                                                      Integer size,
-                                                          @RequestParam (defaultValue = "0")
-                                                              @ApiParam(value =
-                                                                      "Number of page. Default "
-                                                                              + "value is `0`")
-                                                                      Integer page,
-                                                          @RequestParam (defaultValue = "id")
-                                                          @ApiParam(value = "By default sorting by "
-                                                                  + "`id` order `DESC`")
-                                                                      String sortBy) {
+                                                  @RequestParam BigDecimal priceTo,
+                                                  @RequestParam (defaultValue = "20")
+                                                      @ApiParam(value = "Elements on page. "
+                                                              + "Default = `20`")
+                                                              Integer size,
+                                                  @RequestParam (defaultValue = "0")
+                                                  @ApiParam(value = "Number of page. "
+                                                          + "Default = `0`")
+                                                              Integer page,
+                                                  @RequestParam (defaultValue = "id")
+                                                  @ApiParam(value = "By default sorting by "
+                                                        + "`id` order `DESC`. "
+                                                        + "Example: ?orderBy=price:DESC;title:ASC")
+                                                              String sortBy) {
         return productService.findAllByPriceBetween(priceFrom, priceTo,
                 PageRequestPrepare.getPageRequestObj(size, page, sortBy))
                 .stream()

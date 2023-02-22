@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
 
-@Component
 public class PageRequestPrepare {
     private static final String FIRST_SEPARATOR = ";";
     private static final String SECOND_SEPARATOR = ":";
