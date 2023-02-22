@@ -41,6 +41,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAllByPriceBetween(BigDecimal priceFrom, BigDecimal priceTo,
                                                Pageable pageable) {
-        return repository.findAllByPriceBetween(priceFrom, priceTo,pageable);
+        return repository.findAllByPriceBetween(priceFrom, priceTo,pageable).toList();
     }
 }
