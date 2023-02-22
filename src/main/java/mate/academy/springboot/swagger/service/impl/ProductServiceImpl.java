@@ -6,12 +6,11 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    private ProductRepository repository;
+    private final ProductRepository repository;
 
     public ProductServiceImpl(ProductRepository repository) {
         this.repository = repository;
@@ -40,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllByPriceBetween(BigDecimal priceFrom, BigDecimal priceTo,
-                                               Pageable pageable) {
-        return repository.findAllByPriceBetween(priceFrom, priceTo,pageable).toList();
+                                               PageRequest pageRequest) {
+        return repository.findAllByPriceBetween(priceFrom, priceTo, pageRequest).toList();
     }
 }

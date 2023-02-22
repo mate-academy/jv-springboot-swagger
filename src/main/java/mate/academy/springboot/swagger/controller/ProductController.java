@@ -3,17 +3,15 @@ package mate.academy.springboot.swagger.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import mate.academy.springboot.swagger.dto.Mapper;
 import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.util.PageRequestPrepare;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +32,16 @@ public class ProductController {
                              Mapper<Product, ProductRequestDto, ProductResponseDto> mapper) {
         this.productService = productService;
         this.mapper = mapper;
+    }
+
+    @PostConstruct
+    public void postConstructor() {
+        BigDecimal price = BigDecimal.valueOf(50);
+        for (long i = 0; i < 100; i++) {
+            productService.save(new Product(i, "Product" + i, price));
+            price = price.add(BigDecimal.valueOf(50));
+        }
+        System.out.println("Inject Done");
     }
 
     @PostMapping
@@ -80,33 +88,7 @@ public class ProductController {
                                                     + "Example: ?orderBy=price:DESC;title:ASC")
                                                 String sortBy) {
 
-        final String firstSeparator = ";";
-        final String secondSeparator = ":";
-        final Sort.Direction defaultSortDirection = Sort.Direction.DESC;
-
-        List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(secondSeparator)) {
-            String[] sortingFields = sortBy.split(firstSeparator);
-            for (String sortingField : sortingFields) {
-                Sort.Order order;
-                if (sortingField.contains(":")) {
-                    String[] fieldsAndDirections = sortingField.split(secondSeparator);
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
-                } else {
-                    order = new Sort.Order(defaultSortDirection, sortingField);
-                }
-                orders.add(order);
-            }
-        } else {
-            Sort.Order order = new Sort.Order(defaultSortDirection, sortBy);
-            orders.add(order);
-        }
-
-        Sort sort = Sort.by(orders);
-        PageRequest of = PageRequest.of(page, size, sort);
-
-        return productService.getAll(of)
+        return productService.getAll(PageRequestPrepare.getPageRequestObj(size, page, sortBy))
                 .stream()
                 .map(mapper::toResponseDto)
                 .collect(Collectors.toList());
