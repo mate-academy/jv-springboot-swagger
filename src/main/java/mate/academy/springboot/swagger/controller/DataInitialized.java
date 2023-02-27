@@ -1,12 +1,11 @@
 package mate.academy.springboot.swagger.controller;
 
+import java.math.BigDecimal;
+import java.util.Random;
+import javax.annotation.PostConstruct;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import java.math.BigDecimal;
-import java.util.Random;
 
 @Component
 public class DataInitialized {
