@@ -81,10 +81,10 @@ public class ProductController {
     @GetMapping("/byPrice")
     @ApiOperation("Get all products by price")
     public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal from,
-                                                  @RequestParam BigDecimal to,
-                                                  @RequestParam(defaultValue = "0") Integer page,
-                                                  @RequestParam(defaultValue = "20") Integer size,
-                                                  @RequestParam(defaultValue = "id") String sortBy) {
+                                              @RequestParam BigDecimal to,
+                                              @RequestParam(defaultValue = "0") Integer page,
+                                              @RequestParam(defaultValue = "20") Integer size,
+                                              @RequestParam(defaultValue = "id") String sortBy) {
         Sort sort = sortParamParser.parse(sortBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAllByPrice(from, to, pageRequest).stream()
