@@ -22,7 +22,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getById(Long id) {
-        return productRepository.findById(id).get();
+        return productRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Can't get product by id"));
     }
 
     @Override
@@ -36,8 +37,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllWherePriceBetween(BigDecimal from,
-                                                 BigDecimal to, PageRequest pageRequest) {
+    public List<Product> getAllByPriceBetween(BigDecimal from,
+                                              BigDecimal to, PageRequest pageRequest) {
         return productRepository.getAllByPriceBetween(from, to, pageRequest);
     }
 

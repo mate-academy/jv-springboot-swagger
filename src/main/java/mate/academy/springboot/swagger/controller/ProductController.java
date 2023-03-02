@@ -58,7 +58,7 @@ public class ProductController {
     @PutMapping("/{id}")
     @ApiOperation(value = "updating product by id")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestParam ProductRequestDto productRequestDto) {
+                                     @RequestBody ProductRequestDto productRequestDto) {
         Product product = productService.getById(id);
         product.setTitle(productRequestDto.getTitle());
         product.setPrice(productRequestDto.getPrice());
@@ -75,7 +75,7 @@ public class ProductController {
             @RequestParam(defaultValue = "id") String sortBy) {
         Sort sort = sortService.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
-        return productService.getAllWherePriceBetween(from, to, pageRequest)
+        return productService.getAllByPriceBetween(from, to, pageRequest)
                 .stream().map(productDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
