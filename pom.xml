@@ -29,11 +29,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.29</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -45,6 +50,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+       </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -54,7 +64,7 @@
                 <configuration>
                     <excludes>
                         <exclude>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.project-lombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
