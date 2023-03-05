@@ -11,9 +11,9 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.service.SortService;
 import mate.academy.springboot.swagger.service.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.service.mapper.ResponseDtoMapper;
-import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,16 +37,16 @@ public class ProductController {
     private final ProductService productService;
     private final RequestDtoMapper<Product, ProductRequestDto> requestDtoMapper;
     private final ResponseDtoMapper<Product, ProductResponseDto> responseDtoMapper;
-    private final SortUtil sortUtil;
+    private final SortService sortService;
 
     public ProductController(ProductService productService,
                              RequestDtoMapper<Product, ProductRequestDto> requestDtoMapper,
                              ResponseDtoMapper<Product, ProductResponseDto> responseDtoMapper,
-                             SortUtil sortUtil) {
+                             SortService sortService) {
         this.productService = productService;
         this.requestDtoMapper = requestDtoMapper;
         this.responseDtoMapper = responseDtoMapper;
-        this.sortUtil = sortUtil;
+        this.sortService = sortService;
     }
 
     @PostConstruct
@@ -56,27 +56,26 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     @ApiOperation(value = "create a new product")
     public ProductResponseDto addProduct(@RequestBody ProductRequestDto productRequestDto) {
         return responseDtoMapper.mapToDto(
-                productService.save(
-                        requestDtoMapper.mapToModel(productRequestDto)));
+                productService.save(requestDtoMapper.mapToModel(productRequestDto)));
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "get product by id")
     public ProductResponseDto getProductById(@PathVariable Long id) {
         return responseDtoMapper.mapToDto(productService.getById(id));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "delete product by id")
     public void deleteProductById(@PathVariable Long id) {
         productService.delete(id);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "update product by id")
     public ProductResponseDto updateProduct(@PathVariable Long id,
                                             @RequestBody ProductRequestDto productRequestDto) {
@@ -94,7 +93,7 @@ public class ProductController {
             @ApiParam(value = "default value is 0") Integer page,
             @RequestParam (defaultValue = "id")
             @ApiParam(value = "default value is id") String sortBy) {
-        List<Sort.Order> sortParams = sortUtil.getSortParams(sortBy);
+        List<Sort.Order> sortParams = sortService.getSortParams(sortBy);
         Sort sort = Sort.by(sortParams);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -102,7 +101,7 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/get-by-price")
+    @GetMapping("/by-price")
     @ApiOperation(value = "get list of product by price between two values")
     public List<ProductResponseDto> getProductsByPrice(
             @RequestParam (defaultValue = "20")
@@ -113,7 +112,7 @@ public class ProductController {
             @ApiParam(value = "default value is id") String sortBy,
             @RequestParam BigDecimal from,
             @RequestParam BigDecimal to) {
-        List<Sort.Order> sortParams = sortUtil.getSortParams(sortBy);
+        List<Sort.Order> sortParams = sortService.getSortParams(sortBy);
         Sort sort = Sort.by(sortParams);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
