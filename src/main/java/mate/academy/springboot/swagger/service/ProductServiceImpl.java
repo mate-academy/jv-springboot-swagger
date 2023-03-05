@@ -11,9 +11,6 @@ import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.util.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -66,10 +63,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponseDto> getAllByPriceBetween(BigDecimal from, BigDecimal to,
-                                                         Integer page, Integer size, String sortBy) {
+                                                         Integer page, Integer size,
+                                                         String sortBy) {
         Pageable pageRequest = Parser.getPageRequest(page, size, sortBy);
-        Page<Product> allByPriceBetween = productRepository.findAllByPriceBetween(from, to, pageRequest);
-        return allByPriceBetween.stream()
+        return productRepository.findAllByPriceBetween(from, to, pageRequest)
+                                .stream()
                                 .map(productMapper::toDto)
                                 .collect(Collectors.toList());
     }

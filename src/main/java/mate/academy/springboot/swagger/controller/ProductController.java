@@ -61,9 +61,9 @@ public class ProductController {
     @ApiOperation("Get products between prices")
     public List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
                                                          @RequestParam BigDecimal to,
-                                                         @RequestParam (defaultValue = "0") Integer page,
-                                                         @RequestParam (defaultValue = "10") Integer size,
-                                                         @RequestParam (defaultValue = "ASC") String sortBy) {
+                                     @RequestParam (defaultValue = "0") Integer page,
+                                     @RequestParam (defaultValue = "10") Integer size,
+                                     @RequestParam (defaultValue = "ASC") String sortBy) {
         return productService.getAllByPriceBetween(from, to, page, size, sortBy);
     }
 }
