@@ -33,7 +33,7 @@ public class ProductController {
 
     @PostMapping("/update")
     @ApiOperation("Update product")
-    public void update(ProductResponseDto productResponseDto) {
+    public void update(ProductRequestDto productRequestDto) {
         productService.update(productResponseDto);
     }
 
