@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(ProductResponseDto productResponseDto) {
+    public void update(Product product) {
         Optional<Product> optionalProduct = productRepository.findById(productResponseDto.getId());
         if (optionalProduct.isPresent()) {
             productRepository.save(productMapper.toModel(productResponseDto));
