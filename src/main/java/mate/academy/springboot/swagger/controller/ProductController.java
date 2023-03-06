@@ -53,7 +53,7 @@ public class ProductController {
     @ApiOperation("Get all product")
     public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "0") Integer page,
                                            @RequestParam (defaultValue = "10") Integer size,
-                                           @RequestParam (defaultValue = "ASK") String sortBy) {
+                                           @RequestParam (defaultValue = "ASС") String sortBy) {
         return productService.findAll(page, size, sortBy);
     }
 
