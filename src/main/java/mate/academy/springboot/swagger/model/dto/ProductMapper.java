@@ -11,9 +11,10 @@ public class ProductMapper {
                                           product.getPrice());
     }
 
-    public Product toModel(ProductRequestDto productResponseDto) {
-        return new Product(productResponseDto.getId(),
-                               productResponseDto.getTitle(),
-                               productResponseDto.getPrice());
+    public Product toModel(ProductRequestDto productRequestDto) {
+        Product product = new Product();
+        product.setPrice(productRequestDto.getPrice());
+        product.setTitle(productRequestDto.getTitle());
+        return product;
     }
 }

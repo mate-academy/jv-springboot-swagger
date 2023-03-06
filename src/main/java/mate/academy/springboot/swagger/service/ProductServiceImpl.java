@@ -26,11 +26,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDto create(Product product) {
+    public ProductResponseDto create(ProductRequestDto productRequestDto) {
         Product product = new Product();
         product.setTitle(productRequestDto.getTitle());
         product.setPrice(productRequestDto.getPrice());
         return productMapper.toDto(productRepository.save(product));
+    }
+
+    @Override
+    public void update(Long id, ProductRequestDto productRequestDto) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product newProduct = optionalProduct.get();
+            newProduct.setPrice(productRequestDto.getPrice());
+            newProduct.setTitle(productRequestDto.getTitle());
+            productRepository.save(newProduct);
+        }
     }
 
     @Override
@@ -42,14 +53,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteById(Long id) {
         productRepository.deleteById(id);
-    }
-
-    @Override
-    public void update(Product product) {
-        Optional<Product> optionalProduct = productRepository.findById(productResponseDto.getId());
-        if (optionalProduct.isPresent()) {
-            productRepository.save(productMapper.toModel(productResponseDto));
-        }
     }
 
     @Override

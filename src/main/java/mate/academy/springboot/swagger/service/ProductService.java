@@ -8,11 +8,11 @@ import mate.academy.springboot.swagger.model.dto.ProductResponseDto;
 public interface ProductService {
     ProductResponseDto create(ProductRequestDto productRequestDto);
 
+    void update(Long id, ProductRequestDto productRequestDto);
+
     ProductResponseDto getById(Long id);
 
     void deleteById(Long id);
-
-    void update(ProductResponseDto productResponseDto);
 
     List<ProductResponseDto> findAll(Integer page, Integer size, String sortType);
 

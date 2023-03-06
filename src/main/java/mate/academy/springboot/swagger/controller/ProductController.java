@@ -31,10 +31,11 @@ public class ProductController {
         return productService.create(productRequestDto);
     }
 
-    @PostMapping("/update")
-    @ApiOperation("Update product")
-    public void update(ProductRequestDto productRequestDto) {
-        productService.update(productResponseDto);
+    @PostMapping("/update/{id}")
+    @ApiOperation("Update product by Id")
+    public void update(@PathVariable Long id,
+                       @RequestBody ProductRequestDto productRequestDto) {
+        productService.update(id, productRequestDto);
     }
 
     @GetMapping("/get/{id}")
