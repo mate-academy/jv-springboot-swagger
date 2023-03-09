@@ -2,13 +2,13 @@ package mate.academy.springboot.swagger.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import mate.academy.springboot.swagger.service.UtilServices;
+import mate.academy.springboot.swagger.service.SortingService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class UtilServicesImpl implements UtilServices {
+@Component
+public class SortingServiceImpl implements SortingService {
     @Override
     public PageRequest getPageRequest(Integer count, Integer page, String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();

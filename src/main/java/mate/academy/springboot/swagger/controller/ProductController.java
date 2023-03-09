@@ -4,12 +4,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.service.UtilServices;
+import mate.academy.springboot.swagger.service.SortingService;
 import mate.academy.springboot.swagger.service.mapper.ProductMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
@@ -27,15 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
-    private final UtilServices utilServices;
+    private final SortingService sortingService;
 
     private final ProductMapper productMapper;
 
     public ProductController(ProductService productService,
-                             UtilServices utilServices,
+                             SortingService sortingService,
                              ProductMapper productMapper) {
         this.productService = productService;
-        this.utilServices = utilServices;
+        this.sortingService = sortingService;
         this.productMapper = productMapper;
     }
 
@@ -95,11 +94,11 @@ public class ProductController {
                                      @RequestParam(defaultValue = "id")
                                      @ApiParam(value = "sorting params, default - id by ASC")
                                      String sortBy) {
-        PageRequest pageRequest = utilServices.getPageRequest(count, page, sortBy);
+        PageRequest pageRequest = sortingService.getPageRequest(count, page, sortBy);
         return productService.findAll(pageRequest)
                 .stream()
                 .map(productMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @GetMapping("/price")
@@ -122,9 +121,9 @@ public class ProductController {
                                            @RequestParam(defaultValue = "id")
                                            @ApiParam(value = "sorting params, default - id by ASC")
                                            String sortBy) {
-        PageRequest pageRequest = utilServices.getPageRequest(count, page, sortBy);
+        PageRequest pageRequest = sortingService.getPageRequest(count, page, sortBy);
         List<Product> products = productService.getAllBetweenTwoPrices(priceFrom,
                 priceTo, pageRequest);
-        return products.stream().map(productMapper::toDto).collect(Collectors.toList());
+        return products.stream().map(productMapper::toDto).toList();
     }
 }
