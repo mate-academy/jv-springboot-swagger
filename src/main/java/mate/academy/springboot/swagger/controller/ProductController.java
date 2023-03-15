@@ -1,10 +1,8 @@
 package mate.academy.springboot.swagger.controller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
@@ -12,7 +10,6 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.SortService;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,11 +62,12 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
-    public List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
-                                                         @RequestParam BigDecimal to,
-                                                         @RequestParam(defaultValue = "20") Integer count,
-                                                         @RequestParam(defaultValue = "0") Integer page,
-                                                         @RequestParam(defaultValue = "price") String sortBy) {
+    public List<ProductResponseDto> getAllByPriceBetween(
+            @RequestParam BigDecimal from,
+            @RequestParam BigDecimal to,
+            @RequestParam(defaultValue = "20") Integer count,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "price") String sortBy) {
         PageRequest pageRequest = sortService.getPageRequest(count, page, sortBy);
         return productService.findAllByPriceBetween(from, to, pageRequest)
                 .stream()
