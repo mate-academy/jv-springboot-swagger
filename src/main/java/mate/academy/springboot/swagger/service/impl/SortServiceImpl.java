@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SortServiceImpl implements SortService {
+    public static final int DIRECTION = 1;
+    public static final int FIELD = 0;
+
     @Override
     public PageRequest getPageRequest(Integer count, Integer page, String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
@@ -18,8 +21,8 @@ public class SortServiceImpl implements SortService {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION]),
+                            fieldsAndDirections[FIELD]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }

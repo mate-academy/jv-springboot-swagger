@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("products")
+@RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
@@ -41,8 +41,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductResponseDto get(@PathVariable Long id) {
-        Product product = productService.get(id);
+    public ProductResponseDto getById(@PathVariable Long id) {
+        Product product = productService.getById(id);
         return productMapper.toResponseDto(product);
     }
 
