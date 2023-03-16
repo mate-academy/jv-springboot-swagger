@@ -79,7 +79,7 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping()
+    @GetMapping
     @ApiOperation(value = "Find all products")
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20")
                          @ApiParam(value = "default value = '20")Integer count,
