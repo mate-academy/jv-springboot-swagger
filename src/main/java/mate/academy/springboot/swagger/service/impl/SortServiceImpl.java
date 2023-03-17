@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SortServiceImpl implements SortService {
-    public static final int DIRECTION_INDEX = 1;
-    public static final int FIELD_INDEX = 0;
+    private static final int DIRECTION_INDEX = 1;
+    private static final int FIELD_INDEX = 0;
 
     @Override
     public PageRequest getPageRequest(Integer count, Integer page, String sortBy) {
