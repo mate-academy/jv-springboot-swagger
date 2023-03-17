@@ -13,7 +13,7 @@ public interface ProductService {
 
     List<Product> findAll(PageRequest pageRequest);
 
-    List<Product> findAllBetweenPrice(Pageable pageable, BigDecimal from, BigDecimal to);
+    List<Product> findAllByPriceBetween(Pageable pageable, BigDecimal from, BigDecimal to);
 
     void deleteById(Long id);
 }
