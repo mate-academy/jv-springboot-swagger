@@ -21,8 +21,10 @@ public class SortServiceImpl implements SortService {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
-                            fieldsAndDirections[FIELD_INDEX]);
+                    Sort.Direction directionProperty
+                            = Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]);
+                    String fieldProperty = fieldsAndDirections[FIELD_INDEX];
+                    order = new Sort.Order(directionProperty, fieldProperty);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
