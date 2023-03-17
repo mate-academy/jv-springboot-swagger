@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product get(Long id) {
+    public Product getById(Long id) {
         return productRepository.getById(id);
     }
 
@@ -39,5 +39,4 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAll(Pageable pageable) {
         return productRepository.findAll(pageable).toList();
     }
-
 }
