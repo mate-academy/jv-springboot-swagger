@@ -53,7 +53,7 @@ public class ProductController {
         productService.deleteById(id);
     }
 
-    @ApiOperation(value = "Update a product by id")
+    @ApiOperation(value = "Update a product by id.")
     @PutMapping("/{id}")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto requestDto
@@ -63,7 +63,7 @@ public class ProductController {
         return responseMapper.toDto(productService.save(product));
     }
 
-    @ApiOperation(value = "Get all products sorted and with pagination")
+    @ApiOperation(value = "Get all products sorted and with pagination.")
     @GetMapping
     public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "20")
                                                @ApiParam (value = "default value is `20`")
