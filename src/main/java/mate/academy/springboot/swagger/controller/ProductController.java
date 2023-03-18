@@ -2,7 +2,6 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
@@ -11,6 +10,7 @@ import mate.academy.springboot.swagger.dto.RequestDtoMapper;
 import mate.academy.springboot.swagger.dto.ResponseDtoMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.sort.SortImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,14 +31,16 @@ public class ProductController {
             productRequestDtoMapper;
     private final ResponseDtoMapper<ProductResponseDto, Product>
             productResponseDtoMapper;
+    private final SortImpl sortImpl;
 
     public ProductController(ProductService productService,
                              RequestDtoMapper<ProductRequestDto, Product> productRequestDtoMapper,
                              ResponseDtoMapper<ProductResponseDto,
-                                     Product> productResponseDtoMapper) {
+                                     Product> productResponseDtoMapper, SortImpl sortImpl) {
         this.productService = productService;
         this.productRequestDtoMapper = productRequestDtoMapper;
         this.productResponseDtoMapper = productResponseDtoMapper;
+        this.sortImpl = sortImpl;
     }
 
     @PostMapping
@@ -78,27 +80,10 @@ public class ProductController {
                           @RequestParam (defaultValue = "20") Integer count,
                           @RequestParam (defaultValue = "0") Integer page,
                           @RequestParam (defaultValue = "id") String sortBy) {
-        List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
-            for (String field : sortingFields) {
-                Sort.Order order;
-                if (sortBy.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
-                } else {
-                    order = new Sort.Order(Sort.Direction.DESC, field);
-                }
-                orders.add(order);
-            }
-        } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
-            orders.add(order);
-        }
+        List<Sort.Order> orders = sortImpl.getOrders(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
-        return productService.findAllByPriceBetween(from, to).stream()
+        return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productResponseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
@@ -108,24 +93,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
                                             @RequestParam (defaultValue = "0") Integer page,
                                             @RequestParam (defaultValue = "id") String sortBy) {
-        List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
-            for (String field : sortingFields) {
-                Sort.Order order;
-                if (sortBy.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
-                } else {
-                    order = new Sort.Order(Sort.Direction.DESC, field);
-                }
-                orders.add(order);
-            }
-        } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
-            orders.add(order);
-        }
+        List<Sort.Order> orders = sortImpl.getOrders(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()

@@ -12,9 +12,7 @@ public interface ProductService {
 
     void deleteById(Long id);
 
-    List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to);
-
-    List<Product> findAll();
+    List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest);
 
     List<Product> findAll(PageRequest pageRequest);
 }
