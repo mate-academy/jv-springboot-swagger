@@ -1,4 +1,4 @@
-package mate.academy.springboot.swagger;
+package mate.academy.springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

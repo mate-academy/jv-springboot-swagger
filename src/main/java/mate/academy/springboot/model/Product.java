@@ -1,12 +1,12 @@
 package mate.academy.springboot.model;
 
-import lombok.Data;
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
+import lombok.Data;
 
 @Data
 @Entity
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     private String title;
     private BigDecimal price;
 }

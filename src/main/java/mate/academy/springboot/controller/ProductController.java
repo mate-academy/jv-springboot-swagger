@@ -1,6 +1,11 @@
 package mate.academy.springboot.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.model.Product;
 import mate.academy.springboot.model.dto.ProductRequestDto;
 import mate.academy.springboot.model.dto.ProductResponseDto;
@@ -8,7 +13,6 @@ import mate.academy.springboot.model.dto.mapper.RequestDtoMapper;
 import mate.academy.springboot.model.dto.mapper.ResponseDtoMapper;
 import mate.academy.springboot.service.ProductService;
 import mate.academy.springboot.util.SortOrderUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,27 +24,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
     private final RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper;
     private final ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper;
     private final SortOrderUtil sortOrderUtil;
-
-    @Autowired
-    public ProductController(ProductService productService,
-                             RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper,
-                             ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper, SortOrderUtil sortOrderUtil) {
-        this.productService = productService;
-        this.requestDtoMapper = requestDtoMapper;
-        this.responseDtoMapper = responseDtoMapper;
-        this.sortOrderUtil = sortOrderUtil;
-    }
 
     @PostMapping
     @ApiOperation(value = "Add a new product")
@@ -73,9 +65,15 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "get products list")
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
-                                            @RequestParam (defaultValue = "0") Integer page,
-                                            @RequestParam (defaultValue = "title") String sortBy) {
+    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20")
+                                                @ApiParam(value = "default value is 20")
+                                                Integer count,
+                                            @RequestParam (defaultValue = "0")
+                                                @ApiParam(value = "default value is 0")
+                                            Integer page,
+                                            @RequestParam (defaultValue = "title")
+                                                @ApiParam(value = "default value is 'title'")
+                                                String sortBy) {
         Sort sort = sortOrderUtil.getSorted(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -88,10 +86,13 @@ public class ProductController {
     public List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
                                                          @RequestParam BigDecimal to,
                                                          @RequestParam (defaultValue = "20")
+                                                         @ApiParam(value = "default value is 20")
                                                              Integer count,
                                                          @RequestParam (defaultValue = "0")
+                                                         @ApiParam(value = "default value is 0")
                                                              Integer page,
                                                          @RequestParam (defaultValue = "title")
+                                                         @ApiParam(value = "default value is title")
                                                              String sortBy) {
         Sort sort = sortOrderUtil.getSorted(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
