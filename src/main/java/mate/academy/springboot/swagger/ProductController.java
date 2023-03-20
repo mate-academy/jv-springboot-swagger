@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.mapper.ProductMapper;
@@ -19,20 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private final ProductMapper productMapper;
     private final ProductService productService;
     private final SortService sortService;
-
-    public ProductController(ProductMapper productMapper,
-                             ProductService productService,
-                             SortService sortService) {
-        this.productMapper = productMapper;
-        this.productService = productService;
-        this.sortService = sortService;
-    }
 
     @PostMapping
     @ApiOperation(value = "create new product by request")
@@ -82,7 +76,6 @@ public class ProductController {
 
     @GetMapping("/all")
     @ApiOperation(value = "get list of products with opportunity of sorting and paginating")
-
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
                                             @RequestParam (defaultValue = "0") Integer page,
                                             @RequestParam (defaultValue = "id") String sortBy) {

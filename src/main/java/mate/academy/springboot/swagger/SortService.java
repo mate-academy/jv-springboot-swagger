@@ -7,16 +7,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SortService {
+    private static final String COLON_REGEX = ":";
+    private static final String SEMICOLON_REGEX = ";";
+    private static final int DIRECTION_INDEX = 1;
+    private static final int FIELD_INDEX = 0;
+
     public List<Sort.Order> getSorting(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
+        if (sortBy.contains(COLON_REGEX)) {
+            String[] sortingFields = sortBy.split(SEMICOLON_REGEX);
             for (String field : sortingFields) {
                 Sort.Order order;
                 if (field.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
+                    String[] fieldsAndDirections = field.split(COLON_REGEX);
                     order = new Sort.Order(Sort.Direction
-                            .valueOf(fieldsAndDirections[1]), fieldsAndDirections[0]);
+                            .valueOf(fieldsAndDirections[DIRECTION_INDEX]),
+                            fieldsAndDirections[FIELD_INDEX]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, sortBy);
                 }
