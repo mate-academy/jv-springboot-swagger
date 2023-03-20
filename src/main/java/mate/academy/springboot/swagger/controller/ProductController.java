@@ -49,7 +49,7 @@ public class ProductController {
 
     @ApiOperation(value = "Delete a product by id.")
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         productService.deleteById(id);
     }
 
@@ -65,7 +65,7 @@ public class ProductController {
 
     @ApiOperation(value = "Get all products sorted and with pagination")
     @GetMapping
-    public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "20")
+    public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "20")
                                                @ApiParam (value = "default value is `20`")
                                                Integer count,
                                            @RequestParam(defaultValue = "0")
@@ -74,7 +74,7 @@ public class ProductController {
                                            @RequestParam(defaultValue = "title")
                                                @ApiParam (value = "default value is `title`")
                                                String sortBy) {
-        Sort sort = sortUtil.getSorter(sortBy);
+        Sort sort = sortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(responseMapper::toDto)
@@ -83,7 +83,7 @@ public class ProductController {
 
     @ApiOperation(value = "Get all products filtered by price, sorted and with pagination.")
     @GetMapping("/by-price")
-    public List<ProductResponseDto> getAllBetweenPrice(@RequestParam BigDecimal from,
+    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
                                                   @RequestParam BigDecimal to,
                                                   @RequestParam(defaultValue = "20")
                                                   @ApiParam (value = "default value is `20`")
@@ -94,7 +94,7 @@ public class ProductController {
                                                   @RequestParam(defaultValue = "title")
                                                   @ApiParam (value = "default value is `title`")
                                                            String sortBy) {
-        Sort sort = sortUtil.getSorter(sortBy);
+        Sort sort = sortUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(responseMapper::toDto)

@@ -9,7 +9,7 @@ public class SortUtil {
     private static final int FIELD_INDEX = 0;
     private static final String SPLIT_DELIMITER = ":";
 
-    public Sort getSorter(String sortBy) {
+    public Sort getSort(String sortBy) {
         Sort.Order order;
         if (sortBy.contains(":")) {
             String[] fieldAndOrder = sortBy.split(SPLIT_DELIMITER);
