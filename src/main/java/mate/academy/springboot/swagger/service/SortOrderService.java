@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortOrderService {
-    private static final int FIELD_INDEX = 1;
-    private static final int DIRECTION_INDEX = 2;
+    private static final int FIELD_INDEX = 0;
+    private static final int DIRECTION_INDEX = 1;
 
     public List<Sort.Order> getSortOrders(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
