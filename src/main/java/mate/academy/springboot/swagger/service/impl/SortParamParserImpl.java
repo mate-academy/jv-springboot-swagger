@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class SortParamParserImpl implements SortParamParser {
     private static final String FIELD_SEPARATOR = ";";
     private static final String FIELD_AND_DIRECTION_SEPARATOR = ":";
+
     @Override
     public Sort parse(String sortParam) {
         List<Sort.Order> orders = new ArrayList<>();
