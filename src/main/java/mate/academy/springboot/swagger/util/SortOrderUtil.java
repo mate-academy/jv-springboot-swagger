@@ -13,23 +13,17 @@ public class SortOrderUtil {
 
     public Sort sort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
-            String[] sortingFields = sortBy.split(";");
-            for (String field : sortingFields) {
-                if (field.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
-                    order = new Sort.Order(
-                            Sort.Direction.valueOf(fieldsAndDirections[ORDER_DIRECTIONAL_INDEX]),
-                            fieldsAndDirections[FIELD_INDEX]);
-                } else {
-                    order = new Sort.Order(Sort.Direction.DESC, field);
-                }
-                orders.add(order);
+        String[] sortingFields = sortBy.split(";");
+        for (String field : sortingFields) {
+            if (field.contains(":")) {
+                String[] fieldsAndDirections = field.split(":");
+                order = new Sort.Order(
+                        Sort.Direction.valueOf(fieldsAndDirections[ORDER_DIRECTIONAL_INDEX]),
+                        fieldsAndDirections[FIELD_INDEX]);
+            } else {
+                order = new Sort.Order(Sort.Direction.DESC, field);
             }
-        } else {
-            order = new Sort.Order(Sort.Direction.DESC, sortBy);
             orders.add(order);
-        }
-        return Sort.by(orders);
+        }return Sort.by(orders);
     }
 }
