@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private SorterUtil sorterUtil;
 
     @ApiOperation(value = "Add a new product")
     @PostMapping
@@ -72,7 +73,7 @@ public class ProductController {
                                            @RequestParam(defaultValue = "title")
                                            @ApiParam(value = "default value is 'title'")
                                            String sortBy) {
-        Sort sort = SorterUtil.getSorter(sortBy);
+        Sort sort = sorterUtil.getSorter(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllProducts(pageRequest).stream()
                 .map(productMapper::toDto)
@@ -94,7 +95,7 @@ public class ProductController {
                                                   @RequestParam(defaultValue = "title")
                                                   @ApiParam(value = "default value is 'title'")
                                                   String sortBy) {
-        Sort sort = SorterUtil.getSorter(sortBy);
+        Sort sort = sorterUtil.getSorter(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getProductsByRange(from, to, pageRequest).stream()
                 .map(productMapper::toDto)
