@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 public class SortOrderUtil {
     private static final int ORDER_DIRECTIONAL_INDEX = 1;
     private static final int FIELD_INDEX = 0;
+    private static Sort.Order order;
 
     public Sort sort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
             for (String field : sortingFields) {
-                Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldsAndDirections = field.split(":");
                     order = new Sort.Order(
@@ -27,7 +27,7 @@ public class SortOrderUtil {
                 orders.add(order);
             }
         } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, sortBy);
+            order = new Sort.Order(Sort.Direction.DESC, sortBy);
             orders.add(order);
         }
         return Sort.by(orders);
