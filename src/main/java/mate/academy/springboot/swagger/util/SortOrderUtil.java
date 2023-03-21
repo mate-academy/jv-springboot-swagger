@@ -11,10 +11,10 @@ public class SortOrderUtil {
     private static final int FIELD_INDEX = 0;
     private static final String FIELD_SEPARATOR = ";";
     private static final String DIRECTIONAL_AND_FIELD_SEPARATOR = ":";
-    private static Sort.Order order;
 
     public Sort sort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
+        Sort.Order order;
         String[] sortingFields = sortBy.split(FIELD_SEPARATOR);
         for (String field : sortingFields) {
             if (field.contains(DIRECTIONAL_AND_FIELD_SEPARATOR)) {
