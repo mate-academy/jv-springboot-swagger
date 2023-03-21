@@ -11,6 +11,7 @@ import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.mapper.ProductMapper;
+import mate.academy.springboot.swagger.util.SorterUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,8 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private static final int ORDER_DIRECTION_INDEX = 1;
-    private static final int FIELD_INDEX = 0;
     private final ProductService productService;
     private final ProductMapper productMapper;
 
@@ -73,7 +72,7 @@ public class ProductController {
                                            @RequestParam(defaultValue = "title")
                                            @ApiParam(value = "default value is 'title'")
                                            String sortBy) {
-        Sort sort = getSorter(sortBy);
+        Sort sort = SorterUtil.getSorter(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllProducts(pageRequest).stream()
                 .map(productMapper::toDto)
@@ -95,23 +94,10 @@ public class ProductController {
                                                   @RequestParam(defaultValue = "title")
                                                   @ApiParam(value = "default value is 'title'")
                                                   String sortBy) {
-        Sort sort = getSorter(sortBy);
+        Sort sort = SorterUtil.getSorter(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getProductsByRange(from, to, pageRequest).stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-    private Sort getSorter(String sortBy) {
-        Sort.Order order;
-        if (sortBy.contains(":")) {
-            String[] fieldAndOrder = sortBy.split(":");
-            order = new Sort.Order(
-                    Sort.Direction.valueOf(fieldAndOrder[ORDER_DIRECTION_INDEX]),
-                    fieldAndOrder[FIELD_INDEX]);
-        } else {
-            order = Sort.Order.asc(sortBy);
-        }
-        return Sort.by(order);
     }
 }
