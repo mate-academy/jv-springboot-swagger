@@ -5,13 +5,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SortOrderUtil {
+    private static final String REGEX = ":";
+    private static final int ORDER_INDEX = 1;
+    private static final int FIELD_INDEX = 0;
+
     public Sort getSorted(String sortBy) {
         Sort.Order order;
-        if (sortBy.contains(":")) {
-            String[] fieldAndOrder = sortBy.split(":");
+        if (sortBy.contains(REGEX)) {
+            String[] fieldAndOrder = sortBy.split(REGEX);
             order = new Sort.Order(
-                    Sort.Direction.valueOf(fieldAndOrder[1]),
-                    fieldAndOrder[0]);
+                    Sort.Direction.valueOf(fieldAndOrder[ORDER_INDEX]),
+                    fieldAndOrder[FIELD_INDEX]);
         } else {
             order = Sort.Order.asc(sortBy);
         }
