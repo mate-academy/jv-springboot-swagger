@@ -1,10 +1,9 @@
 package mate.academy.springboot.swagger.service;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SortMaker {
@@ -16,7 +15,8 @@ public class SortMaker {
                 Sort.Order order;
                 if (sortingField.contains(":")) {
                     String[] fieldsAndDirections = sortingField.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]), fieldsAndDirections[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldsAndDirections[1]),
+                            fieldsAndDirections[0]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, sortingField);
                 }
