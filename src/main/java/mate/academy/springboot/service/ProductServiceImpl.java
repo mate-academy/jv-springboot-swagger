@@ -3,8 +3,8 @@ package mate.academy.springboot.service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
-import mate.academy.springboot.ProductRepository;
 import mate.academy.springboot.model.Product;
+import mate.academy.springboot.repository.ProductRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 

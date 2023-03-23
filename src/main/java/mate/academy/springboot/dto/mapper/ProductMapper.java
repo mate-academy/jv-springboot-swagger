@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProductMapper implements RequestDtoMapper<ProductRequestDto,
         Product>, ResponseDtoMapper<ProductResponseDto, Product> {
-
     @Override
     public Product toModel(ProductRequestDto productRequestDto) {
         Product product = new Product();

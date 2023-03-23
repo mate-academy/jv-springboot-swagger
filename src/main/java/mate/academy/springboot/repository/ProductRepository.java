@@ -1,4 +1,4 @@
-package mate.academy.springboot;
+package mate.academy.springboot.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
