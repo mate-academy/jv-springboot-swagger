@@ -68,8 +68,8 @@ public class ProductServiceImpl implements ProductService {
                     && !entry.getKey().equals(SIZE_PARAM)) {
                 Specification<Product> sp = productSpecificationManager
                         .getSpecification(entry.getKey(), entry.getValue().split(","));
-                spec = spec == null ?
-                        Specification.where(sp) : spec.and(sp);
+                spec = spec == null
+                        ? Specification.where(sp) : spec.and(sp);
             }
         }
         PageRequest pageRequest = PageRequest.of(page, size, sort);
