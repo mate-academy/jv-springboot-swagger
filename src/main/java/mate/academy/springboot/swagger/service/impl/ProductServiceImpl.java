@@ -75,4 +75,13 @@ public class ProductServiceImpl implements ProductService {
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productRepository.findAll(spec, pageRequest);
     }
+
+    @Override
+    public Page<Product> getAll(Integer page, Integer size, String sortBy) {
+        List<Sort.Order> orders = new ArrayList<>();
+        orders = sortUtil.getOrders(sortBy);
+        Sort sort = Sort.by(orders);
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        return productRepository.findAll(pageRequest);
+    }
 }

@@ -60,11 +60,20 @@ public class ProductController {
         return productResponseMapper.toDto(productService.update(product));
     }
 
-    @GetMapping
-    public List<ProductResponseDto> getAll(@RequestParam Map<String, String> param,
+    @GetMapping("/filter")
+    public List<ProductResponseDto> getAllWithFilter(@RequestParam Map<String, String> param,
                                            @RequestParam (defaultValue = "0") Integer page,
                                            @RequestParam (defaultValue = "20") Integer size) {
         return productService.getAll(param, page, size).stream()
+                .map(productResponseMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping
+    public List<ProductResponseDto> getAll(@RequestParam String sortBy,
+                                           @RequestParam (defaultValue = "0") Integer page,
+                                           @RequestParam (defaultValue = "20") Integer size) {
+        return productService.getAll(page, size, sortBy).stream()
                 .map(productResponseMapper::toDto)
                 .collect(Collectors.toList());
     }

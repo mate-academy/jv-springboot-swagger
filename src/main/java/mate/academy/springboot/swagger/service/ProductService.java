@@ -15,4 +15,6 @@ public interface ProductService {
 
     Page<Product> getAll(Map<String, String> params,
                          Integer page, Integer size);
+
+    Page<Product> getAll(Integer page, Integer size, String sortBy);
 }
