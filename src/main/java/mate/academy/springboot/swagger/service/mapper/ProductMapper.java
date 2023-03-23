@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class ProductMapper {
-
     public Product toEntity(ProductRequestDto requestDto) {
         Product product = new Product();
         product.setTitle(requestDto.getTitle());
