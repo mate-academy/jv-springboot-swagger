@@ -11,7 +11,7 @@ public class SortUtil {
 
     public Sort getSort(String sortBy) {
         Sort.Order order;
-        if (sortBy.contains(":")) {
+        if (sortBy.contains(SPLIT_DELIMITER)) {
             String[] fieldAndOrder = sortBy.split(SPLIT_DELIMITER);
             order = new Sort.Order(
                     Sort.Direction.valueOf(fieldAndOrder[ORDER_DIRECTION_INDEX]),
