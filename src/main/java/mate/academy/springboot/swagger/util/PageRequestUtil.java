@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class PageRequestUtil {
     private static final Integer DIRECTION_INDEX = 1;
     private static final Integer PROPERTY_INDEX = 0;
+    private static final String SPLIT_DELIMITER = ":";
 
     public PageRequest getPageRequest(Integer count,
                                       Integer page,
@@ -20,12 +21,12 @@ public class PageRequestUtil {
         List<String> options = List.of(sortingOptions);
         List<String> sortParam = new ArrayList<>();
         List<Sort.Order> orders = new ArrayList<>();
-        if (sortBy.contains(":")) {
+        if (sortBy.contains(SPLIT_DELIMITER)) {
             String[] sortingFields = sortBy.split(";");
             for (String field : sortingFields) {
                 Sort.Order order;
-                if (field.contains(":")) {
-                    String[] fieldsAndDirections = field.split(":");
+                if (field.contains(SPLIT_DELIMITER)) {
+                    String[] fieldsAndDirections = field.split(SPLIT_DELIMITER);
                     sortParam.add(fieldsAndDirections[PROPERTY_INDEX]);
                     order = new Sort.Order(
                             Sort.Direction.valueOf(fieldsAndDirections[DIRECTION_INDEX]),
