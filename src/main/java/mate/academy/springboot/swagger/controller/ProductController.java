@@ -27,13 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductDtoMapper productDtoMapper;
-    private final PageRequestUtil parser;
+    private final PageRequestUtil pageRequestUtil;
 
     public ProductController(ProductService productService,
                              ProductDtoMapper productDtoMapper, PageRequestUtil parser) {
         this.productService = productService;
         this.productDtoMapper = productDtoMapper;
-        this.parser = parser;
+        this.pageRequestUtil = parser;
     }
 
     @PostMapping
@@ -51,7 +51,7 @@ public class ProductController {
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "10") Integer count,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam String sortBy) {
-        PageRequest parse = parser.getPageRequest(count, page, sortBy, "title", "price");
+        PageRequest parse = pageRequestUtil.getPageRequest(count, page, sortBy, "title", "price");
         return productService.findAll(parse)
                 .stream()
                 .map(productDtoMapper::mapToDto)
@@ -65,7 +65,7 @@ public class ProductController {
                                             @RequestParam String sortBy,
                                             @RequestParam BigDecimal from,
                                             @RequestParam BigDecimal to) {
-        Pageable pageable = parser.getPageRequest(count, page, sortBy, "title", "price");
+        Pageable pageable = pageRequestUtil.getPageRequest(count, page, sortBy, "title", "price");
         return productService.findAllByPriceBetween(pageable, from, to)
                 .stream()
                 .map(productDtoMapper::mapToDto)
