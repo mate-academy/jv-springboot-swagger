@@ -1,6 +1,5 @@
 package mate.academy.springboot.swagger.dto;
 
-
 import java.math.BigDecimal;
 import lombok.Data;
 

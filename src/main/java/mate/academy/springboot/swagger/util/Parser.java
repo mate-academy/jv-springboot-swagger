@@ -18,10 +18,10 @@ public class Parser {
             for (String field : sortingFields) {
                 Sort.Order order;
                 if (field.contains(SEPARATOR_ATTRIBUTES)) {
-                    String[] fieldsAndDirections = field.split(SEPARATOR_ATTRIBUTES);
+                    String[] fieldParts = field.split(SEPARATOR_ATTRIBUTES);
                     order = new Sort.Order(Sort.Direction
-                            .valueOf(fieldsAndDirections[INDEX_DIRECTION_VALUE]),
-                            fieldsAndDirections[INDEX_FIELD_NAME]);
+                            .valueOf(fieldParts[INDEX_DIRECTION_VALUE]),
+                            fieldParts[INDEX_FIELD_NAME]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }

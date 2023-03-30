@@ -44,7 +44,7 @@ public class ProductController {
     @ApiOperation(value = "Create a new product")
     public ProductResponseDto add(@RequestBody ProductRequestDto dto) {
         return productResponseDtoMapper.mapToDto(productService
-                        .save(productRequestDtoMapper.mapToModel(dto)));
+                .save(productRequestDtoMapper.mapToModel(dto)));
     }
 
     @GetMapping("/{id}")
@@ -73,14 +73,14 @@ public class ProductController {
     public List<ProductResponseDto> findAll(
             @RequestParam(defaultValue = "10") @ApiParam("default value is 10") Integer count,
             @RequestParam(defaultValue = "0") @ApiParam("default page number 1 (0)") Integer page,
-            @RequestParam(defaultValue = "title") @ApiParam("title/price - default value is title") String sortBy) {
+            @RequestParam(defaultValue = "title")
+            @ApiParam("title/price - default value is title") String sortBy) {
         Sort sort = Sort.by(Parser.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(productResponseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
-
 
     @GetMapping("/price")
     @ApiOperation(value = "Get all the products those price between some values"
@@ -98,5 +98,4 @@ public class ProductController {
                 .map(productResponseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
-
 }
