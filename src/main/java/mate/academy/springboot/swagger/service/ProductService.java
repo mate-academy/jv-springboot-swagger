@@ -1,10 +1,8 @@
 package mate.academy.springboot.swagger.service;
 
-import mate.academy.springboot.swagger.model.Product;
-
 import java.math.BigDecimal;
 import java.util.List;
-
+import mate.academy.springboot.swagger.model.Product;
 
 public interface ProductService {
     Product create(Product product);
@@ -17,5 +15,6 @@ public interface ProductService {
 
     List<Product> findAllProductWithParam(Integer count, Integer page, String sortBy);
 
-    List<Product> findAllByPriseBetween(BigDecimal from, BigDecimal to, Integer count, Integer page, String sortBy);
+    List<Product> findAllByPriseBetween(BigDecimal from, BigDecimal to,
+                                        Integer count, Integer page, String sortBy);
 }
