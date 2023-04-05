@@ -51,8 +51,8 @@ public class ProductController {
 
     @ApiOperation(value = "Get a product by id")
     @GetMapping("/{id}")
-    public ProductResponseDto get(@PathVariable Long id) {
-        Product product = productService.get(id);
+    public ProductResponseDto getById(@PathVariable Long id) {
+        Product product = productService.getById(id);
         return responseMapper.toDto(product);
     }
 
@@ -94,15 +94,15 @@ public class ProductController {
             + "@param 'from' to @param 'to' inclusively "
             + "with pagination and sorting options (ASC & DESC) for title or price")
     @GetMapping("/by-price")
-    public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal from,
-                                                  @RequestParam BigDecimal to,
-                                                  @RequestParam(defaultValue = "10")
+    public List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
+                                                         @RequestParam BigDecimal to,
+                                                         @RequestParam(defaultValue = "10")
                                                       @ApiParam(value = "default value is '10'")
                                                       Integer count,
-                                                  @RequestParam(defaultValue = "0")
+                                                         @RequestParam(defaultValue = "0")
                                                       @ApiParam(value = "default value is '0'")
                                                       Integer page,
-                                                  @RequestParam(defaultValue = "title")
+                                                         @RequestParam(defaultValue = "title")
                                                       @ApiParam(value = "default value is 'title'")
                                                       String sortBy) {
         Sort sort = sortOrderUtil.getSorter(sortBy);

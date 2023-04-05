@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 public interface ProductService {
     Product save(Product category);
 
-    Product get(Long id);
+    Product getById(Long id);
 
     void delete(Long id);
 
