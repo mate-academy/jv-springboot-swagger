@@ -17,7 +17,8 @@ public class UrlParser {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldAndDirection = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirection[DIRECTION_INDEX]),
+                    order = new Sort.Order(Sort.Direction.valueOf(
+                            fieldAndDirection[DIRECTION_INDEX]),
                             fieldAndDirection[FIELD_INDEX]);
 
                 } else {
