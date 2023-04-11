@@ -6,6 +6,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 public class UrlParser {
+    private static final int DIRECTION_INDEX = 1;
+    private static final int FIELD_INDEX = 0;
+
     public static PageRequest formPageRequest(Integer count, Integer page, String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
@@ -14,8 +17,8 @@ public class UrlParser {
                 Sort.Order order;
                 if (field.contains(":")) {
                     String[] fieldAndDirection = field.split(":");
-                    order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirection[1]),
-                            fieldAndDirection[0]);
+                    order = new Sort.Order(Sort.Direction.valueOf(fieldAndDirection[DIRECTION_INDEX]),
+                            fieldAndDirection[FIELD_INDEX]);
 
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
