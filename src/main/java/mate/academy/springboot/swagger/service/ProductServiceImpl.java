@@ -4,7 +4,6 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -28,11 +27,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product update(Product product) {
         Long id = product.getId();
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            return productRepository.save(product);
-        }
-        throw new NoSuchElementException("Product by id " + id + " doesn't exist");
+        return productRepository.findById(id)
+                .map(p -> productRepository.save(product)).orElseThrow(
+                        () -> new NoSuchElementException("Product by id " + id + " doesn't exist"));
     }
 
     @Override
