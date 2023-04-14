@@ -3,7 +3,7 @@ package mate.academy.springboot.swagger.mapper;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
-import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.service.product.ProductService;
 import org.springframework.stereotype.Component;
 
 @Component
