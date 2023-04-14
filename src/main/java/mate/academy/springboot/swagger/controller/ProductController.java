@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.mapper.DtoMapper;
@@ -72,7 +73,10 @@ public class ProductController {
             @RequestParam(defaultValue = "10") Integer count,
             @ApiParam(value = "The field to sort by(default is id)")
             @RequestParam(defaultValue = "id") String sortBy) {
-        return productService.findAll(page, count, sortBy).stream().map(mapper::toDto).toList();
+        return productService.findAll(page, count, sortBy)
+                .stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @ApiOperation(value = "Get a list of all products where price is between two values")
@@ -91,6 +95,6 @@ public class ProductController {
         return productService.findAllByPriceBetween(from, to, page, count, sortBy)
                 .stream()
                 .map(mapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 }

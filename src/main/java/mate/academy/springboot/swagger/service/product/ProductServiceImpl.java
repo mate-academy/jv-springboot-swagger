@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.service.product;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import mate.academy.springboot.swagger.model.Product;
@@ -54,6 +55,6 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to,
                                                int page, int count, String sortBy) {
         PageRequest pageRequest = pageRequestService.getPageRequest(page, count, sortBy);
-        return productRepository.findAllByPriceBetween(from, to, pageRequest).stream().toList();
+        return new ArrayList<>(productRepository.findAllByPriceBetween(from, to, pageRequest));
     }
 }
