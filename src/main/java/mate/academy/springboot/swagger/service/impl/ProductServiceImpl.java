@@ -1,5 +1,8 @@
 package mate.academy.springboot.swagger.service.impl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.repository.specification.SpecificationManager;
@@ -9,10 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -62,8 +61,8 @@ public class ProductServiceImpl implements ProductService {
             if (!ignoreParams.contains(param.getKey())) {
                 Specification<Product> sp = specificationManager
                         .get(param.getKey(), param.getValue().split(","));
-                specification = specification == null ?
-                        Specification.where(sp) : specification.and(sp);
+                specification = specification == null
+                        ? Specification.where(sp) : specification.and(sp);
             }
         }
         return repository.findAll(specification, paginationAndSortingHandler.handle(params));

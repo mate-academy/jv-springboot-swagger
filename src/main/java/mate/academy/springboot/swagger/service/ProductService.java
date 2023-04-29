@@ -1,9 +1,8 @@
 package mate.academy.springboot.swagger.service;
 
+import java.util.Map;
 import mate.academy.springboot.swagger.model.Product;
 import org.springframework.data.domain.Page;
-
-import java.util.Map;
 
 public interface ProductService {
     Product create(Product product);
