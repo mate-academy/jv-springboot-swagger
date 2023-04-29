@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ProductRequestDto {
-    String title;
+    private String title;
     private BigDecimal price;
 
 }

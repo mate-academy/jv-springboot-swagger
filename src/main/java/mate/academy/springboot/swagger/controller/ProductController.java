@@ -24,7 +24,7 @@ public class ProductController {
         this.mapper = mapper;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ProductResponseDto create(@RequestBody ProductRequestDto dto) {
         return mapper.toDto(service.create(mapper.toModel(dto)));
     }
