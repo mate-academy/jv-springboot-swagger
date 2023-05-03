@@ -1,9 +1,9 @@
 package mate.academy.springboot.swagger.repository.specification.product;
 
+import jakarta.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.criteria.Predicate;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.specification.SpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;

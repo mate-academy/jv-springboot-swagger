@@ -1,12 +1,10 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.mapper.ProductMapper;
@@ -55,7 +53,7 @@ public class ProductController {
     }
 
     @GetMapping
-    @Operation( summary = "Get All Products | With Parameters")
+    @Operation(summary = "Get All Products | With Parameters")
     @Parameter(name = "page",
             allowEmptyValue = true,
             description = "Specify the page | Should be > 0")
