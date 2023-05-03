@@ -1,7 +1,5 @@
 package mate.academy.springboot.swagger.service.impl;
 
-import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
@@ -54,17 +52,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getAll(Map<String, String> params) {
-        List<String> ignoreParams = paginationAndSortingHandler.getFields();
-        Specification<Product> specification = null;
-        for (Map.Entry<String, String> param : params.entrySet()) {
-            if (!ignoreParams.contains(param.getKey())) {
-                Specification<Product> sp = specificationManager
-                        .get(param.getKey(), param.getValue().split(","));
-                specification = specification == null
-                        ? Specification.where(sp) : specification.and(sp);
-            }
-        }
-        return repository.findAll(specification, paginationAndSortingHandler.handle(params));
+    public Page<Product> getAll(String page,
+                                String count,
+                                String sortBy,
+                                String priceFrom,
+                                String priceTo) {
+        Specification<Product> priceFromSpecification = specificationManager
+                .get("priceFrom", priceFrom);
+        Specification<Product> priceToSpecification = specificationManager
+                .get("priceTo", priceTo);
+        return repository.findAll(Specification.where(priceFromSpecification)
+                        .and(priceToSpecification),
+                paginationAndSortingHandler.handle(page, count, sortBy));
     }
 }

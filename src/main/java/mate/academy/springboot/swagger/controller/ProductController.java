@@ -1,9 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
@@ -53,25 +50,14 @@ public class ProductController {
     }
 
     @GetMapping
-    @Operation(summary = "Get All Products | With Parameters")
-    @Parameter(name = "page",
-            allowEmptyValue = true,
-            description = "Specify the page | Should be > 0")
-    @Parameter(name = "count",
-            allowEmptyValue = true,
-            description = "Specify the amount of products | Should be > 0")
-    @Parameter(name = "sortBy",
-            allowEmptyValue = true,
-            description = "Specify the field for sorting - id, title, price "
-                    + "and sorting direction | Example title: ASC or price:DESC")
-    @Parameter(name = "priceFrom",
-            allowEmptyValue = true,
-            description = "Specify price from")
-    @Parameter(name = "priceTo",
-            allowEmptyValue = true,
-            description = "Specify price to")
-    private List<ProductResponseDto> getAll(@RequestParam Map<String, String> params) {
-        return service.getAll(params)
+    private List<ProductResponseDto> getAll(
+            @RequestParam(defaultValue = "1") String page,
+            @RequestParam(defaultValue = "4") String count,
+            @RequestParam(defaultValue = "title:ASC") String sortBy,
+            @RequestParam(required = false) String priceFrom,
+            @RequestParam(required = false) String priceTo
+    ) {
+        return service.getAll(page, count, sortBy, priceFrom, priceTo)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());

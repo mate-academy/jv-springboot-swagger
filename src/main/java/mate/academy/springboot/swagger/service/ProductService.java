@@ -1,6 +1,5 @@
 package mate.academy.springboot.swagger.service;
 
-import java.util.Map;
 import mate.academy.springboot.swagger.model.Product;
 import org.springframework.data.domain.Page;
 
@@ -13,5 +12,10 @@ public interface ProductService {
 
     Product update(Product product);
 
-    Page<Product> getAll(Map<String, String> params);
+    Page<Product> getAll(String page,
+                         String count,
+                         String sortBy,
+                         String priceFrom,
+                         String priceTo
+    );
 }

@@ -24,11 +24,11 @@ public class ProductSpecificationManager implements SpecificationManager<Product
     }
 
     @Override
-    public Specification<Product> get(String key, String[] params) {
+    public Specification<Product> get(String key, String param) {
         if (!providers.containsKey(key)) {
             throw new IllegalArgumentException("Key " + key
                     + " is not supported for data filtering");
         }
-        return providers.get(key).getSpecification(params);
+        return providers.get(key).getSpecification(param);
     }
 }
