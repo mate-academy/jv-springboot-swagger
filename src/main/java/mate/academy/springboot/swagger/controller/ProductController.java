@@ -1,5 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
 import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
@@ -30,30 +32,48 @@ public class ProductController {
     }
 
     @PostMapping("/add")
+    @ApiOperation(value = "Creates a new product",
+            httpMethod = "POST",
+            response = ProductResponseDto.class)
     public ProductResponseDto create(@RequestBody ProductRequestDto dto) {
         return mapper.toDto(service.create(mapper.toModel(dto)));
     }
 
     @GetMapping("/get")
+    @ApiOperation(value = "Returns the product by id",
+            httpMethod = "GET",
+            response = ProductResponseDto.class)
     public ProductResponseDto get(@RequestParam Long id) {
         return mapper.toDto(service.get(id));
     }
 
     @DeleteMapping("/delete")
+    @ApiOperation(value = "Deletes the product by id",
+            httpMethod = "DELETE")
     public void delete(@RequestParam Long id) {
         service.delete(id);
     }
 
     @PutMapping("/update")
+    @ApiOperation(value = "Updates the product by id",
+            httpMethod = "UPDATE",
+            response = ProductResponseDto.class)
     public ProductResponseDto update(@RequestBody ProductRequestDto dto) {
         return mapper.toDto(service.update(mapper.toModel(dto)));
     }
 
     @GetMapping
+    @ApiOperation(value = "Returns all products",
+            httpMethod = "GET",
+            response = ProductResponseDto.class,
+            responseContainer = "List")
     private List<ProductResponseDto> getAll(
-            @RequestParam(defaultValue = "1") String page,
-            @RequestParam(defaultValue = "4") String count,
-            @RequestParam(defaultValue = "title:ASC") String sortBy,
+            @RequestParam(defaultValue = "1")
+            @Parameter(description = "Default Value = 1") String page,
+            @RequestParam(defaultValue = "4")
+            @Parameter(description = "Default Value = 4") String count,
+            @RequestParam(defaultValue = "title:ASC")
+            @Parameter(description = "Default Value = title:ASC") String sortBy,
             @RequestParam(required = false) String priceFrom,
             @RequestParam(required = false) String priceTo
     ) {
