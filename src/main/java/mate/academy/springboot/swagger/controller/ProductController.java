@@ -76,13 +76,14 @@ public class ProductController {
     @ApiOperation(value = "get all products by price between in pageable format with sorting")
     public List<ProductResponseDto> getAllByPriceBetween(@RequestParam BigDecimal from,
                                                          @RequestParam BigDecimal to,
-                                                         @RequestParam(defaultValue = "0")
+                                                         @RequestParam(required = false, defaultValue = "0")
                                                              Integer page,
-                                                         @RequestParam(defaultValue = "20")
+                                                         @RequestParam(required = false, defaultValue = "20")
                                                              Integer pageSize,
-                                                         @RequestParam(defaultValue = "id")
+                                                         @RequestParam(required = false, defaultValue = "id")
                                                              String sortBy) {
         PageRequest pageRequest = createPageRequest(page, pageSize, sortBy);
+
         return productService.getAllByPriceBetween(from, to, pageRequest)
                 .stream()
                 .map(productMapper::toProductResponseDto)
