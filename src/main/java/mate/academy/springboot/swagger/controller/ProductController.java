@@ -3,6 +3,7 @@ package mate.academy.springboot.swagger.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
@@ -42,7 +43,7 @@ public class ProductController {
     @Operation(summary = "Add product", description = "Add product to DB")
     @PostMapping
     public ProductResponseDto add(@RequestBody ProductRequestDto productRequestDto) {
-        Product product = productService.add(productMapper.mapToModel(productRequestDto));
+        Product product = productService.save(productMapper.mapToModel(productRequestDto));
         return productMapper.mapToDto(product);
     }
 
@@ -64,7 +65,7 @@ public class ProductController {
                 @RequestBody ProductRequestDto productRequestDto) {
         Product product = productMapper.mapToModel(productRequestDto);
         product.setId(id);
-        productService.update(product);
+        productService.save(product);
     }
 
     @Operation(summary = "Get all products", description = "Get all products. "
@@ -92,8 +93,8 @@ public class ProductController {
             + "between two price levels. "
             + "You can set count products per page, page and sorting rules")
     @GetMapping("/by-price")
-    public List<ProductResponseDto> findAllByPrice(@RequestParam Double from,
-                                                   @RequestParam Double to,
+    public List<ProductResponseDto> findAllByPrice(@RequestParam BigDecimal from,
+                                                   @RequestParam BigDecimal to,
                                     @Parameter(description = "Number of products on page",
                                             example = "10",
                                     schema = @Schema(type = "integer", defaultValue = "10"))

@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
@@ -16,7 +17,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product add(Product product) {
+    public Product save(Product product) {
         return productRepository.save(product);
     }
 
@@ -32,11 +33,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Product product) {
-        return productRepository.saveAndFlush(product);
-    }
-
-    @Override
     public List<Product> findAll() {
         return productRepository.findAll();
     }
@@ -47,7 +43,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllByPriceBetween(Double from, Double to, PageRequest pageRequest) {
+    public List<Product> findAllByPriceBetween(BigDecimal from,
+                                               BigDecimal to,
+                                               PageRequest pageRequest) {
         return productRepository.findAllByPriceBetween(from, to, pageRequest);
     }
 }
