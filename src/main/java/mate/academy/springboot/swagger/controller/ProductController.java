@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,9 +60,13 @@ public class ProductController {
 
     @GetMapping
     @ApiOperation(value = "Returns all products from DB with pagination and sorting")
-    public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "10") Integer size,
-                                            @RequestParam(defaultValue = "0") Integer page,
-                                            @RequestParam(defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> findAll(
+            @ApiParam(value = "The page size", defaultValue = "10")
+            @RequestParam(defaultValue = "10") Integer size,
+            @ApiParam(value = "The page number", defaultValue = "0")
+            @RequestParam(defaultValue = "0") Integer page,
+            @ApiParam(value = "The field to sort by", defaultValue = "id")
+            @RequestParam(defaultValue = "id") String sortBy) {
         List<Sort.Order> orders = parser.getOrders(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
@@ -74,11 +79,16 @@ public class ProductController {
     @ApiOperation(value = "Returns the products from the database by the "
             + "specified price parameters with pagination and sorting")
     public List<ProductResponseDto> findAllByPriceBetween(
-                        @RequestParam(defaultValue = "0") BigDecimal from,
-                        @RequestParam(defaultValue = "0") BigDecimal to,
-                        @RequestParam(defaultValue = "10") Integer size,
-                        @RequestParam(defaultValue = "0") Integer page,
-                        @RequestParam(defaultValue = "id") String sortBy) {
+            @ApiParam(value = "The minimum price", defaultValue = "0")
+            @RequestParam(defaultValue = "0") BigDecimal from,
+            @ApiParam(value = "The maximum price", defaultValue = "0")
+            @RequestParam(defaultValue = "0") BigDecimal to,
+            @ApiParam(value = "The page size", defaultValue = "10")
+            @RequestParam(defaultValue = "10") Integer size,
+            @ApiParam(value = "The page number", defaultValue = "0")
+            @RequestParam(defaultValue = "0") Integer page,
+            @ApiParam(value = "The field to sort by", defaultValue = "id")
+            @RequestParam(defaultValue = "id") String sortBy) {
         List<Sort.Order> orders = parser.getOrders(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
