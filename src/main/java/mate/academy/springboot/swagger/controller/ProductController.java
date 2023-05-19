@@ -1,5 +1,6 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,21 +32,25 @@ public class ProductController {
     private final Parser parser;
 
     @PostMapping
+    @ApiOperation(value = "Add a product to DB")
     public ProductResponseDto add(@RequestBody ProductRequestDto dto) {
         return mapper.mapToDto(productService.add(mapper.mapToModel(dto)));
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get a product by id from DB")
     public ProductResponseDto get(@PathVariable Long id) {
         return mapper.mapToDto(productService.get(id));
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete a product by id from DB")
     public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update a product in DB")
     public ProductResponseDto update(@PathVariable Long id, @RequestBody ProductRequestDto dto) {
         Product product = mapper.mapToModel(dto);
         product.setId(id);
@@ -53,6 +58,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Returns all products from DB with pagination and sorting")
     public List<ProductResponseDto> findAll(@RequestParam(defaultValue = "10") Integer size,
                                             @RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "id") String sortBy) {
@@ -65,6 +71,8 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(value = "Returns the products from the database by the "
+            + "specified price parameters with pagination and sorting")
     public List<ProductResponseDto> findAllByPriceBetween(
                         @RequestParam(defaultValue = "0") BigDecimal from,
                         @RequestParam(defaultValue = "0") BigDecimal to,

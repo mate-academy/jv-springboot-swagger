@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
         Product productFromDb = get(product.getId());
         productFromDb.setTitle(product.getTitle());
         productFromDb.setPrice(product.getPrice());
-        return add(productFromDb);
+        return productRepository.save(productFromDb);
     }
 
     @Override
