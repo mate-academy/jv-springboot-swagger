@@ -1,8 +1,11 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.request.ProductRequestDto;
@@ -29,19 +32,22 @@ public class ProductController {
     private final DtoMapper<Product, ProductRequestDto, ProductResponseDto> productMapper;
 
     @PostMapping
-    public ProductResponseDto create(@RequestBody ProductRequestDto requestDto) {
+    @ApiOperation(value = "create a new product")
+    public ProductResponseDto create(@RequestBody @Valid ProductRequestDto requestDto) {
         Product product = productService.create(productMapper.toModel(requestDto));
         return productMapper.toDto(product);
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "get a product")
     public ProductResponseDto get(@PathVariable Long id) {
         return productMapper.toDto(productService.get(id));
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "update a product information")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody ProductRequestDto requestDto
+                                     @RequestBody @Valid ProductRequestDto requestDto
     ) {
         Product product = productMapper.toModel(requestDto);
         product.setId(id);
@@ -49,15 +55,20 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "delete a product")
     public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
     @GetMapping("/all")
+    @ApiOperation(value = "get all products with pagination and ability to sort them")
     public List<ProductResponseDto> getAll(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "20") Integer count,
-            @RequestParam(defaultValue = "title") String sortBy
+            @RequestParam(defaultValue = "0")
+                @ApiParam(value = "default value is '0'") Integer page,
+            @RequestParam(defaultValue = "20")
+                @ApiParam(value = "default value is '20'") Integer count,
+            @RequestParam(defaultValue = "title")
+                @ApiParam(value = "default sorting is by 'title:asc'") String sortBy
     ) {
         PageRequest pageRequest = PageRequest.of(
                 page, count, ParamsParser.getSortingParams(sortBy));
@@ -67,12 +78,16 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(value = "get all products by price with pagination and ability to sort them")
     public List<ProductResponseDto> getAllByPriceBetween(
             @RequestParam BigDecimal from,
             @RequestParam BigDecimal to,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "20") Integer count,
-            @RequestParam(defaultValue = "title") String sortBy
+            @RequestParam(defaultValue = "0")
+                @ApiParam(value = "default value is '0'") Integer page,
+            @RequestParam(defaultValue = "20")
+                @ApiParam(value = "default value is '20'") Integer count,
+            @RequestParam(defaultValue = "title")
+                @ApiParam(value = "default sorting is by 'title:asc'") String sortBy
     ) {
         PageRequest pageRequest = PageRequest.of(
                 page, count, ParamsParser.getSortingParams(sortBy));
