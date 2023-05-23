@@ -65,7 +65,7 @@ public class ProductController {
     ) {
         Product product = productMapper.toModel(productDto);
         product.setId(id);
-        return productMapper.toDto(productService.update(product));
+        return productMapper.toDto(productService.save(product));
     }
 
     @GetMapping
@@ -97,10 +97,10 @@ public class ProductController {
     ) {
         Sort sort = Sort.by(sortService.sort(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
-        return modelsListToDto(productService.findAllByPriceBetween(from, to, pageRequest));
+        return convertModelsListToDto(productService.findAllByPriceBetween(from, to, pageRequest));
     }
 
-    private List<ResponseProductDto> modelsListToDto(List<Product> products) {
+    private List<ResponseProductDto> convertModelsListToDto(List<Product> products) {
         return products.stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
