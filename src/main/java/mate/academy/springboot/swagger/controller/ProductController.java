@@ -69,8 +69,8 @@ public class ProductController {
             description = "Get all Products by price between two values. "
             + "It is possible to use pagination")
     @GetMapping("/by-price")
-    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal fromPrice,
-                                                          @RequestParam BigDecimal toPrice,
+    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
+                                                          @RequestParam BigDecimal to,
                                                           @Parameter(
                                                                   description = "Number "
                                                                           + "of products on page. "
@@ -90,8 +90,8 @@ public class ProductController {
                                                           @RequestParam (defaultValue = "id")
                                                               String sortBy) {
         final PageRequest pageRequest = pageableUtil.createPageRequest(count, page, sortBy);
-        return productService.findAllByPriceBetween(fromPrice,
-                        toPrice,
+        return productService.findAllByPriceBetween(from,
+                        to,
                         pageableUtil.createPageRequest(count, page, sortBy))
                 .stream()
                 .map(dtoMapper::mapToDto)
