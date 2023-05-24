@@ -10,7 +10,7 @@ import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.service.mapper.DtoMapper;
+import mate.academy.springboot.swagger.service.mapper.ProductMapper;
 import mate.academy.springboot.swagger.util.SorterUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +31,7 @@ public class ProductController {
     private static final String PAGE = "0";
     private static final String SORT_FIELD = "title";
     private final ProductService productService;
-    private final DtoMapper<Product, ProductRequestDto, ProductResponseDto> productMapper;
+    private final ProductMapper productMapper;
     private final SorterUtil sorterUtil;
 
     @PostMapping
