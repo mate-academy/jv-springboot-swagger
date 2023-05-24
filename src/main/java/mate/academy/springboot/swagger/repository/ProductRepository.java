@@ -10,5 +10,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to, Pageable pageable);
-    //from Product p where p.price between ?1 and ?2
 }
