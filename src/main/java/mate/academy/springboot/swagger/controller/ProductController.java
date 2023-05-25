@@ -2,6 +2,8 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
@@ -21,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
@@ -35,7 +34,8 @@ public class ProductController {
     @GetMapping
     @Operation(summary = "Find all products")
     public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10")
-                                                @Parameter(description = "Numbers of product on 1 page")
+                                                @Parameter(description =
+                                                        "Numbers of product on 1 page")
                                                         Integer count,
                                             @RequestParam (defaultValue = "0")
                                                     @Parameter(description = "Number of page")

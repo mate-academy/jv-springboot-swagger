@@ -1,14 +1,13 @@
 package mate.academy.springboot.swagger.service.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import mate.academy.springboot.swagger.service.ProductService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
