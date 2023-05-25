@@ -21,7 +21,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        return productRepository.getById(id);
+        return productRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Can't get Product from DB by ID: " + id));
     }
 
     @Override
@@ -31,10 +32,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product update(Product product) {
-        if (product != null) {
+        try {
+            findById(product.getId());
             return productRepository.save(product);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Can't update Product in DB!" + product);
         }
-        throw new RuntimeException("Can't update Product! Product doesn't exist!");
     }
 
     @Override
