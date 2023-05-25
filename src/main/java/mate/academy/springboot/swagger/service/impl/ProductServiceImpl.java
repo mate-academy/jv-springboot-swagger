@@ -32,7 +32,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product update(Product product) {
-        return productRepository.save(product);
+        if (productRepository.existsById(product.getId())) {
+            return productRepository.save(product);
+        }
+        throw new RuntimeException("Can`t update product by id " + product.getId()
+                + " product with this id dont exist");
     }
 
     @Override

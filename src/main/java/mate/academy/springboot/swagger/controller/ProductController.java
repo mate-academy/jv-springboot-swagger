@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
+import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
@@ -88,7 +89,8 @@ public class ProductController {
     @ApiOperation(value = "Update the product by id")
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody ProductRequestDto requestDto) {
-        return productMapper.toResponseDto(productService
-                .update(productMapper.toModel(requestDto)));
+        Product product = productMapper.toModel(requestDto);
+        product.setId(id);
+        return productMapper.toResponseDto(productService.update(product));
     }
 }
