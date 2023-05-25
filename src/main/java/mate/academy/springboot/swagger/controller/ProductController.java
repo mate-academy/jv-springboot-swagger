@@ -2,6 +2,8 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -75,5 +77,23 @@ public class ProductController {
     @Operation(summary = "Create product and add to DB")
     public ProductResponseDto save(@RequestBody ProductRequestDto requestDto) {
         return productMapper.toDto(productService.save(productMapper.toModel(requestDto)));
+    }
+
+    @GetMapping("/by-price")
+    @Operation(summary = "Get products by price between")
+    public List<ProductResponseDto> findProductsByPriceBetween(
+            @RequestParam @Parameter(description = "from price") BigDecimal from,
+            @RequestParam @Parameter(description = "to price") BigDecimal to,
+            @RequestParam (defaultValue = "10")
+            @Parameter(description = "Number of products on 1 page") Integer count,
+            @RequestParam (defaultValue = "0")
+            @Parameter(description = "Page number") Integer page,
+            @RequestParam (defaultValue = "id")
+            @Parameter(description = "Element to sort") String sortBy) {
+        Sort sort = Sort.by(sortUtil.getSort(sortBy));
+        PageRequest pageRequest = PageRequest.of(page, count, sort);
+        return productService.findProductsByPriceBetween(from, to, pageRequest).stream()
+                .map(productMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
