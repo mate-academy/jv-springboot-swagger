@@ -10,9 +10,9 @@ import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.service.SortService;
 import mate.academy.springboot.swagger.service.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.service.mapper.ResponseDtoMapper;
-import mate.academy.springboot.swagger.util.ProductSortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +32,7 @@ public class ProductController {
     private final ProductService productService;
     private final RequestDtoMapper<ProductRequestDto, Product> requestDtoMapper;
     private final ResponseDtoMapper<ProductResponseDto, Product> responseDtoMapper;
-    private final ProductSortUtil sortUtil;
+    private final SortService sortService;
 
     @PostMapping
     @ApiOperation(value = "Add a product to DB")
@@ -74,7 +74,7 @@ public class ProductController {
                 @RequestParam (defaultValue = "id")
                 @ApiParam(value = "Default value is `id`")
                 String sortBy) {
-        Sort sort = Sort.by(sortUtil.getSort(sortBy));
+        Sort sort = Sort.by(sortService.sort(sortBy));
         PageRequest pageRequest = PageRequest.of(page, amount, sort);
         return productService.findAll(pageRequest).stream()
                 .map(responseDtoMapper::mapToDto)
@@ -95,7 +95,7 @@ public class ProductController {
                 @RequestParam (defaultValue = "id")
                 @ApiParam(value = "Default value is `id`")
                 String sortBy) {
-        Sort sort = Sort.by(sortUtil.getSort(sortBy));
+        Sort sort = Sort.by(sortService.sort(sortBy));
         PageRequest pageRequest = PageRequest.of(page, amount, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(responseDtoMapper::mapToDto)
