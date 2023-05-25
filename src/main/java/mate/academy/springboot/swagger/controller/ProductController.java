@@ -2,7 +2,6 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
