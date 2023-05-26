@@ -2,9 +2,9 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +39,7 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
-    public ProductResponseDto create(@RequestBody @Parameter(description = "Product to add",
+    public ProductResponseDto create(@RequestBody(description = "Product to add",
             required = true, content = @Content(
                     schema = @Schema(implementation = ProductRequestDto.class)))
                                          @Valid ProductRequestDto product) {
@@ -62,7 +61,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Update product by id from DB")
-    public ProductResponseDto update(@RequestBody @Parameter
+    public ProductResponseDto update(@RequestBody
             (description = "Update product ", required = true,
                     content = @Content(schema = @Schema(implementation = ProductRequestDto.class)))
                                          @Valid ProductRequestDto productRequestDto,
