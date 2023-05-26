@@ -2,9 +2,11 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
@@ -66,7 +68,9 @@ public class ProductController {
     @PutMapping("/{id}")
     @Operation(summary = "Update product by id")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody ProductRequestDto requestDto) {
+                                     @Schema(description = "Update product",
+                                     required = true, implementation = ProductRequestDto.class)
+                                     @RequestBody @Valid ProductRequestDto requestDto) {
         Product product = productMapper.toModel(requestDto);
         product.setId(id);
         return productMapper.toDto(productService.update(product));
@@ -74,15 +78,17 @@ public class ProductController {
 
     @PostMapping
     @Operation(summary = "Create product and add to DB")
-    public ProductResponseDto save(@RequestBody ProductRequestDto requestDto) {
+    public ProductResponseDto save(@Schema(description = "Create product",
+            required = true, implementation = ProductRequestDto.class)
+            @Valid @RequestBody ProductRequestDto requestDto) {
         return productMapper.toDto(productService.save(productMapper.toModel(requestDto)));
     }
 
     @GetMapping("/by-price")
     @Operation(summary = "Get products by price between")
     public List<ProductResponseDto> findProductsByPriceBetween(
-            @RequestParam @Parameter(description = "from price") BigDecimal from,
-            @RequestParam @Parameter(description = "to price") BigDecimal to,
+            @RequestParam @Parameter(description = "minimum price") BigDecimal from,
+            @RequestParam @Parameter(description = "maximum price") BigDecimal to,
             @RequestParam (defaultValue = "10")
             @Parameter(description = "Number of products on 1 page") Integer count,
             @RequestParam (defaultValue = "0")
