@@ -10,9 +10,9 @@ import mate.academy.springboot.swagger.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
-import mate.academy.springboot.swagger.service.SortService;
 import mate.academy.springboot.swagger.service.mapper.RequestDtoMapper;
 import mate.academy.springboot.swagger.service.mapper.ResponseDtoMapper;
+import mate.academy.springboot.swagger.util.SortService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,7 +74,7 @@ public class ProductController {
                 @RequestParam (defaultValue = "id")
                 @ApiParam(value = "Default value is `id`")
                 String sortBy) {
-        Sort sort = Sort.by(sortService.sort(sortBy));
+        Sort sort = Sort.by(sortService.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, amount, sort);
         return productService.findAll(pageRequest).stream()
                 .map(responseDtoMapper::mapToDto)
@@ -84,8 +84,12 @@ public class ProductController {
     @GetMapping("/by-price")
     @ApiOperation(value = "Find all products by price between with pagination")
     public List<ProductResponseDto> findAllByPrice(
-                @RequestParam BigDecimal from,
-                @RequestParam BigDecimal to,
+                @ApiParam(value = "Default value is `0`")
+                @RequestParam (defaultValue = "0")
+                BigDecimal from,
+                @ApiParam(value = "Default value is `Integer.MAX_VALUE`")
+                @RequestParam (defaultValue = "Integer.MAX_VALUE")
+                BigDecimal to,
                 @RequestParam (defaultValue = "20")
                 @ApiParam(value = "Default value is `20`")
                 Integer amount,
@@ -95,7 +99,7 @@ public class ProductController {
                 @RequestParam (defaultValue = "id")
                 @ApiParam(value = "Default value is `id`")
                 String sortBy) {
-        Sort sort = Sort.by(sortService.sort(sortBy));
+        Sort sort = Sort.by(sortService.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, amount, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(responseDtoMapper::mapToDto)

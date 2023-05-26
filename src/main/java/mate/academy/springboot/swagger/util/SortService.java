@@ -1,8 +1,8 @@
-package mate.academy.springboot.swagger.service;
+package mate.academy.springboot.swagger.util;
 
 import java.util.List;
 import org.springframework.data.domain.Sort;
 
 public interface SortService {
-    List<Sort.Order> sort(String sortBy);
+    List<Sort.Order> getSortOrders(String sortBy);
 }

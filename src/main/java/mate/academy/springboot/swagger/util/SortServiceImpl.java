@@ -1,15 +1,14 @@
-package mate.academy.springboot.swagger.service.impl;
+package mate.academy.springboot.swagger.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import mate.academy.springboot.swagger.service.SortService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SortServiceImpl implements SortService {
     @Override
-    public List<Sort.Order> sort(String sortBy) {
+    public List<Sort.Order> getSortOrders(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy.contains(":")) {
             String[] sortingFields = sortBy.split(";");
