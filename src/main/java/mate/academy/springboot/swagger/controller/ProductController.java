@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.DtoMapper;
@@ -22,20 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(name = "/products")
 public class ProductController {
     private final ProductService productService;
     private final PageableUtil pageableUtil;
     private final DtoMapper<Product, ProductRequestDto, ProductResponseDto> dtoMapper;
-
-    public ProductController(ProductService productService,
-                             PageableUtil pageableUtil,
-                             DtoMapper<Product, ProductRequestDto, ProductResponseDto> dtoMapper) {
-        this.productService = productService;
-        this.pageableUtil = pageableUtil;
-        this.dtoMapper = dtoMapper;
-    }
 
     @Operation(summary = "Get Product by Id")
     @GetMapping("/{id}")
