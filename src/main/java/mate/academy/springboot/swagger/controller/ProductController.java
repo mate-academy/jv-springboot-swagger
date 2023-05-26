@@ -2,6 +2,7 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +39,8 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create Product and save it to DB")
-    public ProductResponseDto save(@RequestBody ProductRequestDto productRequestDto) {
+    public ProductResponseDto save(@RequestBody(description = "Product to add.")
+                                       ProductRequestDto productRequestDto) {
         return mapper.toDto(productService.save(mapper.toModel(productRequestDto)));
     }
 
@@ -52,13 +53,14 @@ public class ProductController {
     @PutMapping("/{id}")
     @ApiOperation(value = "Update Product by ID with new values of this product in DB")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody ProductRequestDto productRequestDto) {
+                                     @RequestBody(description = "Product to update")
+                                     ProductRequestDto productRequestDto) {
         Product product = mapper.toModel(productRequestDto);
         product.setId(id);
         return mapper.toDto(product);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     @ApiOperation(value = "Get all Product from DB by custom params")
     public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "10")
                                                @ApiParam(value = "default value is 10")
@@ -77,8 +79,12 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
-    public List<ProductResponseDto> getAllByPrice(@RequestParam BigDecimal from,
-                                                  @RequestParam BigDecimal to,
+    public List<ProductResponseDto> getAllByPrice(@RequestParam (defaultValue = "0")
+                                                      @ApiParam(value = "default value is 0")
+                                                      BigDecimal from,
+                                                  @RequestParam (defaultValue = "99999")
+                                                    @ApiParam(value = "default value is 99999")
+                                                    BigDecimal to,
                                                   @RequestParam (defaultValue = "10")
                                                       @ApiParam(value = "default value is 10")
                                                       Integer count,
