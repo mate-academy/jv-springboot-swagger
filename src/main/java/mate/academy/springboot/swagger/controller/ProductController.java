@@ -2,6 +2,9 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +36,10 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Save product to database")
-    public ProductResponseDto save(@RequestBody @Valid ProductRequestDto productRequestDto) {
+    public ProductResponseDto save(@RequestBody(description = "Product to add", required = true,
+            content = @Content(
+                    schema = @Schema(implementation = Product.class)))
+                                   @Valid ProductRequestDto productRequestDto) {
         return productMapper.toDto(
                 productService.save(
                         productMapper.toModel(productRequestDto)));
@@ -46,14 +51,14 @@ public class ProductController {
         return productMapper.toDto(productService.get(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping
     @ApiOperation(value = "Get list of all products")
     public List<ProductResponseDto>
             getAll(@RequestParam(defaultValue = "0") Integer page,
                    @RequestParam(defaultValue = "20")
-                   @ApiParam(value = "default value 20") Integer size,
+                   @ApiParam(value = "page size, default value 20") Integer size,
                    @RequestParam(defaultValue = "id")
-                   @ApiParam(value = "sorted by id by default") String sortBy) {
+                   @ApiParam(value = "sorting method,sorted by id by default") String sortBy) {
         Sort sort = Sort.by(SortParser.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.findAll(pageRequest)
@@ -62,7 +67,7 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping
+    @GetMapping("price-between")
     @ApiOperation(value = "Get all products with price between two parameters")
     public List<ProductResponseDto>
             getAllByPriceBetween(@RequestParam BigDecimal from,
