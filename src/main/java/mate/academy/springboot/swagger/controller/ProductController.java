@@ -54,7 +54,7 @@ public class ProductController {
     @GetMapping
     @ApiOperation(value = "Get list of all products")
     public List<ProductResponseDto>
-            getAll(@ApiParam(value = "current page")
+            getAll(@ApiParam(value = "current page, default value 0")
                    @RequestParam(defaultValue = "0") Integer page,
                    @ApiParam(value = "page size, default value 20")
                    @RequestParam(defaultValue = "20") Integer size,
@@ -72,11 +72,11 @@ public class ProductController {
     @ApiOperation(value = "Get all products with price between two parameters")
     public List<ProductResponseDto>
             getAllByPriceBetween(
-                                 @ApiParam(value = "from price")
+                                 @ApiParam(value = "from price", required = true)
                                  @RequestParam BigDecimal from,
-                                 @ApiParam(value = "to price")
+                                 @ApiParam(value = "to price", required = true)
                                  @RequestParam BigDecimal to,
-                                 @ApiParam(value = "current page")
+                                 @ApiParam(value = "current page, default value 0")
                                  @RequestParam(defaultValue = "0") Integer page,
                                  @ApiParam(value = "default value 20")
                                  @RequestParam(defaultValue = "20")Integer size,
@@ -99,7 +99,10 @@ public class ProductController {
     @PutMapping("/{id}")
     @ApiOperation(value = "Update product in the database")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody @Valid ProductRequestDto productRequestDto) {
+                                     @RequestBody(description = "Product ot update", required = true,
+                                             content = @Content(
+                                                     schema=@Schema(implementation = Product.class)))
+                                     @Valid ProductRequestDto productRequestDto) {
         Product product = productMapper.toModel(productRequestDto);
         product.setId(id);
         return productMapper.toDto(productService.save(product));
