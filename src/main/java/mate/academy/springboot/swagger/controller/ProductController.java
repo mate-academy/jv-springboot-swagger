@@ -54,11 +54,12 @@ public class ProductController {
     @GetMapping
     @ApiOperation(value = "Get list of all products")
     public List<ProductResponseDto>
-            getAll(@RequestParam(defaultValue = "0") Integer page,
-                   @RequestParam(defaultValue = "20")
-                   @ApiParam(value = "page size, default value 20") Integer size,
-                   @RequestParam(defaultValue = "id")
-                   @ApiParam(value = "sorting method,sorted by id by default") String sortBy) {
+            getAll(@ApiParam(value = "current page")
+                   @RequestParam(defaultValue = "0") Integer page,
+                   @ApiParam(value = "page size, default value 20")
+                   @RequestParam(defaultValue = "20") Integer size,
+                   @ApiParam(value = "sorting method,sorted by id by default")
+                   @RequestParam(defaultValue = "id") String sortBy) {
         Sort sort = Sort.by(SortParser.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.findAll(pageRequest)
@@ -70,13 +71,17 @@ public class ProductController {
     @GetMapping("price-between")
     @ApiOperation(value = "Get all products with price between two parameters")
     public List<ProductResponseDto>
-            getAllByPriceBetween(@RequestParam BigDecimal from,
+            getAllByPriceBetween(
+                                 @ApiParam(value = "from price")
+                                 @RequestParam BigDecimal from,
+                                 @ApiParam(value = "to price")
                                  @RequestParam BigDecimal to,
+                                 @ApiParam(value = "current page")
                                  @RequestParam(defaultValue = "0") Integer page,
-                                 @RequestParam(defaultValue = "20")
-                                 @ApiParam(value = "default value 20") Integer size,
-                                 @RequestParam(defaultValue = "id")
-                                 @ApiParam(value = "sorted by id by default") String sortBy) {
+                                 @ApiParam(value = "default value 20")
+                                 @RequestParam(defaultValue = "20")Integer size,
+                                 @ApiParam(value = "sorted by id by default")
+                                 @RequestParam(defaultValue = "id") String sortBy) {
         Sort sort = Sort.by(SortParser.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)
