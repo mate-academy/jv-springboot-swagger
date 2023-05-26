@@ -59,7 +59,7 @@ public class ProductController {
     @PostMapping("/{id}")
     @ApiOperation(value = "update product")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody(description = "Add parameters to create product",
+                                     @RequestBody(description = "Update parameters to product",
                                              required = true,
                                              content = @Content(schema =
                                              @Schema(implementation = ProductRequestDto.class)))
