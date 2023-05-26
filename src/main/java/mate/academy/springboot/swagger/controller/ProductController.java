@@ -2,9 +2,13 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
@@ -36,7 +40,10 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
-    public ProductResponseDto create(@RequestBody ProductRequestDto product) {
+    public ProductResponseDto create(@RequestBody @Parameter(description = "Product to add",
+            required = true, content = @Content(
+                    schema = @Schema(implementation = ProductRequestDto.class)))
+                                         @Valid ProductRequestDto product) {
         return responseDtoMapper.mapToDto(productService
                 .save(requestDtoMapper.mapToModel(product)));
     }
@@ -55,7 +62,10 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Update product by id from DB")
-    public ProductResponseDto update(@RequestBody ProductRequestDto productRequestDto,
+    public ProductResponseDto update(@RequestBody @Parameter
+            (description = "Update product ", required = true,
+                    content = @Content(schema = @Schema(implementation = ProductRequestDto.class)))
+                                         @Valid ProductRequestDto productRequestDto,
                                      @PathVariable Long id) {
         Product product = requestDtoMapper.mapToModel(productRequestDto);
         product.setId(id);
@@ -85,8 +95,10 @@ public class ProductController {
     @GetMapping("/by-price")
     @ApiOperation(value = "Get products list between price")
     public List<ProductResponseDto> findAllByPriceBetween(
-            @RequestParam(defaultValue = "0")BigDecimal from,
-            @RequestParam(defaultValue = "0") BigDecimal to,
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "The minimum price") BigDecimal from,
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "The maximum price") BigDecimal to,
             @RequestParam(defaultValue = "20")
             @ApiParam(value = "default value is `20`") Integer count,
             @RequestParam(defaultValue = "0")
