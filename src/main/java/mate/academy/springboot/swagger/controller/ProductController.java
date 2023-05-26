@@ -1,6 +1,10 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +22,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +36,10 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "create a new product")
-    public ProductResponseDto add(@RequestBody ProductRequestDto requestDto) {
+    public ProductResponseDto add(@RequestBody(description = "Add parameters to create product",
+            required = true,
+            content = @Content(schema = @Schema(implementation = ProductRequestDto.class)))
+                                      ProductRequestDto requestDto) {
         return productMapper.mapToDto(productService
                 .save(productMapper.mapToModel(requestDto)));
     }
@@ -53,17 +59,30 @@ public class ProductController {
     @PostMapping("/{id}")
     @ApiOperation(value = "update product")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody ProductRequestDto requestDto) {
+                                     @RequestBody(description = "Add parameters to create product",
+                                             required = true,
+                                             content = @Content(schema =
+                                             @Schema(implementation = ProductRequestDto.class)))
+                                     ProductRequestDto requestDto) {
         Product product = productMapper.mapToModel(requestDto);
         product.setId(id);
         return productMapper.mapToDto(productService.save(product));
     }
 
-    @GetMapping("/find-all")
+    @GetMapping
     @ApiOperation(value = "get all products")
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
-                                            @RequestParam (defaultValue = "0") Integer page,
-                                            @RequestParam (defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> findAll(@ApiParam(value = "count of elements on one page",
+                                                defaultValue = "20")
+                                                @RequestParam (defaultValue = "20")
+                                                Integer count,
+                                                @ApiParam(value = "page number to display",
+                                                        defaultValue = "0")
+                                                @RequestParam (defaultValue = "0")
+                                                Integer page,
+                                                @ApiParam(value = "parameter to sort by",
+                                                    defaultValue = "id")
+                                                @RequestParam (defaultValue = "id")
+                                                String sortBy) {
         Sort sort = Sort.by(sortUtil.getSort(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -73,12 +92,21 @@ public class ProductController {
 
     @GetMapping("/by-price")
     @ApiOperation(value = "get all products between price")
-    public List<ProductResponseDto> findByPriceBetween(@RequestParam BigDecimal from,
+    public List<ProductResponseDto> findByPriceBetween(@ApiParam(value = "minimum price")
+                                                        @RequestParam BigDecimal from,
+                                                       @ApiParam(value = "maximum price")
                                                        @RequestParam BigDecimal to,
+                                                       @ApiParam(value =
+                                                               "count of elements on one page",
+                                                               defaultValue = "20")
                                                        @RequestParam (defaultValue = "20")
                                                            Integer count,
+                                                       @ApiParam(value = "page number to display",
+                                                               defaultValue = "0")
                                                        @RequestParam (defaultValue = "0")
                                                            Integer page,
+                                                       @ApiParam(value = "parameter to sort by",
+                                                               defaultValue = "id")
                                                        @RequestParam (defaultValue = "id")
                                                            String sortBy) {
         Sort sort = Sort.by(sortUtil.getSort(sortBy));
