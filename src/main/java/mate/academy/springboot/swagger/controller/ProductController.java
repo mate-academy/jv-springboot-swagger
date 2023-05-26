@@ -40,13 +40,17 @@ public class ProductController {
 
     @Operation(summary = "Add Product to Data Base")
     @PostMapping
-    public ProductResponseDto create(@RequestBody ProductRequestDto dto) {
+    public ProductResponseDto create(@Parameter(description =
+            "Product update DTO (product title "
+                    + "and product price)") @RequestBody ProductRequestDto dto) {
         return dtoMapper.mapToDto(productService.create(dtoMapper.mapToModel(dto)));
     }
 
     @Operation(summary = "Update Product in Data Base")
     @PutMapping("/{id}")
-    public ProductResponseDto update(@PathVariable Long id, @RequestBody ProductRequestDto dto) {
+    public ProductResponseDto update(@PathVariable Long id, @Parameter(description =
+            "Product update DTO (product title "
+                    + "and product price)") @RequestBody ProductRequestDto dto) {
         Product product = dtoMapper.mapToModel(dto);
         product.setId(id);
         return dtoMapper.mapToDto(productService.update(product));
@@ -63,7 +67,17 @@ public class ProductController {
             description = "Get all Products by price between two values. "
             + "It is possible to use pagination")
     @GetMapping("/by-price")
-    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
+    public List<ProductResponseDto> findAllByPriceBetween(@Parameter(
+            description = "A value that indicates the price From "
+                    + "which the limit should be filtered")
+                                                              @RequestParam BigDecimal from,
+                                                          @Parameter(
+                                                                  description = "A value "
+                                                                          + "that indicates "
+                                                                          + "the price To "
+                                                                          + "which the "
+                                                                          + "limit should "
+                                                                          + "be filtered")
                                                           @RequestParam BigDecimal to,
                                                           @Parameter(
                                                                   description = "Number "
