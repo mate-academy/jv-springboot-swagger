@@ -60,11 +60,11 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
-    public List<ProductResponseDto> findAllByPrice(@RequestParam BigDecimal from,
-                                                   @RequestParam BigDecimal to,
-                                                   @RequestParam(defaultValue = "20") Integer count,
-                                                   @RequestParam(defaultValue = "0") Integer page,
-                                                   @RequestParam(defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto>
+            findAllByPrice(@RequestParam BigDecimal from, @RequestParam BigDecimal to,
+                           @RequestParam(defaultValue = "20") Integer count,
+                           @RequestParam(defaultValue = "0") Integer page,
+                           @RequestParam(defaultValue = "id") String sortBy) {
         Sort sort = Sort.by(SortParser.generateOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPrice(from, to, pageRequest).stream()
