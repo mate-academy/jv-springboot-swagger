@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -35,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product update(Long id, Product product) {
         Optional<Product> productById = productRepository.findById(id);
-        if(productById.isEmpty()) {
+        if (productById.isEmpty()) {
             throw new NoSuchElementException("Can't find Product with id " + id);
         }
         Product productFromDb = productById.get();

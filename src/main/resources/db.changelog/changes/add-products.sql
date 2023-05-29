@@ -29,3 +29,5 @@ INSERT INTO products (title, price) VALUES ('Samsung Galaxy A20', 522);
 INSERT INTO products (title, price) VALUES ('Samsung Galaxy A20', 6778);
 INSERT INTO products (title, price) VALUES ('Samsung Galaxy A20', 1237);
 INSERT INTO products (title, price) VALUES ('Samsung Galaxy A20', 999);
+
+--rollback DELETE FROM products;
