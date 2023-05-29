@@ -1,10 +1,10 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
@@ -75,7 +75,7 @@ public class ProductController {
     public List<ProductResponseDto>
             findAllByPrice(@RequestParam BigDecimal from, @RequestParam BigDecimal to,
                            @RequestParam(defaultValue = "20")
-                           @ApiParam(value = "default value 20")  Integer count,
+                           @ApiParam(value = "default value 20") Integer count,
                            @RequestParam(defaultValue = "0")
                            @ApiParam(value = "default value 0") Integer page,
                            @RequestParam(defaultValue = "id")
