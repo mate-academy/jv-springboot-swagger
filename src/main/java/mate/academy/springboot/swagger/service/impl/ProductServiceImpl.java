@@ -31,11 +31,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Product product) {
-        return productRepository.saveAndFlush(product);
-    }
-
-    @Override
     public List<Product> findProductsByPriceBetween(BigDecimal from,
                                                     BigDecimal to,
                                                     PageRequest pageRequest) {

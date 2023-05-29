@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
 import mate.academy.springboot.swagger.dto.ProductResponseDto;
@@ -70,17 +69,17 @@ public class ProductController {
     public ProductResponseDto update(@PathVariable Long id,
                                      @Schema(description = "Update product",
                                      required = true, implementation = ProductRequestDto.class)
-                                     @RequestBody @Valid ProductRequestDto requestDto) {
+                                     @RequestBody ProductRequestDto requestDto) {
         Product product = productMapper.toModel(requestDto);
         product.setId(id);
-        return productMapper.toDto(productService.update(product));
+        return productMapper.toDto(productService.save(product));
     }
 
     @PostMapping
     @Operation(summary = "Create product and add to DB")
     public ProductResponseDto save(@Schema(description = "Create product",
             required = true, implementation = ProductRequestDto.class)
-            @Valid @RequestBody ProductRequestDto requestDto) {
+            @RequestBody ProductRequestDto requestDto) {
         return productMapper.toDto(productService.save(productMapper.toModel(requestDto)));
     }
 
