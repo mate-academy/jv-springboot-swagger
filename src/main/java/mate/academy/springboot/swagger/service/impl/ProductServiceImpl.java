@@ -17,6 +17,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) {
+        productRepository.findById(product.getId()).orElseThrow(() ->
+                new NoSuchElementException("Product by id " + product.getId()
+                + "already exist in DB"));
         return productRepository.save(product);
     }
 
@@ -28,7 +31,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(Long id) {
-        productRepository.deleteById(id);
+        productRepository.deleteAll(List.of(productRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("Can't delete product by id " + id))));
+    }
+
+    @Override
+    public void update(Long id, Product product) {
+        Product prevProduct = productRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("Can't update product by id " + id));
+        prevProduct.setPrice(product.getPrice());
+        prevProduct.setTitle(product.getTitle());
+        productRepository.save(prevProduct);
     }
 
     @Override
