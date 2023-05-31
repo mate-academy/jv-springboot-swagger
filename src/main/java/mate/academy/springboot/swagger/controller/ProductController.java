@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
@@ -22,8 +21,6 @@ import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,59 +34,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/products")
-@Tag(name = "product", description = "The Product Manager API")
+@Tag(name = "product", description = "The Product Manager API.")
 public class ProductController {
     private final ProductService productService;
     private final SortUtil sortUtil;
     private final DtoMapper<ProductRequestDto, ProductResponseDto, Product> productMapper;
 
-    @Operation(summary = "Add Product", description = "Add Product to DB")
+    @Operation(summary = "Add product.", description = "Add product to DB.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Product created",
+            @ApiResponse(responseCode = "201", description = "Product created.",
                     content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "409", description = "Product already exists") })
+            @ApiResponse(responseCode = "400", description = "Invalid input.") })
     @PostMapping
-    public ResponseEntity<Product> add(@Parameter(
+    public ProductResponseDto add(@Parameter(
             description = "Product to add. Cannot null or empty.",
             required = true, schema = @Schema(implementation = ProductRequestDto.class))
                                       @Valid @RequestBody ProductRequestDto productRequestDto) {
-        if (productRequestDto == null) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-        Product product;
-        try {
-            product = productService.save(productMapper.mapToModel(productRequestDto));
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>(product, HttpStatus.CREATED);
+        return productMapper.mapToDto(
+                productService.save(productMapper.mapToModel(productRequestDto)));
     }
 
-    @Operation(summary = "Get a Product by its id")
+    @Operation(summary = "Get a product by its ID from DB.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the Product",
+            @ApiResponse(responseCode = "200", description = "Found the product.",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProductResponseDto.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied.",
                     content = @Content),
-            @ApiResponse(responseCode = "404", description = "Product not found",
+            @ApiResponse(responseCode = "404", description = "Product not found.",
                     content = @Content) })
     @GetMapping("/{id}")
     public ProductResponseDto get(@PathVariable("id")
-                                      @Parameter(name = "id", description = "Product id",
+                                      @Parameter(name = "id", description = "Product ID.",
                                               example = "1") Long id) {
         return productMapper.mapToDto(productService.getById(id));
     }
 
-    @Operation(summary = "Delete Product by its id")
+    @Operation(summary = "Delete product by its ID from DB.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Delete the Product",
+            @ApiResponse(responseCode = "204", description = "Delete the product.",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Product.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied.",
                     content = @Content),
-            @ApiResponse(responseCode = "404", description = "Product not found",
+            @ApiResponse(responseCode = "404", description = "Product not found.",
                     content = @Content) })
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id")
@@ -99,26 +87,25 @@ public class ProductController {
     }
 
     @Operation(summary = "Update an existing product",
-            description = "update info about product", tags = { "product" })
+            description = "Update info about product", tags = { "product" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Product not found"),
-            @ApiResponse(responseCode = "405", description = "Validation exception") })
+            @ApiResponse(responseCode = "200", description = "Successful operation."),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied."),
+            @ApiResponse(responseCode = "404", description = "Product not found."),
+            @ApiResponse(responseCode = "405", description = "Validation exception.") })
     @PutMapping(value = "/products/{id}", consumes = { "application/json" })
     public void update(
-            @Parameter(description = "Id of the product to be update. Cannot be empty.",
-                    required = true)
+            @Parameter(description = "ID of the product to be update.", required = true)
             @PathVariable long id,
-            @Parameter(description = "Product to update. Cannot null or empty.",
+            @Parameter(description = "Product to update.",
                     required = true, schema = @Schema(implementation = ProductRequestDto.class))
             @Valid @RequestBody ProductRequestDto productRequestDto) {
         productService.update(id, productMapper.mapToModel(productRequestDto));
     }
 
-    @Operation(summary = "Enumeration all Products", description = "List of Products from DB")
+    @Operation(summary = "Enumeration all products.", description = "List of products from DB.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation",
+            @ApiResponse(responseCode = "200", description = "Successful operation.",
                     content = @Content(array = @ArraySchema(schema =
                     @Schema(implementation = Product.class)))) })
     @GetMapping(value = "/all", produces = { "application/json" })
@@ -139,12 +126,12 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @Operation(summary = "List Products by price range", description = "Returns filtered by price ",
-            tags = { "contact" })
+    @Operation(summary = "List products by price range.",
+            description = "Returns filtered products by price. ", tags = { "contact" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation",
+            @ApiResponse(responseCode = "200", description = "Successful operation.",
                     content = @Content(schema = @Schema(implementation = Product.class))),
-            @ApiResponse(responseCode = "404", description = "Product not found") })
+            @ApiResponse(responseCode = "404", description = "Product not found.") })
     @GetMapping("/range")
     public List<ProductResponseDto> findByPriceRange(
             @RequestParam String from,

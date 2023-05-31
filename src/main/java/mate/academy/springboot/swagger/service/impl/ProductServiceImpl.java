@@ -17,9 +17,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) {
-        productRepository.findById(product.getId()).orElseThrow(() ->
-                new NoSuchElementException("Product by id " + product.getId()
-                + "already exist in DB"));
         return productRepository.save(product);
     }
 
