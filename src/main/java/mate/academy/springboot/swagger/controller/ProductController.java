@@ -1,5 +1,8 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,21 +40,27 @@ public class ProductController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Create a new product")
     public ProductResponseDto save(@RequestBody ProductRequestDto productRequestDto) {
         return dtoMapper.toDto(productService.save(dtoMapper.toModel(productRequestDto)));
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get product for by id")
+    @ApiResponse(code = 404, message = "Product not found")
     public ProductResponseDto getById(@PathVariable Long id) {
         return dtoMapper.toDto(productService.get(id));
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete product for by id")
     public void deleteById(@PathVariable Long id) {
         productService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update product with using id and new data about product")
+    @ApiResponse(code = 404, message = "Product not found")
     public ProductResponseDto updateById(@PathVariable Long id,
                                          @RequestBody ProductRequestDto requestDto) {
         Product product = dtoMapper.toModel(requestDto);
@@ -60,9 +69,14 @@ public class ProductController {
     }
 
     @GetMapping("/findAll")
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
-                                            @RequestParam (defaultValue = "0") Integer page,
-                                            @RequestParam (defaultValue = "id") String sortBy) {
+    @ApiOperation(value = "Get list of products")
+    public List<ProductResponseDto> findAll(
+            @RequestParam (defaultValue = "20")
+            @ApiParam(value = "default value is 20 elements on page") Integer count,
+            @RequestParam (defaultValue = "0")
+            @ApiParam(value = "default value is 0 page") Integer page,
+            @RequestParam (defaultValue = "id")
+            @ApiParam(value = "default value is sort by id") String sortBy) {
         List<Sort.Order> orders = sortService.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, Sort.by(orders));
         return productService.findAll(pageRequest).stream()
@@ -71,12 +85,16 @@ public class ProductController {
     }
 
     @GetMapping("/findAll/prices")
+    @ApiOperation(value = "Get the list of products that are between prices")
     public List<ProductResponseDto> findAllByPrices(
             @RequestParam BigDecimal from,
             @RequestParam BigDecimal to,
-            @RequestParam (defaultValue = "20") Integer count,
-            @RequestParam (defaultValue = "0") Integer page,
-            @RequestParam (defaultValue = "id") String sortBy) {
+            @RequestParam (defaultValue = "20")
+            @ApiParam(value = "default value is 20 elements on page")Integer count,
+            @RequestParam (defaultValue = "0")
+            @ApiParam(value = "default value is 0 page")Integer page,
+            @RequestParam (defaultValue = "id")
+            @ApiParam(value = "default value is sort by id")String sortBy) {
         List<Sort.Order> orders = sortService.sort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, Sort.by(orders));
         return productService.findAllByPrice(from, to, pageRequest).stream()
