@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class DataInitializer {
-    public final ProductService productService;
+    private final ProductService productService;
 
     @PostConstruct
     public void init() {
