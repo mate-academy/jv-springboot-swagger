@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final DtoMapper<Product, ProductRequestDto, ProductResponseDto> productMapper;
+    private final ParamsParser paramsParser;
 
     @PostMapping
     @ApiOperation(value = "create a new product")
@@ -60,7 +61,7 @@ public class ProductController {
         productService.delete(id);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     @ApiOperation(value = "get all products with pagination and ability to sort them")
     public List<ProductResponseDto> getAll(
             @RequestParam(defaultValue = "0")
@@ -71,7 +72,7 @@ public class ProductController {
                 @ApiParam(value = "default sorting is by 'title:asc'") String sortBy
     ) {
         PageRequest pageRequest = PageRequest.of(
-                page, count, ParamsParser.getSortingParams(sortBy));
+                page, count, paramsParser.getSortingParams(sortBy));
         return productService.getAll(pageRequest).stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
@@ -90,7 +91,7 @@ public class ProductController {
                 @ApiParam(value = "default sorting is by 'title:asc'") String sortBy
     ) {
         PageRequest pageRequest = PageRequest.of(
-                page, count, ParamsParser.getSortingParams(sortBy));
+                page, count, paramsParser.getSortingParams(sortBy));
         return productService.getAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
