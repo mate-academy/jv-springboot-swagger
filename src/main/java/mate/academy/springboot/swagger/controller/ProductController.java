@@ -110,7 +110,7 @@ public class ProductController {
         List<Sort.Order> orders = sortUtil.getOrders(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
-        return productService.findAllProductsByPriceBetween(fromPrice, toPrice)
+        return productService.findAllProductsByPriceBetween(fromPrice, toPrice, pageRequest)
                 .stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());

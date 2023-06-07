@@ -11,6 +11,6 @@ public class ProductRequestDto {
     @Size(min = 1, max = 120)
     private String title;
     @NotBlank
-    @Size(min = 0, max = 100000)
+    @Size(min = 0)
     private BigDecimal price;
 }
