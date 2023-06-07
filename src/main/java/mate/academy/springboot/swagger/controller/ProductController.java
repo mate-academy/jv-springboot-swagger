@@ -34,35 +34,27 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
-    public ResponseProductDto create(
-            @RequestBody RequestProductDto productDto
-    ) {
+    public ResponseProductDto create(@RequestBody RequestProductDto productDto) {
         Product product = productMapper.toModel(productDto);
         return productMapper.toDto(productService.save(product));
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id")
-    public ResponseProductDto getById(
-            @PathVariable Long id
-    ) {
+    public ResponseProductDto getById(@PathVariable Long id) {
         return productMapper.toDto(productService.getById(id));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete product")
-    public void delete(
-            @PathVariable Long id
-    ) {
+    public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Update product")
-    public ResponseProductDto update(
-            @PathVariable Long id,
-            @RequestBody RequestProductDto productDto
-    ) {
+    public ResponseProductDto update(@PathVariable Long id,
+                                     @RequestBody RequestProductDto productDto) {
         Product product = productMapper.toModel(productDto);
         product.setId(id);
         return productMapper.toDto(productService.save(product));
@@ -75,8 +67,8 @@ public class ProductController {
                 @ApiParam(defaultValue = "default value is '20'") Integer count,
             @RequestParam (defaultValue = "0")
                 @ApiParam(defaultValue = "default value is '0'") Integer page,
-            @RequestParam (defaultValue = "id") String sortBy
-    ) {
+            @RequestParam (defaultValue = "id")
+                @ApiParam(defaultValue = "default sorting is ASC") String sortBy) {
         Sort sort = Sort.by(sortService.sort(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -93,8 +85,8 @@ public class ProductController {
                 @ApiParam(defaultValue = "default value is '20'") Integer count,
             @RequestParam (defaultValue = "0")
                 @ApiParam(defaultValue = "default value is '0'") Integer page,
-            @RequestParam (defaultValue = "id") String sortBy
-    ) {
+            @RequestParam (defaultValue = "id")
+                @ApiParam(defaultValue = "default sorting is ASC") String sortBy) {
         Sort sort = Sort.by(sortService.sort(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return convertModelsListToDto(productService.findAllByPriceBetween(from, to, pageRequest));
