@@ -2,9 +2,11 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dto.request.RequestProductDto;
 import mate.academy.springboot.swagger.dto.response.ResponseProductDto;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,8 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
-    public ResponseProductDto create(@RequestBody RequestProductDto productDto) {
+    public ResponseProductDto create(@RequestBody(description = "Product to create")
+                                         @Valid RequestProductDto productDto) {
         Product product = productMapper.toModel(productDto);
         return productMapper.toDto(productService.save(product));
     }
@@ -54,7 +56,8 @@ public class ProductController {
     @PutMapping("/{id}")
     @ApiOperation(value = "Update product")
     public ResponseProductDto update(@PathVariable Long id,
-                                     @RequestBody RequestProductDto productDto) {
+                                     @RequestBody(description = "Product to update")
+                                     @Valid RequestProductDto productDto) {
         Product product = productMapper.toModel(productDto);
         product.setId(id);
         return productMapper.toDto(productService.save(product));
