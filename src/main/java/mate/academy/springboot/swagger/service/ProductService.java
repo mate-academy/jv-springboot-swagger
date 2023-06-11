@@ -1,4 +1,6 @@
 package mate.academy.springboot.swagger.service;
 
-public interface ProductService {
+import mate.academy.springboot.swagger.model.Product;
+
+public interface ProductService extends GenericService<Product> {
 }
