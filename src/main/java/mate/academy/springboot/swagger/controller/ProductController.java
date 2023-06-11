@@ -1,5 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,9 +35,14 @@ public class ProductController {
             ProductRequestDto> mapper;
 
     @GetMapping
-    List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
-                                     @RequestParam (defaultValue = "0") Integer page,
-                                     @RequestParam (defaultValue = "id") String sortBy) {
+    @ApiOperation(value = "Get all products")
+    List<ProductResponseDto> findAll(
+            @RequestParam (defaultValue = "20")
+                @ApiParam(value = "number of items on page. default value is 20") Integer count,
+            @RequestParam (defaultValue = "0")
+                @ApiParam(value = "requested page") Integer page,
+            @RequestParam (defaultValue = "id")
+                @ApiParam(value = "sorting parameters given in form field:order") String sortBy) {
         Sort sort = Sort.by(sortUtil.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest)
@@ -45,12 +52,18 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(value = "Get all products in within given price")
     List<ProductResponseDto> findAllByPriceBetween(
-            @RequestParam (defaultValue = "20") Integer count,
-            @RequestParam (defaultValue = "0") Integer page,
-            @RequestParam (defaultValue = "id") String sortBy,
-            @RequestParam BigDecimal from,
-            @RequestParam BigDecimal to) {
+            @RequestParam (defaultValue = "20")
+                @ApiParam(value = "number of items on page. default value is 20") Integer count,
+            @RequestParam (defaultValue = "0")
+                @ApiParam(value = "requested page") Integer page,
+            @RequestParam (defaultValue = "id")
+                @ApiParam(value = "sorting parameters given in form field:order") String sortBy,
+            @RequestParam
+                @ApiParam(value = "lower border of given price") BigDecimal from,
+            @RequestParam
+                @ApiParam(value = "upper border of given price") BigDecimal to) {
         Sort sort = Sort.by(sortUtil.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest)
@@ -60,23 +73,29 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    ProductResponseDto findById(@PathVariable Long id) {
+    @ApiOperation(value = "Get product by id")
+    ProductResponseDto findById(@PathVariable
+                                    @ApiParam(value = "Id of item") Long id) {
         return mapper.toDto(productService.find(id));
     }
 
     @PostMapping
+    @ApiOperation(value = "Create new product")
     ProductResponseDto save(@RequestBody ProductRequestDto dto) {
         Product product = mapper.toModel(dto);
         return mapper.toDto(productService.save(product));
     }
 
     @PutMapping
+    @ApiOperation(value = "Update existent product")
     void update(@RequestBody ProductRequestDto dto) {
         productService.save(mapper.toModel(dto));
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id) {
+    @ApiOperation(value = "Delete product by id")
+    void delete(@PathVariable
+                    @ApiParam(value = "Id of item") Long id) {
         productService.delete(id);
     }
 }
