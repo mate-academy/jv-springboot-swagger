@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,7 +16,6 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
 @Entity
 @Table(name = "products")
 public class Product {

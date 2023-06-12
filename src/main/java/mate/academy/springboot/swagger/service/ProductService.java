@@ -10,8 +10,6 @@ public interface ProductService {
 
     Product get(Long id);
 
-    Product update(Product product);
-
     void delete(Long id);
 
     List<Product> findAll(PageRequest pageRequest);
