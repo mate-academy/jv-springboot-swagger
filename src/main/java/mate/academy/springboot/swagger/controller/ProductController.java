@@ -11,7 +11,7 @@ import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
 import mate.academy.springboot.swagger.service.mapper.DtoMapper;
-import mate.academy.springboot.swagger.util.AppUtil;
+import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final DtoMapper<Product, ProductRequestDto, ProductResponseDto> mapper;
     private final ProductService productService;
+    private final SortUtil sortUtil;
 
     @PostMapping
     @ApiOperation(value = "create new product")
@@ -64,12 +65,12 @@ public class ProductController {
             @RequestParam BigDecimal from,
             @RequestParam BigDecimal to,
             @RequestParam(defaultValue = "20")
-            @ApiParam(value = "default value is `20`") Integer count,
+            @ApiParam(value = "The page size") Integer count,
             @RequestParam(defaultValue = "0")
-            @ApiParam(value = "default value is `0`") Integer page,
+            @ApiParam(value = "The page number") Integer page,
             @RequestParam(defaultValue = "id")
-            @ApiParam(value = "default value is `id`") String sortBy) {
-        List<Sort.Order> orders = AppUtil.sortOrders(sortBy);
+            @ApiParam(value = "The field to sort by") String sortBy) {
+        List<Sort.Order> orders = sortUtil.sortOrders(sortBy);
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAllProductsByPriceBetween(from, to, pageRequest)
@@ -82,12 +83,12 @@ public class ProductController {
     @ApiOperation(value = "get list of products")
     public List<ProductResponseDto> getAllProducts(
             @RequestParam(defaultValue = "20")
-            @ApiParam(value = "default value is `20`") Integer count,
+            @ApiParam(value = "The page number") Integer count,
             @RequestParam(defaultValue = "0")
-            @ApiParam(value = "default value is `0`") Integer page,
+            @ApiParam(value = "The page number") Integer page,
             @RequestParam(defaultValue = "id")
-            @ApiParam(value = "default value is `id`") String sortBy) {
-        Sort sort = Sort.by(AppUtil.sortOrders(sortBy));
+            @ApiParam(value = "The field to sort by") String sortBy) {
+        Sort sort = Sort.by(sortUtil.sortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAllProducts(pageRequest)
                 .stream()
