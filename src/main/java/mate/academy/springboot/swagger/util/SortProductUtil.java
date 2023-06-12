@@ -20,7 +20,7 @@ public class SortProductUtil {
         productSortingFields.add("none");
     }
 
-    public static Sort getSort(String sortBy) {
+    public Sort getSort(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
         if (sortBy != null && !sortBy.equals("none")) {
             String[] sortingFields = sortBy.split(";");

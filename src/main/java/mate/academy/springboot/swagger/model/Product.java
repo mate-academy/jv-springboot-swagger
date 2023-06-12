@@ -6,29 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
 @Table(name = "products")
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Exclude
     private Long id;
     private String title;
     private BigDecimal price;
-
-    @Override
-    public String toString() {
-        return "Product{"
-                + "id=" + id
-                + ", title='" + title + '\''
-                + ", price=" + price
-                + '}';
-    }
 }

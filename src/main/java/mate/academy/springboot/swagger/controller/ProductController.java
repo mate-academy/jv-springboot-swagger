@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final SortProductUtil sortProductUtil;
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id")
@@ -40,7 +41,7 @@ public class ProductController {
     @PostMapping
     @ApiOperation(value = "Create new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto dto) {
-        return productMapper.mapToDto(productService.add(productMapper.mapToModel(dto)));
+        return productMapper.mapToDto(productService.save(productMapper.mapToModel(dto)));
     }
 
     @DeleteMapping("/{id}")
@@ -55,7 +56,7 @@ public class ProductController {
                                      @PathVariable @ApiParam(value = "product id") Long id) {
         Product product = productMapper.mapToModel(dto);
         product.setId(id);
-        Product updatedProduct = productService.update(product);
+        Product updatedProduct = productService.save(product);
         return productMapper.mapToDto(updatedProduct);
     }
 
@@ -68,7 +69,7 @@ public class ProductController {
             @ApiParam(value = "Page number") Integer page,
             @RequestParam(defaultValue = "none")
             @ApiParam(value = "Sorting condition") String sortBy) {
-        Sort sort = SortProductUtil.getSort(sortBy);
+        Sort sort = sortProductUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAll(pageRequest)
                 .stream()
@@ -89,7 +90,7 @@ public class ProductController {
             @ApiParam(value = "Page number") Integer page,
             @RequestParam(defaultValue = "none")
             @ApiParam(value = "Sorting condition") String sortBy) {
-        Sort sort = SortProductUtil.getSort(sortBy);
+        Sort sort = sortProductUtil.getSort(sortBy);
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return productService.getAllByPriceBetween(from, to, pageRequest)
                 .stream()
