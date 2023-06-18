@@ -18,9 +18,11 @@ public class SortUtil {
                 Sort.Order order;
                 if (field.contains(SORT_DELIMITER)) {
                     String[] fieldsAndDirections = field.split(SORT_DELIMITER);
+                    String sortingDirection = fieldsAndDirections[1];
+                    String sortingField = fieldsAndDirections[0];
                     order = new Sort.Order(
-                            Sort.Direction.valueOf(fieldsAndDirections[1]),
-                            fieldsAndDirections[0]);
+                            Sort.Direction.valueOf(sortingDirection),
+                            sortingField);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }
