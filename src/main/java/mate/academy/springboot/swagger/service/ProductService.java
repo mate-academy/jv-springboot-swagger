@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.model.Product;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 public interface ProductService {
     Product create(Product product);
@@ -18,6 +17,4 @@ public interface ProductService {
     List<Product> getAll(PageRequest pageRequest);
 
     List<Product> getAllByPriceBetween(BigDecimal from, BigDecimal to, PageRequest pageRequest);
-
-    Sort parseSortParam(String param);
 }

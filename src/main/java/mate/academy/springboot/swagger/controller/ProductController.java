@@ -15,6 +15,7 @@ import mate.academy.springboot.swagger.dto.ProductResponseDto;
 import mate.academy.springboot.swagger.dto.mapper.ProductMapper;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.util.SortUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private final SortUtil sortUtil;
 
     @PostMapping
     @ApiOperation(value = " Add new product to DB")
@@ -40,17 +42,6 @@ public class ProductController {
                                          @Valid ProductRequestDto requestDto) {
         Product product = productService.create(productMapper.mapToModel(requestDto));
         return productMapper.mapToDto(product);
-    }
-
-    @GetMapping("/inject")
-    @ApiOperation(value = " inject 100 phones")
-    public void inject() {
-        for (int i = 1; i <= 100; i++) {
-            Product product = new Product();
-            product.setTitle("phone " + i);
-            product.setPrice(BigDecimal.valueOf(i + 300));
-            productService.create(product);
-        }
     }
 
     @GetMapping("/{id}")
@@ -89,7 +80,7 @@ public class ProductController {
             @RequestParam (defaultValue = "id")
             @ApiParam(value = " use to sorting, format 'column:ASC;column2:DESC', default id:DESC")
             String sortBy) {
-        Sort sort = productService.parseSortParam(sortBy);
+        Sort sort = sortUtil.parseSortParam(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAll(pageRequest).stream()
                 .map(productMapper::mapToDto)
@@ -108,7 +99,7 @@ public class ProductController {
             @RequestParam (defaultValue = "id")
             @ApiParam(value = " use to sorting, format 'column:ORDER', default id:DESC")
             String sortBy) {
-        Sort sort = productService.parseSortParam(sortBy);
+        Sort sort = sortUtil.parseSortParam(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.getAllByPriceBetween(from, to, pageRequest).stream()
                 .map(productMapper::mapToDto)
