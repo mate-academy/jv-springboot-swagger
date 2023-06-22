@@ -61,7 +61,7 @@ public class ProductController {
     @ApiOperation(value = "update product by id")
     public ProductResponseDto updateById(
             @PathVariable Long id,
-            @RequestBody(description = "product to create", required = true,
+            @RequestBody(description = "updated product", required = true,
                     content = @Content(schema = @Schema(implementation = ProductRequestDto.class)))
             ProductRequestDto requestDto
     ) {
