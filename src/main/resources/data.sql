@@ -1,9 +1,0 @@
-INSERT INTO products (title, price) VALUES ('first', 10);
-INSERT INTO products (title, price) VALUES ('first', 20);
-INSERT INTO products (title, price) VALUES ('first', 30);
-INSERT INTO products (title, price) VALUES ('second', 10);
-INSERT INTO products (title, price) VALUES ('second', 20);
-INSERT INTO products (title, price) VALUES ('second', 30);
-INSERT INTO products (title, price) VALUES ('third', 10);
-INSERT INTO products (title, price) VALUES ('third', 20);
-INSERT INTO products (title, price) VALUES ('third', 30);
