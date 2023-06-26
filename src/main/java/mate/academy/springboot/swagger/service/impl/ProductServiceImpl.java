@@ -40,6 +40,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void update(Product entity) {
+        if (!productRepository.existsById(entity.getId())) {
+            throw new NoSuchElementException("can't update non "
+                    + "existent product by id: " + entity.getId());
+        }
         productRepository.save(entity);
     }
 

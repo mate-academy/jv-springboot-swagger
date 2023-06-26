@@ -6,12 +6,12 @@ import mate.academy.springboot.swagger.model.dto.response.ProductResponseDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public abstract class ProductDtoMapper implements DtoMapper<Product,
+public interface ProductDtoMapper extends DtoMapper<Product,
         ProductResponseDto,
         ProductRequestDto> {
     @Override
-    public abstract Product toModel(ProductRequestDto dto);
+    Product toModel(ProductRequestDto dto);
 
     @Override
-    public abstract ProductResponseDto toDto(Product entity);
+    ProductResponseDto toDto(Product entity);
 }

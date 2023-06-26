@@ -2,6 +2,7 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -81,14 +81,16 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create new product")
-    ProductResponseDto save(@RequestBody ProductRequestDto dto) {
+    ProductResponseDto save(@RequestBody(description =
+            "required product to create in DB") ProductRequestDto dto) {
         Product product = mapper.toModel(dto);
         return mapper.toDto(productService.save(product));
     }
 
     @PutMapping
     @ApiOperation(value = "Update existent product")
-    void update(@RequestBody ProductRequestDto dto) {
+    void update(@RequestBody(description =
+            "required product to create in DB") ProductRequestDto dto) {
         productService.save(mapper.toModel(dto));
     }
 
