@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
     private final Mapper<Product, ProductRequestDto, ProductResponseDto> mapper;
+    private final ParamParser paramParser;
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Find Product by ID from DB")
@@ -46,8 +47,8 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete Product by ID from DB")
-    public boolean delete(@PathVariable Long id) {
-        return productService.delete(id);
+    public void delete(@PathVariable Long id) {
+        productService.delete(id);
     }
 
     @PutMapping("/{id}")
@@ -55,23 +56,23 @@ public class ProductController {
     public ProductResponseDto update(@PathVariable Long id,
                                      @RequestBody(description = "Product to update")
                                      ProductRequestDto productRequestDto) {
-        Product product = mapper.toModel(productRequestDto);
+        Product product = productService.update(mapper.toModel(productRequestDto));
         product.setId(id);
         return mapper.toDto(product);
     }
 
     @GetMapping
-    @ApiOperation(value = "Get all Product from DB by custom params")
+    @ApiOperation(value = "Get all Products from DB by custom params")
     public List<ProductResponseDto> getAll(@RequestParam (defaultValue = "10")
-                                               @ApiParam(value = "default value is 10")
+                                               @ApiParam(value = "The page size")
                                                Integer count,
                                            @RequestParam (defaultValue = "0")
-                                                @ApiParam(value = "default value is 0")
+                                                @ApiParam(value = "The page number")
                                                 Integer page,
                                            @RequestParam (defaultValue = "id")
-                                               @ApiParam(value = "default value is id")
+                                               @ApiParam(value = "The field to sort by")
                                                String sortBy) {
-        Sort sort = Sort.by(ParamParser.sortOrders(sortBy));
+        Sort sort = Sort.by(paramParser.sortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
                 .map(mapper::toDto)
@@ -79,22 +80,23 @@ public class ProductController {
     }
 
     @GetMapping("/by-price")
+    @ApiOperation(value = "Get all Products from DB by price")
     public List<ProductResponseDto> getAllByPrice(@RequestParam (defaultValue = "0")
-                                                      @ApiParam(value = "default value is 0")
+                                                      @ApiParam(value = "Minimal price.")
                                                       BigDecimal from,
                                                   @RequestParam (defaultValue = "99999")
-                                                    @ApiParam(value = "default value is 99999")
+                                                    @ApiParam(value = "Maximum price.")
                                                     BigDecimal to,
                                                   @RequestParam (defaultValue = "10")
-                                                      @ApiParam(value = "default value is 10")
+                                                      @ApiParam(value = "The page size")
                                                       Integer count,
                                                   @RequestParam (defaultValue = "0")
-                                                      @ApiParam(value = "default value is 0")
+                                                      @ApiParam(value = "The page number")
                                                       Integer page,
                                                   @RequestParam (defaultValue = "id")
-                                                      @ApiParam(value = "default value is id")
+                                                      @ApiParam(value = "The field to sort by")
                                                       String sortBy) {
-        Sort sort = Sort.by(ParamParser.sortOrders(sortBy));
+        Sort sort = Sort.by(paramParser.sortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(from, to, pageRequest).stream()
                 .map(mapper::toDto)

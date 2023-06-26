@@ -10,7 +10,7 @@ public interface ProductService {
 
     Product findById(Long id);
 
-    boolean delete(Long id);
+    void delete(Long id);
 
     Product update(Product product);
 

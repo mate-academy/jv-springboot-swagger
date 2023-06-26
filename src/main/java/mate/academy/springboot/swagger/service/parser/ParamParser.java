@@ -3,12 +3,14 @@ package mate.academy.springboot.swagger.service.parser;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ParamParser {
-    public static List<Sort.Order> sortOrders(String param) {
+    public List<Sort.Order> sortOrders(String params) {
         List<Sort.Order> orders = new ArrayList<>();
-        if (param.contains(":")) {
-            String[] fields = param.split(";");
+        if (params.contains(":")) {
+            String[] fields = params.split(";");
             for (String field : fields) {
                 Sort.Order order;
                 if (field.contains(":")) {
@@ -21,7 +23,7 @@ public class ParamParser {
                 orders.add(order);
             }
         } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.DESC, param);
+            Sort.Order order = new Sort.Order(Sort.Direction.DESC, params);
             orders.add(order);
         }
         return orders;

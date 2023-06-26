@@ -12,6 +12,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> getProductsByPriceBetween(BigDecimal from,
                                             BigDecimal to,
                                             PageRequest pageRequest);
-
-    boolean deleteProductById(Long id);
 }

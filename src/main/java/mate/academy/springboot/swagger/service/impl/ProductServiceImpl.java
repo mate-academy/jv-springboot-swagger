@@ -26,18 +26,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        return productRepository.deleteProductById(id);
+    public void delete(Long id) {
+        productRepository.deleteById(id);
     }
 
     @Override
     public Product update(Product product) {
-        try {
-            findById(product.getId());
+        if (productRepository.existsById(product.getId())) {
             return productRepository.save(product);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Can't update Product in DB!" + product);
         }
+        throw new RuntimeException("Can't find Product to update in DB! " + product);
     }
 
     @Override
