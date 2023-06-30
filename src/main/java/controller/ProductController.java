@@ -61,7 +61,7 @@ public class ProductController {
         productService.delete(id);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     @Operation(summary = "get all products with pagination and ability "
             + "to sort by price or by title in ASC or DESC order")
     public List<ProductResponseDto> findAll(@Parameter(description = "Number of product on page",

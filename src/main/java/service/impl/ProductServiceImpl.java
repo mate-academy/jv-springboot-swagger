@@ -1,13 +1,16 @@
-package service;
+package service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import lombok.AllArgsConstructor;
 import model.Product;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import repository.ProductRepository;
+import service.ProductService;
 
 @AllArgsConstructor
 @Service
@@ -16,7 +19,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product get(Long id) {
-        return productRepository.getById(id);
+        return productRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException());
     }
 
     @Override

@@ -18,7 +18,7 @@ public class SortUtil {
                     order = new Sort.Order(Sort.Direction.valueOf((fieldsAndDirections[1])),
                             fieldsAndDirections[0]);
                 } else {
-                    order = new Sort.Order(Sort.Direction.ASC, field);
+                    order = new Sort.Order(Sort.Direction.DESC, field);
                 }
                 orders.add(order);
             }
