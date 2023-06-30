@@ -38,7 +38,11 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "Create a new product")
     public ProductResponseDto add(@RequestBody(description = "", required = true,
-            content = @Content(schema = @Schema(implementation = ProductRequestDto.class)))
+            content = @Content(schema = @Schema(implementation = ProductRequestDto.class,
+                    defaultValue = "{ \n"
+                    + "    \"title\":\"banana\", \n"
+                    + "    \"price\":\"10.99\", \n"
+                    + "}")))
                                       @Valid ProductRequestDto productRequestDto) {
         return productMapper
                 .toDto(productService.save(productMapper.toModel(productRequestDto)));
