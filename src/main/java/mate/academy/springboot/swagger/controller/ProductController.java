@@ -39,7 +39,7 @@ public class ProductController {
     @PostMapping
     @ApiOperation(value = "Add new product")
     public ProductResponseDto add(
-            @RequestBody(description = "New product ",
+            @RequestBody(description = "New product",
                     required = true,
                     content = @Content(schema = @Schema(implementation = ProductRequestDto.class)))
             ProductRequestDto productRequestDto) {
