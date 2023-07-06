@@ -1,9 +1,9 @@
 package mate.academy.springboot.swagger.model.dto.request;
 
 import java.math.BigDecimal;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +13,6 @@ public class ProductRequestDto {
     @NotBlank
     private String title;
     @NotNull
-    @Min(value = 1)
+    @Positive
     private BigDecimal price;
 }

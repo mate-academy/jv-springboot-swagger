@@ -2,6 +2,9 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +36,16 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "create a new product")
-    public ProductResponseDto create(@RequestBody @Valid ProductRequestDto requestDto) {
+    public ProductResponseDto create(
+            @RequestBody(
+                    description = "Product to create",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProductRequestDto.class)
+                    )
+            ) @Valid ProductRequestDto requestDto
+    ) {
         Product product = productService.create(productMapper.toModel(requestDto));
         return productMapper.toDto(product);
     }
@@ -47,8 +58,16 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "update a product information")
-    public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody @Valid ProductRequestDto requestDto
+    public ProductResponseDto update(
+            @PathVariable Long id,
+            @RequestBody(
+                    description = "Updated product",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProductRequestDto.class)
+                    )
+            ) @Valid ProductRequestDto requestDto
     ) {
         Product product = productMapper.toModel(requestDto);
         product.setId(id);
