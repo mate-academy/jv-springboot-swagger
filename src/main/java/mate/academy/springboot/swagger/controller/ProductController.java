@@ -2,6 +2,9 @@ package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,7 +53,8 @@ public class ProductController {
     @GetMapping("/by-price")
     @ApiOperation(value = "Get all products with a price between two values")
     public List<ProductResponseDto> findAllWherePriceBetween(
-            @RequestParam BigDecimal from,
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "default value is 0") BigDecimal from,
             @RequestParam BigDecimal to,
             @RequestParam(defaultValue = "20")
             @ApiParam(value = "default value is 20") Integer count,
@@ -68,7 +71,10 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation(value = "Create a new product")
-    public ProductResponseDto create(@RequestBody ProductRequestDto requestDto) {
+    public ProductResponseDto create(
+            @RequestBody(description = "Product to create.", required = true,
+            content = @Content(schema = @Schema(implementation = ProductRequestDto.class)))
+            ProductRequestDto requestDto) {
         return productMapper.toResponseDto(productService
                 .create(productMapper.toModel(requestDto)));
     }
@@ -88,7 +94,11 @@ public class ProductController {
     @PutMapping("/{id}")
     @ApiOperation(value = "Update the product by id")
     public ProductResponseDto update(@PathVariable Long id,
-                                     @RequestBody ProductRequestDto requestDto) {
+                                     @RequestBody(description = "Product to create.",
+                                             required = true,
+                                             content = @Content(schema =
+                                             @Schema(implementation = ProductRequestDto.class)))
+                                     ProductRequestDto requestDto) {
         Product product = productMapper.toModel(requestDto);
         product.setId(id);
         return productMapper.toResponseDto(productService.update(product));
