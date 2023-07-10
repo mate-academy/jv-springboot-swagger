@@ -2,6 +2,7 @@ package mate.academy.springboot.swagger.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.repository.ProductRepository;
@@ -20,8 +21,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getById(Long id) {
-        return productRepository.getById(id);
+    public Product findById(Long id) {
+        return productRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Can't find product with id " + id));
     }
 
     @Override
@@ -30,7 +32,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Product product) {
+    public Product update(Long id, Product product) {
+        productRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("There is no product to update with id " + id));
+        product.setId(id);
         return productRepository.save(product);
     }
 

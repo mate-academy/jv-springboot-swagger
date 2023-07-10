@@ -1,6 +1,8 @@
 package mate.academy.springboot.swagger.conroller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,14 +34,16 @@ public class ProductController {
 
     @Operation(summary = "Add product to DB")
     @PostMapping
-    public ProductResponseDto create(@RequestBody ProductRequestDto dto) {
+    public ProductResponseDto create(@Parameter(description = "Product to add", required = true,
+            schema = @Schema(implementation = ProductRequestDto.class))
+                                         @RequestBody ProductRequestDto dto) {
         return dtoMapper.mapToDto(productService.create(dtoMapper.mapToModel(dto)));
     }
 
     @Operation(summary = "Get product by id")
     @GetMapping("/{id}")
-    public ProductResponseDto getById(@PathVariable Long id) {
-        return dtoMapper.mapToDto(productService.getById(id));
+    public ProductResponseDto findById(@PathVariable Long id) {
+        return dtoMapper.mapToDto(productService.findById(id));
     }
 
     @Operation(summary = "Delete product by id from DB")
@@ -50,23 +54,42 @@ public class ProductController {
 
     @Operation(summary = "Update product in DB")
     @PutMapping("/{id}")
-    public ProductResponseDto update(@PathVariable Long id, @RequestBody ProductRequestDto dto) {
-        Product product = dtoMapper.mapToModel(dto);
-        product.setId(id);
-        return dtoMapper.mapToDto(productService.update(product));
+    public ProductResponseDto update(@PathVariable Long id,
+                                     @Parameter(description = "Product to update",
+            required = true,
+            schema = @Schema(implementation = ProductRequestDto.class))
+                                     @RequestBody ProductRequestDto dto) {
+        Product product = productService.update(id, dtoMapper.mapToModel(dto));
+        return dtoMapper.mapToDto(product);
     }
 
     @Operation(summary = "Get all Products by price between two values",
             description = "It is possible to use pagination")
     @GetMapping("/by-price")
-    public List<ProductResponseDto> findAllByPriceBetween(@RequestParam BigDecimal from,
+    public List<ProductResponseDto> findAllByPriceBetween(@Parameter(
+            description = "A value that indicates the price from "
+                    + "which the limit should be filtered") @RequestParam BigDecimal from,
+                                                          @Parameter(
+                                                                  description = "A value "
+                                                                          + "that indicates "
+                                                                          + "the price to "
+                                                                          + "which the "
+                                                                          + "limit should "
+                                                                          + "be filtered")
                                                           @RequestParam BigDecimal to,
+                                                          @Parameter(
+                                                                  description = "Number "
+                                                                          + "of products per page.")
                                                           @RequestParam (
                                                                   defaultValue = "10")
                                                           Integer count,
+                                                          @Parameter(
+                                                                  description = "Number of pages.")
                                                           @RequestParam (
                                                                   defaultValue = "0")
                                                           Integer page,
+                                                          @Parameter(
+                                                                  description = "Sort parameter.")
                                                           @RequestParam (
                                                                   defaultValue = "id")
                                                           String sortBy) {
@@ -82,8 +105,11 @@ public class ProductController {
     @Operation(summary = "Get all Products",
             description = "It is possible to use pagination")
     @GetMapping
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "10") Integer count,
+    public List<ProductResponseDto> findAll(@Parameter(description = "Number of products on page.")
+                                                @RequestParam (defaultValue = "10") Integer count,
+                                            @Parameter(description = "Number of pages.")
                                             @RequestParam (defaultValue = "0") Integer page,
+                                            @Parameter(description = "Sort parameter.")
                                             @RequestParam (defaultValue = "id") String sortBy) {
         return productService.findAll(paginationService.createPageRequest(count, page, sortBy))
                 .stream()

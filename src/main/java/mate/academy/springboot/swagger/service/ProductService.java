@@ -8,11 +8,11 @@ import org.springframework.data.domain.PageRequest;
 public interface ProductService {
     Product create(Product product);
 
-    Product getById(Long id);
+    Product findById(Long id);
 
     void deleteById(Long id);
 
-    Product update(Product product);
+    Product update(Long id, Product product);
 
     List<Product> findAll(PageRequest pageRequest);
 
