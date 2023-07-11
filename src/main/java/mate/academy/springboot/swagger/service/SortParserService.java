@@ -1,9 +1,7 @@
 package mate.academy.springboot.swagger.service;
 
-import org.springframework.data.domain.Sort;
-
-import java.util.List;
+import org.springframework.data.domain.PageRequest;
 
 public interface SortParserService {
-    List<Sort.Order> orders(String sortBy);
+    PageRequest createPageRequest(Integer count, Integer page, String sortBy);
 }
