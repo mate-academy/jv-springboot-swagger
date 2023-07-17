@@ -2,7 +2,7 @@
 
 Your task is:
 - add required dependencies
-- create model `Product` with fields
+- create model `` with fields
     - id
     - title
     - price
