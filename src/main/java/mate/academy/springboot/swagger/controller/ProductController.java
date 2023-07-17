@@ -1,6 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,9 +55,10 @@ public class ProductController {
     @ApiOperation(value = "Get all products with pagination and ability"
             + " to sort by price or by title in ASC or DESC order")
     @GetMapping
-    public List<ProductResponseDto> findAll(@RequestParam (defaultValue = "20") Integer count,
-                                     @RequestParam (defaultValue = "0") Integer page,
-                                      @RequestParam (defaultValue = "id") String sortBy) {
+    public List<ProductResponseDto> findAll(
+            @RequestParam @ApiParam(defaultValue = "20") Integer count,
+            @RequestParam @ApiParam(defaultValue = "0") Integer page,
+            @RequestParam @ApiParam(defaultValue = "id") String sortBy) {
         Sort sort = Sort.by(ParsingSortOrder.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(pageRequest).stream()
@@ -84,9 +86,9 @@ public class ProductController {
     public List<ProductResponseDto> findAllByPriceBetween(
             @RequestParam BigDecimal priceFrom,
             @RequestParam BigDecimal priceTo,
-            @RequestParam (defaultValue = "20") Integer count,
-            @RequestParam (defaultValue = "0") Integer page,
-            @RequestParam (defaultValue = "id") String sortBy) {
+            @RequestParam @ApiParam(defaultValue = "20") Integer count,
+            @RequestParam @ApiParam(defaultValue = "0") Integer page,
+            @RequestParam @ApiParam(defaultValue = "id") String sortBy) {
         Sort sort = Sort.by(ParsingSortOrder.getSortOrders(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAllByPriceBetween(priceFrom, priceTo, pageRequest).stream()

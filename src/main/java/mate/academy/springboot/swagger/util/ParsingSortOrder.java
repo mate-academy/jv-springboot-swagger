@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 public class ParsingSortOrder {
     public static final String SORT_DELIMITER = ":";
     public static final String SORT_SEPARATE = ";";
+    public static final int INDEX_FIELD = 0;
+    public static final int INDEX_DIRECTION = 1;
 
     public static List<Sort.Order> getSortOrders(String sortBy) {
         List<Sort.Order> orders = new ArrayList<>();
@@ -17,7 +19,8 @@ public class ParsingSortOrder {
                 if (field.contains(SORT_DELIMITER)) {
                     String[] fieldsAndDirection = field.split(SORT_DELIMITER);
                     order = new Sort.Order(Sort.Direction
-                            .valueOf(fieldsAndDirection[1]), fieldsAndDirection[0]);
+                            .valueOf(fieldsAndDirection[INDEX_DIRECTION]),
+                            fieldsAndDirection[INDEX_FIELD]);
                 } else {
                     order = new Sort.Order(Sort.Direction.DESC, field);
                 }

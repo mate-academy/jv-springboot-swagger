@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductDtoRequestMapper {
-
     public Product fromDto(ProductRequestDto dto) {
         Product product = new Product();
         product.setTitle(dto.getTitle());
