@@ -87,7 +87,7 @@ public class ProductController {
     @PutMapping("/{id}")
     @ApiOperation("update a Product")
     public ProductResponseDto update(@PathVariable Long id,
-             @RequestBody(description = "product to add", required = true,
+             @RequestBody(description = "product to update", required = true,
                      content = @Content(schema = @Schema(implementation = ProductRequestDto.class)))
                                      @Valid ProductRequestDto requestDto) {
         Product product = requestMapper.mapToModel(requestDto);
