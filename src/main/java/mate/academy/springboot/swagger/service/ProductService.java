@@ -12,9 +12,7 @@ public interface ProductService {
 
     List<Product> findAll(PageRequest pageRequest);
 
-    public List<Product> findAll(BigDecimal from, BigDecimal to, PageRequest pageRequest);
+    List<Product> findAll(BigDecimal from, BigDecimal to, PageRequest pageRequest);
 
     void delete(Long id);
-
-    Product update(Product product);
 }
