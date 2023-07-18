@@ -54,9 +54,10 @@ public class ProductController {
     @ApiOperation("get all products with pagination and ability to sort by price "
             + "or by title in ASC or DESC order")
     public List<ProductResponseDto> findAll(
-            @RequestParam @ApiParam(value = "the page index", defaultValue = "0") Integer page,
-            @RequestParam @ApiParam(value = "the page size", defaultValue = "20") Integer count,
-            @RequestParam @ApiParam(value = "sort by price", defaultValue = "price")
+            @ApiParam(value = "the page index", defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "20")
+            @ApiParam(value = "the page size", defaultValue = "20") Integer count,
+            @RequestParam @ApiParam(value = "sort by", defaultValue = "price")
             String sortBy) {
         Sort sort = Sort.by(SortUtil.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
@@ -73,10 +74,11 @@ public class ProductController {
     public List<ProductResponseDto> findAllByPriceBetween(
             @RequestParam @ApiParam("price from") BigDecimal from,
             @RequestParam @ApiParam("price to") BigDecimal to,
-            @RequestParam @ApiParam(value = "the page index", defaultValue = "0") Integer page,
-            @RequestParam @ApiParam(value = "the page size", defaultValue = "20") Integer count,
-            @RequestParam @ApiParam(value = "sort by price", defaultValue = "price")
-            String sortBy) {
+            @RequestParam(defaultValue = "0")
+            @ApiParam(value = "the page index", defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "20")
+            @ApiParam(value = "the page size", defaultValue = "20") Integer count,
+            @RequestParam @ApiParam(value = "sort by", defaultValue = "price") String sortBy) {
         Sort sort = Sort.by(SortUtil.parse(sortBy));
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return productService.findAll(from, to, pageRequest).stream()
