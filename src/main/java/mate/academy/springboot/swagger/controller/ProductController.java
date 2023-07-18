@@ -92,7 +92,6 @@ public class ProductController {
                                      @Valid ProductRequestDto requestDto) {
         Product product = requestMapper.mapToModel(requestDto);
         product.setId(id);
-        //
         return responseMapper.mapToDto(productService.save(product));
     }
 
@@ -101,5 +100,4 @@ public class ProductController {
     public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
-
 }
