@@ -29,20 +29,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(Long id) {
-        if (productRepository.existsById(id)) {
-            productRepository.deleteById(id);
-        } else {
+        if (!productRepository.existsById(id)) {
             throw new NoSuchElementException("couldn't delete product by id: " + id);
         }
+        productRepository.deleteById(id);
     }
 
     @Override
     public Product update(Product product) {
-        if (productRepository.existsById(product.getId())) {
-            return productRepository.save(product);
-        } else {
+        if (!productRepository.existsById(product.getId())) {
             throw new NoSuchElementException("couldn't update product: " + product);
         }
+        return productRepository.save(product);
     }
 
     @Override
