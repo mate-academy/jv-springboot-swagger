@@ -64,11 +64,12 @@ public class ProductController {
     @ApiOperation("return all exists products with pagination and sort possibilities")
     public List<ProductResponseDto> getAll(
             @RequestParam (defaultValue = "20")
-                @ApiParam("default value is 20") Integer count,
+                @ApiParam("the number of elements on the page. Default = 20") Integer count,
             @RequestParam (defaultValue = "0")
-                @ApiParam("default value is 0") Integer page,
+                @ApiParam("page number. Default =  0 (first)") Integer page,
             @RequestParam (defaultValue = "id")
-                @ApiParam("default sorting by id in DESC order") String sortBy) {
+                @ApiParam("by which parameter to sort in which order. "
+                        + "Default = id:DESC") String sortBy) {
         return productService.getAll(requestProvider.formPageRequest(count, page, sortBy))
                 .stream()
                 .map(dtoMapper::mapToDto)
@@ -78,14 +79,15 @@ public class ProductController {
     @GetMapping("/price-between")
     @ApiOperation("return products in price range with pagination and sort possibilities")
     public List<ProductResponseDto> getAllByPriceBetween(
-            @RequestParam BigDecimal from,
-            @RequestParam BigDecimal to,
+            @RequestParam @ApiParam("the lowest price value") BigDecimal from,
+            @RequestParam @ApiParam("the highest price value") BigDecimal to,
             @RequestParam (defaultValue = "20")
-                @ApiParam("default value is 20") Integer count,
+                @ApiParam("the number of elements on the page. Default = 20") Integer count,
             @RequestParam (defaultValue = "0")
-                @ApiParam("default value is 0") Integer page,
+                @ApiParam("page number. Default =  0 (first)") Integer page,
             @RequestParam (defaultValue = "id")
-                @ApiParam("default sorting by id in DESC order") String sortBy) {
+                @ApiParam("by which parameter to sort in which order. "
+                        + "Default = id:DESC") String sortBy) {
         return productService.getAllByPriceBetween(
                 requestProvider.formPageRequest(count, page, sortBy), from, to)
                 .stream()
