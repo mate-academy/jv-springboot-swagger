@@ -1,5 +1,7 @@
 package mate.academy.springboot.swagger.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.springboot.swagger.dto.ProductRequestDto;
@@ -34,16 +36,19 @@ public class ProductController {
     }
 
     @PostMapping
+    @ApiOperation(value = "create a new product")
     public ProductResponseDto create(@RequestBody ProductRequestDto requestDto) {
         return productMapper.toDto(productService.save(productMapper.toModel(requestDto)));
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "get product by id")
     public ProductResponseDto get(@PathVariable Long id) {
         return productMapper.toDto(productService.getById(id));
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "update a product")
     public ProductResponseDto update(@PathVariable Long id,
             @RequestBody ProductRequestDto requestDto) {
         Product product = productMapper.toModel(requestDto);
@@ -53,19 +58,27 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public List<ProductResponseDto> getAll(@RequestParam(defaultValue = "20") Integer count,
+    @ApiOperation(value = "get products list")
+    public List<ProductResponseDto> getAll(
+            @RequestParam(defaultValue = "20") 
+            @ApiParam(value = "default value is 20") Integer count,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "id") String sortBy) {
+            @RequestParam(defaultValue = "id") 
+            @ApiParam(value = "default sort value is id") String sortBy) {
         PageRequest pageRequest = PageRequest.of(page, count,
                 parseService.directionParcing(sortBy));
         return productService.getAll(pageRequest).stream().map(productMapper::toDto).toList();
     }
 
     @GetMapping("/by-price-range")
+    @ApiOperation(value = "get products list by price range")
     public List<ProductResponseDto> getAll(@RequestParam BigDecimal from,
-            @RequestParam BigDecimal to, @RequestParam(defaultValue = "20") Integer count,
+            @RequestParam BigDecimal to,
+            @RequestParam(defaultValue = "20") 
+            @ApiParam(value = "default value is 20") Integer count,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "id") String sortBy) {
+            @RequestParam(defaultValue = "id") 
+            @ApiParam(value = "default sort value is id") String sortBy) {
         PageRequest pageRequest = PageRequest.of(page, count,
                 parseService.directionParcing(sortBy));
         return productService.getAllWherePriceBetween(from, to, pageRequest).stream()
