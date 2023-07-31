@@ -11,8 +11,8 @@ import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.model.dto.request.ProductRequestDto;
 import mate.academy.springboot.swagger.model.dto.response.ProductResponseDto;
 import mate.academy.springboot.swagger.service.ProductService;
+import mate.academy.springboot.swagger.util.SortOrderParser;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final Mapper<Product, ProductRequestDto, ProductResponseDto> mapper;
     private final ProductService productService;
+    private final SortOrderParser sortOrderParser;
 
     @PostMapping
     @ApiOperation(value = "Create a new Product")
@@ -64,18 +65,14 @@ public class ProductController {
             @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "title")
-            @ApiParam(value = "takes 'title' or 'price' as input values")
+            @ApiParam(value = "Input example: 'price:DESC;title:ASC'")
             String sortBy,
-            @RequestParam(defaultValue = "ASC")
-            @ApiParam(value = "takes 'ASC' or 'DESC' as input values")
-            String sortDirection,
             @RequestParam BigDecimal priceFrom,
             @RequestParam BigDecimal priceTo) {
-        Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection), sortBy);
         return productService.findByPriceBetween(
                         priceFrom,
                         priceTo,
-                        PageRequest.of(page, count, sort)
+                        PageRequest.of(page, count, sortOrderParser.getSortOrders(sortBy))
                 ).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
@@ -87,14 +84,14 @@ public class ProductController {
             @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "title")
-            @ApiParam(value = "takes 'title' or 'price' as input values")
-            String sortBy,
-            @RequestParam(defaultValue = "ASC")
-            @ApiParam(value = "takes ASC or DESC as input values")
-            String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection), sortBy);
-        return productService.findAll(PageRequest.of(page, count, sort))
-                .stream()
+            @ApiParam(value = "Input example: 'price:DESC;title:ASC'")
+            String sortBy
+    ) {
+        return productService.findAll(PageRequest.of(
+                        page,
+                        count,
+                        sortOrderParser.getSortOrders(sortBy)
+                )).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
