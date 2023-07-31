@@ -63,12 +63,15 @@ public class ProductController {
     public List<ProductResponseDto> getByPriceBetween(
             @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "title")
+            @ApiParam(value = "takes 'title' or 'price' as input values")
+            String sortBy,
             @RequestParam(defaultValue = "ASC")
-            @ApiParam(value = "takes ASC or DESC as input values")
+            @ApiParam(value = "takes 'ASC' or 'DESC' as input values")
             String sortDirection,
             @RequestParam BigDecimal priceFrom,
             @RequestParam BigDecimal priceTo) {
-        Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection), "title");
+        Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection), sortBy);
         return productService.findByPriceBetween(
                         priceFrom,
                         priceTo,
@@ -83,10 +86,13 @@ public class ProductController {
     public List<ProductResponseDto> getAll(
             @RequestParam(defaultValue = "20") Integer count,
             @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "title")
+            @ApiParam(value = "takes 'title' or 'price' as input values")
+            String sortBy,
             @RequestParam(defaultValue = "ASC")
             @ApiParam(value = "takes ASC or DESC as input values")
             String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection), "title");
+        Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection), sortBy);
         return productService.findAll(PageRequest.of(page, count, sort))
                 .stream()
                 .map(mapper::toDto)
