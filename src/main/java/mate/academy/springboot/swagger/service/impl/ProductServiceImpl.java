@@ -3,6 +3,7 @@ package mate.academy.springboot.swagger.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import lombok.RequiredArgsConstructor;
 import mate.academy.springboot.swagger.dao.ProductRepository;
 import mate.academy.springboot.swagger.model.Product;
 import mate.academy.springboot.swagger.service.ProductService;
@@ -10,12 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     @Override
     public Product create(Product product) {
@@ -40,7 +38,6 @@ public class ProductServiceImpl implements ProductService {
                         + "id: " + id));
         oldProduct.setTitle(product.getTitle());
         oldProduct.setPrice(product.getPrice());
-        oldProduct.setId(id);
         return productRepository.save(oldProduct);
     }
 
