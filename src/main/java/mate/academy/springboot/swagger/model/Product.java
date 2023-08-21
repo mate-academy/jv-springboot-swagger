@@ -9,9 +9,11 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @NoArgsConstructor
 @Table(name = "products")
@@ -25,14 +27,5 @@ public class Product {
     public Product(String title, BigDecimal price) {
         this.title = title;
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{"
-                + "id=" + id
-                + ", title='" + title + '\''
-                + ", price=" + price
-                + '}';
     }
 }
