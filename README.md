@@ -18,3 +18,4 @@ Your task is:
         Add pagination and ability to sort by price or by title in ASC or DESC order.
 - create required DTOs and mappers
 - add swagger and proper documentation over the controller endpoints
+  (http://localhost:8080/swagger-ui/#/product-controller)
