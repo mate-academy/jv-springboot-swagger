@@ -1,0 +1,23 @@
+INSERT INTO products (title, price) VALUES ('iPhone X', 600);
+INSERT INTO products (title, price) VALUES ('iPhone X', 600);
+INSERT INTO products (title, price) VALUES ('iPhone X', 700);
+INSERT INTO products (title, price) VALUES ('iPhone X', 650);
+INSERT INTO products (title, price) VALUES ('iPhone X', 670);
+INSERT INTO products (title, price) VALUES ('iPhone X', 710);
+INSERT INTO products (title, price) VALUES ('iPhone 11', 750);
+INSERT INTO products (title, price) VALUES ('iPhone 11', 800);
+INSERT INTO products (title, price) VALUES ('iPhone 11', 850);
+INSERT INTO products (title, price) VALUES ('iPhone 11', 890);
+INSERT INTO products (title, price) VALUES ('iPhone 11', 900);
+INSERT INTO products (title, price) VALUES ('Samsung', 500);
+INSERT INTO products (title, price) VALUES ('Samsung', 550);
+INSERT INTO products (title, price) VALUES ('Samsung Gold', 2000);
+INSERT INTO products (title, price) VALUES ('Samsung Prime', 1000);
+INSERT INTO products (title, price) VALUES ('Samsung', 600);
+INSERT INTO products (title, price) VALUES ('Samsung', 625);
+INSERT INTO products (title, price) VALUES ('NOKIA', 630);
+INSERT INTO products (title, price) VALUES ('NOKIA', 200);
+INSERT INTO products (title, price) VALUES ('NOKIA', 300);
+INSERT INTO products (title, price) VALUES ('NOKIA', 1500);
+
+--rollback DELETE FROM products;
