@@ -1,0 +1,46 @@
+--liquibase formatted sql
+--changeset <Mykola>:<create-products-table>
+
+INSERT INTO products (title, price) VALUES ('iPhone X', 400);
+INSERT INTO products (title, price) VALUES ('iPhone 2', 50);
+INSERT INTO products (title, price) VALUES ('iPhone 3', 70);
+INSERT INTO products (title, price) VALUES ('iPhone 4', 100);
+INSERT INTO products (title, price) VALUES ('iPhone 4s', 110);
+INSERT INTO products (title, price) VALUES ('iPhone 5s', 130);
+INSERT INTO products (title, price) VALUES ('iPhone 5', 120);
+INSERT INTO products (title, price) VALUES ('iPhone 6', 150);
+INSERT INTO products (title, price) VALUES ('iPhone 7', 160);
+INSERT INTO products (title, price) VALUES ('iPhone 7s', 175);
+INSERT INTO products (title, price) VALUES ('iPhone 8', 200);
+INSERT INTO products (title, price) VALUES ('iPhone 8s', 230);
+INSERT INTO products (title, price) VALUES ('iPhone X', 444);
+INSERT INTO products (title, price) VALUES ('iPhone Xr', 666);
+INSERT INTO products (title, price) VALUES ('iPhone Xs', 555);
+INSERT INTO products (title, price) VALUES ('iPhone XS Max', 690);
+INSERT INTO products (title, price) VALUES ('iPhone 11', 800);
+INSERT INTO products (title, price) VALUES ('iPhone 11 Pro Max', 900);
+INSERT INTO products (title, price) VALUES ('iPhone 11 mini', 750);
+INSERT INTO products (title, price) VALUES ('iPhone 12', 1110);
+INSERT INTO products (title, price) VALUES ('iPhone 13', 1200);
+INSERT INTO products (title, price) VALUES ('iPhone 13 mini', 1300);
+INSERT INTO products (title, price) VALUES ('iPhone 13 Pro Max', 1500);
+INSERT INTO products (title, price) VALUES ('Samsung 1', 1000);
+INSERT INTO products (title, price) VALUES ('Samsung 2', 1100);
+INSERT INTO products (title, price) VALUES ('Samsung 3', 1200);
+INSERT INTO products (title, price) VALUES ('Samsung 4', 1300);
+INSERT INTO products (title, price) VALUES ('Samsung 5', 1400);
+INSERT INTO products (title, price) VALUES ('Samsung 6', 1500);
+INSERT INTO products (title, price) VALUES ('Samsung 7', 1600);
+INSERT INTO products (title, price) VALUES ('Samsung 7s', 1200);
+INSERT INTO products (title, price) VALUES ('Samsung 8', 1300);
+INSERT INTO products (title, price) VALUES ('Samsung 8s', 1200);
+INSERT INTO products (title, price) VALUES ('Samsung s', 1300);
+INSERT INTO products (title, price) VALUES ('Samsung s40', 1300);
+INSERT INTO products (title, price) VALUES ('Samsung s30', 1200);
+INSERT INTO products (title, price) VALUES ('Samsung s12', 1500);
+INSERT INTO products (title, price) VALUES ('Samsung s10', 1500);
+INSERT INTO products (title, price) VALUES ('Samsung a100', 1200);
+INSERT INTO products (title, price) VALUES ('Samsung a96', 1300);
+INSERT INTO products (title, price) VALUES ('Samsung a46', 1200);
+INSERT INTO products (title, price) VALUES ('Samsung a32', 1500);
+--rollback DELETE FROM products;
